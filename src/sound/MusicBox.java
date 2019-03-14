@@ -21,8 +21,11 @@ public class MusicBox {
         this.sizeY = y;
     }
 
-    public void changeScale(Scale scale) {
-        currentScale = scale;
+    public void changeScale(String scaleDisplayName) {
+        Scale newScale = Scale.reverseLookupByString(scaleDisplayName);
+        if (newScale != null) {
+            currentScale = newScale;
+        }
     }
 
     private int soundCoordinateToScaleDegree(int x, int y) {

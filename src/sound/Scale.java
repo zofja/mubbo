@@ -21,6 +21,16 @@ public enum Scale {
         this.pitches = pitches;
     }
 
+    public static Scale reverseLookupByString(String displayName) {
+        for (Scale scale : Scale.values()) {
+            if (scale.getDisplayName().equals(displayName)) {
+                return scale;
+            }
+        }
+        System.err.println("Couldn't find scale of given display name.");
+        return null;
+    }
+
     public int scaleDegreeToRelativePitch(int scaleDegree) {
         return (pitches[scaleDegree % pitches.length] + PITCHES_IN_OCTAVE * (scaleDegree / pitches.length));
     }
