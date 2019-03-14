@@ -19,13 +19,12 @@ public class Particle {
     }
 
     // turn 90 degrees clockwise
-    public void turn() {
+    public void collide() {
         direction = directions[(direction.getIndex() + 1) % noDirections];
     }
 
     public void bounce() {
         direction = directions[(direction.getIndex() + 2) % noDirections];
-        //TUTAJ BYŁOBY MUSICBOX.PLAY();
     }
 
     public String getDirectionName() {

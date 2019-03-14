@@ -1,9 +1,10 @@
 package core;
 
+import core.particle.Direction;
 import java.util.Random;
 
 public class Brain {
-    private Automaton grid;
+    private Grid grid;
     private final int length;
 
     // TEST for testing purposes only
@@ -12,12 +13,13 @@ public class Brain {
     private final int speed;
 
     public Brain(int gridSize, int length, int speed) {
-        this.grid = new Automaton(gridSize);
+        this.grid = new Grid(gridSize);
         this.length = length;
         this.gridSize = gridSize;
         this.speed = 1000 * speed;
     }
 
+    // random for test purposes
     public void init(int noParticles) {
         // TEST
         int i = 0;
@@ -33,6 +35,17 @@ public class Brain {
         }
         grid.printGrid();
     }
+
+    // TODO test, solve empty cell index problem
+    public void init(int[][] arr) {
+        for (int x = 0; x < gridSize; x++) {
+            for (int y = 0; y < gridSize; y++) {
+                if (arr[x][y] >= 0 && arr[x][y] <= Direction.getNoDirections())
+                    grid.insert(x, y, arr[x][y]);
+            }
+        }
+    }
+
 
     public void go() {
         for (int i = 0; i < length; i++) {

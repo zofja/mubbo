@@ -3,82 +3,88 @@ package core;
 import core.particle.Particle;
 
 import java.awt.Point;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
 
-public class Automaton {
-    private HashMap<Point, LinkedHashSet<Particle>> grid;
+public class Grid {
     private final int gridSize;
     private final int wall;
 
-    public Automaton(int gridSize) {
+    private List<Particle>[][] g;
+    private List<Particle>[][] n;
+
+    public Grid(int gridSize) {
         this.gridSize = gridSize;
         this.wall = gridSize - 1;
 
-        grid = new HashMap<>();
-        initMap(grid);
+        this.g = new LinkedList[gridSize][gridSize];
+        initArray(g);
+        this.n = new LinkedList[gridSize][gridSize];
+        initArray(n);
     }
 
-    // czy to jedyne wyjście? trzeba to tak inicjalizować?
-    // i to za każdym razem? na pewno nie,
-    // przerobić na mądre dodawanie do mapy, sprawdzające czy jest już taki klucz itd., o
-    //TODO FIX initMap
-    private void initMap(HashMap<Point, LinkedHashSet<Particle>> map) {
-        for (int x = 0; x < gridSize; x++) {
+    private void initArray(List<Particle>[][] arr) {
+        for (int x = 0; x < gridSize; x++)
             for (int y = 0; y < gridSize; y++) {
-                map.put(new Point(x, y), new LinkedHashSet<>());
+                arr[x][y] = new LinkedList<Particle>();
             }
-        }
     }
 
-    // TODO FIX insert - ten new Point za każdym razem, tra-ge-dia
     public void insert(int x, int y, int direction) {
-        grid.get(new Point(x, y)).add(new Particle(direction));
+        g[x][y].add(new Particle(direction));
     }
 
-    // TESTING PURPOSE ONLY
+    // TEST ONLY
     public boolean taken(int x, int y) {
-        return (grid.get(new Point(x, y)).size() > 0);
+        return (g[x][y].size() > 0);
+    }
+
+    private int noParticles(int x, int y) {
+        return g[x][y].size();
     }
 
     public void nextGeneration() {
-        HashMap<Point, LinkedHashSet<Particle>> future = new HashMap<>();
-        initMap(future);
         for (int x = 0; x < gridSize; x++) {
             for (int y = 0; y < gridSize; y++) {
-                move(x, y, future);
+                move(x, y);
             }
         }
-        grid = future;
-    }
 
-    private void move(int x, int y, HashMap<Point, LinkedHashSet<Particle>> future) {
-        Point current = new Point(x, y);
-        boolean collision = (grid.get(current).size() > 1);
-
-        for (Iterator<Particle> iterator = grid.get(current).iterator(); iterator.hasNext(); ) {
-            Particle particle = iterator.next();
-
-            if (collision) {
-                particle.turn();
-            }
-            Point destination = particle.destination(current);
-
-            if (!isInBoundaries(destination)) {
-                particle.bounce();
-            }
-
-            //iterator.remove(); // optional I think?
-            future.get(destination).add(particle);
-        }
+        List<Particle>[][] t = g;
+        g = n;
+        n = t;
     }
 
     private boolean isInBoundaries(Point p) {
         return !(p.x == 0 || p.x == wall || p.y == 0 || p.y == wall);
     }
 
-    // TEST for DEBUG only, delete later
+    private void move(int x, int y) {
+        Point current = new Point(x, y);
+        boolean collision = (noParticles(x, y) >= 2);
+
+        for (ListIterator<Particle> iterator = g[x][y].listIterator(); iterator.hasNext(); ) {
+            Particle particle = iterator.next();
+
+            if (collision) {
+                particle.collide();
+                // musicBox.play(x, y);
+            }
+
+            Point destination = particle.destination(current);
+
+            if (!isInBoundaries(destination)) {
+                particle.bounce();
+            }
+
+            iterator.remove();
+            n[destination.x][destination.y].add(particle);
+        }
+    }
+
+
+    // TODO REMOVE AFTER MERGE everything below & check what above
     private static final char border = '□';
     private static final char glow = '⬛';
     private static final char empty = '.';
@@ -104,13 +110,13 @@ public class Automaton {
 
     private char getSymbol(int x, int y) {
         Point current = new Point(x, y);
-        if (grid.get(current).size() == 1) {
+        if (noParticles(x, y) == 1) {
             if (isInBoundaries(current)) {
-                return grid.get(current).iterator().next().getSymbol();
+                return g[x][y].get(0).getSymbol();
             } else {
                 return glow;
             }
-        } else if (grid.get(current).size() > 1) {
+        } else if (noParticles(x, y) > 1) {
             if (isInBoundaries(current)) {
                 return collision;
             } else {
@@ -124,4 +130,5 @@ public class Automaton {
             }
         }
     }
+
 }
