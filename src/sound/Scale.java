@@ -1,4 +1,4 @@
-package sound;
+package src.sound;
 
 // todo add more scales
 
@@ -11,7 +11,7 @@ public enum Scale {
     //    HUNGARIAN_MINOR("Hungarian minor", new int[]{0, 2, 3, 6, 7, 8, 11}),
 
     private static final int PITCHES_IN_OCTAVE = 12;
-    public static final Scale DEFAULT_SCALE = Scale.MAJOR;
+    public static final Scale DEFAULT_SCALE = Scale.MAJOR_PENTATONIC;
 
     private final String displayName;
     private final int[] pitches;
