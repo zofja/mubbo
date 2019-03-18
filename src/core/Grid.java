@@ -87,9 +87,8 @@ public class Grid {
 
             if (!isInBoundaries(destination)) {
                 particle.bounce();
-                // TODO X Y SWAP
-                muBbo.addNote(destination.y, destination.x);
-                System.out.println(destination.y + " " + destination.x);
+                muBbo.addNote(destination.x, destination.y);
+                System.out.println("(x: " + destination.x + ", y: " + destination.y + ") making sound");
             }
 
             iterator.remove();
@@ -98,7 +97,7 @@ public class Grid {
     }
 
 
-    // TODO REMOVE AFTER MERGE everything below & check what above
+    // TODO REMOVE AFTER GUI MERGE everything below & check what above
     private static final char border = '□';
     private static final char glow = '⬛';
     private static final char empty = '.';
@@ -107,14 +106,14 @@ public class Grid {
 
     public void printGrid() {
         System.out.print("  ");
-        for (int y = 0; y < gridSize; y++) {
-            System.out.print(y + " ");
+        for (int x = 0; x < gridSize; x++) {
+            System.out.print(x + " ");
         }
         System.out.println();
 
-        for (int x = 0; x < gridSize; x++) {
-            System.out.print(x + " ");
-            for (int y = 0; y < gridSize; y++) {
+        for (int y = 0; y < gridSize; y++) {
+            System.out.print(y + " ");
+            for (int x = 0; x < gridSize; x++) {
                 System.out.print(getSymbol(x, y) + " ");
             }
             System.out.println();

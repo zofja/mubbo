@@ -1,7 +1,6 @@
 package src.core;
 
 import src.core.particle.Direction;
-import src.sound.MusicBox;
 
 import java.util.Random;
 

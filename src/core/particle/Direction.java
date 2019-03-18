@@ -9,7 +9,7 @@ public enum Direction {
     private final int index;
     private final int x;
     private final int y;
-    private final char symbol; // DEBUG only, might delete later
+    private final char symbol;
     private static final int noDirections = 4;
 
     Direction(int index, int x, int y, char symbol) {

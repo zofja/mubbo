@@ -1,8 +1,5 @@
 package src.sound;
 
-import sound.MusicBoxPlayer;
-import sound.Scale;
-
 import javax.sound.midi.MidiUnavailableException;
 import java.util.ArrayList;
 import java.util.List;

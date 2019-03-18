@@ -4,7 +4,6 @@ import src.core.Brain;
 import src.core.particle.Direction;
 import src.core.particle.Particle;
 
-// TODO MECHANIZM ZEGARA, noe idea jak to ma wyglądać
 // TODO PROTECTED?
 
 public class Main {

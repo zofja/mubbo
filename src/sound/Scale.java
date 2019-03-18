@@ -1,4 +1,4 @@
-package sound;
+package src.sound;
 
 // todo add more scales
 
