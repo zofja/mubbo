@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import javax.sound.midi.MidiUnavailableException;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.Random;
 
 class MusicBoxTest {
 
@@ -21,7 +21,6 @@ class MusicBoxTest {
         mb.addNote(1, 0);
         mb.tick();
         Thread.sleep(1000);
-        assertTrue(true);
     }
 
     @Test
@@ -49,6 +48,28 @@ class MusicBoxTest {
         }
 
         Thread.sleep(3000);
-
     }
+
+    @Test
+    void aLotOfNotes() throws InterruptedException {
+        for (int i = 0; i < 1000000; i++) {
+            mb.addNote(i % 10, 0);
+        }
+        mb.tick();
+    }
+
+    @Test
+    void randomMelody() throws InterruptedException {
+        mb.changeScale("minor pentatonic");
+        Random r = new Random();
+        int[] delay = {200, 200, 400};
+        for (int i = 0; i < 30; i++) {
+            mb.instantPlay(r.nextInt(10));
+            Thread.sleep(delay[r.nextInt(3)]);
+            mb.instantPlay(r.nextInt(5) + 2);
+            Thread.sleep(delay[r.nextInt(3)]);
+        }
+        Thread.sleep(2000);
+    }
+
 }

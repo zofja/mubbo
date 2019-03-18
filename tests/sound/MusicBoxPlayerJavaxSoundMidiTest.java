@@ -2,7 +2,6 @@ package sound;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import sound.MusicBoxPlayer;
 
 import javax.sound.midi.MidiUnavailableException;
 
@@ -10,14 +9,14 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class MusicBoxPlayerTest {
+class MusicBoxPlayerJavaxSoundMidiTest {
 
-    private MusicBoxPlayer player;
+    private MusicBoxPlayerJavaxSoundMidi player;
 
     @BeforeEach
     void setUp() {
         try {
-            this.player = new MusicBoxPlayer();
+            this.player = new MusicBoxPlayerJavaxSoundMidi();
         } catch (MidiUnavailableException e) {
             fail();
         }
@@ -25,7 +24,7 @@ class MusicBoxPlayerTest {
 
     @Test
     void parallelSetUp() throws MidiUnavailableException {
-        MusicBoxPlayer player2 = new MusicBoxPlayer();
+        MusicBoxPlayerJavaxSoundMidi player2 = new MusicBoxPlayerJavaxSoundMidi();
         assertTrue(true);
     }
 

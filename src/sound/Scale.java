@@ -31,8 +31,8 @@ public enum Scale {
         return null;
     }
 
-    public int scaleDegreeToRelativePitch(int scaleDegree) {
-        return (pitches[scaleDegree % pitches.length] + PITCHES_IN_OCTAVE * (scaleDegree / pitches.length));
+    public int scaleDegreeToRelativePitch(int degree) {
+        return (pitches[degree % pitches.length] + PITCHES_IN_OCTAVE * (degree / pitches.length));
     }
 
     public String getDisplayName() {
