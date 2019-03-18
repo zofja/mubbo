@@ -1,7 +1,9 @@
-package core;
+package src.core;
 
-import core.particle.Particle;
+import src.core.particle.Particle;
+import src.sound.MusicBox;
 
+import javax.sound.midi.MidiUnavailableException;
 import java.awt.Point;
 import java.util.LinkedList;
 import java.util.List;
@@ -11,12 +13,20 @@ public class Grid {
     private final int gridSize;
     private final int wall;
 
+    private /*final*/ MusicBox muBbo;
+
     private List<Particle>[][] g;
     private List<Particle>[][] n;
 
     public Grid(int gridSize) {
         this.gridSize = gridSize;
         this.wall = gridSize - 1;
+
+        try {
+            this.muBbo = new MusicBox(gridSize, gridSize);
+        } catch (MidiUnavailableException e) {
+            System.err.println("Couldn't load sound module.");
+        }
 
         this.g = new LinkedList[gridSize][gridSize];
         initArray(g);
@@ -54,6 +64,8 @@ public class Grid {
         List<Particle>[][] t = g;
         g = n;
         n = t;
+
+        muBbo.tick();
     }
 
     private boolean isInBoundaries(Point p) {
@@ -69,13 +81,15 @@ public class Grid {
 
             if (collision) {
                 particle.collide();
-                // musicBox.play(x, y);
             }
 
             Point destination = particle.destination(current);
 
             if (!isInBoundaries(destination)) {
                 particle.bounce();
+                // TODO X Y SWAP
+                muBbo.addNote(destination.y, destination.x);
+                System.out.println(destination.y + " " + destination.x);
             }
 
             iterator.remove();

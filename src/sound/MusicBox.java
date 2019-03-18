@@ -1,4 +1,7 @@
-package sound;
+package src.sound;
+
+import sound.MusicBoxPlayer;
+import sound.Scale;
 
 import javax.sound.midi.MidiUnavailableException;
 import java.util.ArrayList;
@@ -30,7 +33,7 @@ public class MusicBox {
 
     private int soundCoordinateToScaleDegree(int x, int y) {
         if (x == 0 || x == this.sizeX + 1) {
-            return sizeY - y;
+            return y - 1;
         } else {
             return x - 1;
         }
@@ -44,6 +47,4 @@ public class MusicBox {
         player.playNotes(currentTickNotes);
         currentTickNotes.clear();
     }
-
-
 }

@@ -1,6 +1,8 @@
-package core;
+package src.core;
 
-import core.particle.Direction;
+import src.core.particle.Direction;
+import src.sound.MusicBox;
+
 import java.util.Random;
 
 public class Brain {
@@ -8,7 +10,7 @@ public class Brain {
     private final int length;
 
     // TEST for testing purposes only
-    Random rand = new Random(1234);
+    Random rand = new Random();
     private final int gridSize;
     private final int speed;
 
@@ -16,7 +18,7 @@ public class Brain {
         this.grid = new Grid(gridSize);
         this.length = length;
         this.gridSize = gridSize;
-        this.speed = 1000 * speed;
+        this.speed = 100 * speed;
     }
 
     // random for test purposes
@@ -26,12 +28,12 @@ public class Brain {
         while (i < noParticles) {
             int x = rand.nextInt(gridSize - 2) + 1;
             int y = rand.nextInt(gridSize - 2) + 1;
-            int d = rand.nextInt(core.particle.Direction.getNoDirections());
+            int d = rand.nextInt(src.core.particle.Direction.getNoDirections());
             System.out.println(x + " " + y + " " + d);
             if (!grid.taken(x, y)) {
                 grid.insert(x, y, d);
+                i++;
             }
-            i++;
         }
         grid.printGrid();
     }

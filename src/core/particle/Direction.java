@@ -1,4 +1,4 @@
-package core.particle;
+package src.core.particle;
 
 public enum Direction {
     //TODO remove symbol~

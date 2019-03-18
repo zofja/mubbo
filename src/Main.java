@@ -1,6 +1,8 @@
-import core.Brain;
-import core.particle.Direction;
-import core.particle.Particle;
+package src;
+
+import src.core.Brain;
+import src.core.particle.Direction;
+import src.core.particle.Particle;
 
 // TODO MECHANIZM ZEGARA, noe idea jak to ma wyglądać
 // TODO PROTECTED?
@@ -13,8 +15,8 @@ public class Main {
     }
 
     public static void brainTest() {
-        Brain brain = new Brain(6, 10, 3);
-        brain.init(3);
+        Brain brain = new Brain(9, 100, 10);
+        brain.init(8);
         brain.go();
     }
 

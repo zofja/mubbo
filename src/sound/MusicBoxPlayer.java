@@ -15,6 +15,7 @@ public class MusicBoxPlayer {
         Synthesizer synth = MidiSystem.getSynthesizer();
         synth.open();
         this.channel = synth.getChannels()[0];
+        channel.programChange(34);
     }
 
     public void playNote(int pitch) {

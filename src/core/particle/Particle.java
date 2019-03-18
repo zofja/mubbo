@@ -1,4 +1,4 @@
-package core.particle;
+package src.core.particle;
 
 import java.awt.Point;
 
