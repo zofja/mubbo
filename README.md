@@ -1,2 +1,2 @@
-# mubbo
-Software Engineering @ MIM UW
+# Initial page
+
