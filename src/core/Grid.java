@@ -1,7 +1,7 @@
-package src.core;
+package core;
 
-import src.core.particle.Particle;
-import src.sound.MusicBox;
+import core.particle.Particle;
+import sound.MusicBox;
 
 import javax.sound.midi.MidiUnavailableException;
 import java.awt.Point;
@@ -99,7 +99,7 @@ public class Grid {
 
     // TODO REMOVE AFTER GUI MERGE everything below & check what above
     private static final char border = '□';
-    private static final char glow = '⬛';
+    private static final char glow = '■';
     private static final char empty = '.';
     private static final char collision = '◯';
     private static final char error = 'X';

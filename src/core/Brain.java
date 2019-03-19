@@ -1,6 +1,6 @@
-package src.core;
+package core;
 
-import src.core.particle.Direction;
+import core.particle.Direction;
 
 import java.util.Random;
 
@@ -27,7 +27,7 @@ public class Brain {
         while (i < noParticles) {
             int x = rand.nextInt(gridSize - 2) + 1;
             int y = rand.nextInt(gridSize - 2) + 1;
-            int d = rand.nextInt(src.core.particle.Direction.getNoDirections());
+            int d = rand.nextInt(Direction.getNoDirections());
             System.out.println(x + " " + y + " " + d);
             if (!grid.taken(x, y)) {
                 grid.insert(x, y, d);

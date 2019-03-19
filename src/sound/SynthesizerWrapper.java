@@ -2,7 +2,7 @@ package sound;
 
 import java.util.Collection;
 
-public interface MusicBoxPlayer {
+public interface SynthesizerWrapper {
 
     void playNote(int pitch);
 

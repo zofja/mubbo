@@ -1,14 +1,13 @@
-package src.sound;
-
-// todo add more scales
+package sound;
 
 public enum Scale {
 
-    MAJOR("major", new int[]{0, 2, 4, 5, 7, 9, 11}),
-    MINOR("minor", new int[]{0, 2, 3, 5, 7, 8, 10}),
-    MAJOR_PENTATONIC("major pentatonic", new int[]{0, 2, 4, 7, 9}),
-    MINOR_PENTATONIC("minor pentatonic", new int[]{0, 3, 5, 7, 10});
-    //    HUNGARIAN_MINOR("Hungarian minor", new int[]{0, 2, 3, 6, 7, 8, 11}),
+    MAJOR("Major", new int[]{0, 2, 4, 5, 7, 9, 11}),
+    MINOR("Minor", new int[]{0, 2, 3, 5, 7, 8, 10}),
+    MAJOR_PENTATONIC("Major Pentatonic", new int[]{0, 2, 4, 7, 9}),
+    MINOR_PENTATONIC("Minor Pentatonic", new int[]{0, 3, 5, 7, 10}),
+    HUNGARIAN_MINOR("Hungarian Minor", new int[]{0, 2, 3, 6, 7, 8, 11}),
+    PERSIAN("Persian", new int[]{0, 1, 4, 5, 6, 8, 11});
 
     private static final int PITCHES_IN_OCTAVE = 12;
     public static final Scale DEFAULT_SCALE = Scale.MAJOR_PENTATONIC;

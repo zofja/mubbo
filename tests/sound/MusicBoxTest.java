@@ -9,11 +9,12 @@ import java.util.Random;
 
 class MusicBoxTest {
 
+    private static final int SIZE = 15;
     private MusicBox mb;
 
     @BeforeEach
     void setUp() throws MidiUnavailableException {
-        mb = new MusicBox(15, 15);
+        mb = new MusicBox(SIZE, SIZE);
     }
 
     @Test
@@ -64,12 +65,35 @@ class MusicBoxTest {
         Random r = new Random();
         int[] delay = {200, 200, 400};
         for (int i = 0; i < 30; i++) {
-            mb.instantPlay(r.nextInt(10));
+            mb.addNote(r.nextInt(10), 0);
+            mb.tick();
             Thread.sleep(delay[r.nextInt(3)]);
-            mb.instantPlay(r.nextInt(5) + 2);
+            mb.addNote(r.nextInt(5) + 2, 0);
+            mb.tick();
             Thread.sleep(delay[r.nextInt(3)]);
         }
         Thread.sleep(2000);
+    }
+
+    @Test
+    void limits() throws InterruptedException {
+        final int SLEEP_TIME = 500;
+
+        mb.addNote(1, 0);
+        mb.addNote(1, SIZE - 1);
+        mb.addNote(0, SIZE - 2);
+        mb.addNote(SIZE - 1, SIZE - 2);
+        mb.tick();
+        Thread.sleep(SLEEP_TIME);
+
+        mb.addNote(SIZE - 2, 0);
+        mb.addNote(SIZE - 2, SIZE - 1);
+        mb.addNote(0, 1);
+        mb.addNote(SIZE - 1, 1);
+        mb.tick();
+        Thread.sleep(SLEEP_TIME);
+
+        Thread.sleep(1000);
     }
 
 }

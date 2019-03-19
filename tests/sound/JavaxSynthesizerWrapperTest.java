@@ -9,22 +9,22 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class MusicBoxPlayerJavaxSoundMidiTest {
+class JavaxSynthesizerWrapperTest {
 
-    private MusicBoxPlayerJavaxSoundMidi player;
+    private JavaxSynthesizerWrapper player;
 
     @BeforeEach
     void setUp() {
         try {
-            this.player = new MusicBoxPlayerJavaxSoundMidi();
-        } catch (MidiUnavailableException e) {
+            this.player = new JavaxSynthesizerWrapper();
+        } catch (RuntimeException e) {
             fail();
         }
     }
 
     @Test
     void parallelSetUp() throws MidiUnavailableException {
-        MusicBoxPlayerJavaxSoundMidi player2 = new MusicBoxPlayerJavaxSoundMidi();
+        JavaxSynthesizerWrapper player2 = new JavaxSynthesizerWrapper();
         assertTrue(true);
     }
 

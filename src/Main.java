@@ -1,8 +1,8 @@
-package src;
+//package src;
 
-import src.core.Brain;
-import src.core.particle.Direction;
-import src.core.particle.Particle;
+import core.Brain;
+import core.particle.Direction;
+import core.particle.Particle;
 
 // TODO PROTECTED?
 
