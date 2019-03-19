@@ -1,11 +1,11 @@
-# USE CASE 2
+# Add coordinates in real-time
 
 ### Add coordinates in real-time
 
 <table>
   <thead>
     <tr>
-      <th style="text-align:left">USE CASE 2</th>
+      <th style="text-align:left">USE CASE 3</th>
       <th style="text-align:left">Add coordinates in real-time</th>
     </tr>
   </thead>
@@ -13,10 +13,6 @@
     <tr>
       <td style="text-align:left">Goal in Context</td>
       <td style="text-align:left">User selects additional cells to be activated during melody generation</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">Scope</td>
-      <td style="text-align:left">GUI ???</td>
     </tr>
     <tr>
       <td style="text-align:left">Preconditions</td>
@@ -37,17 +33,14 @@
     </tr>
     <tr>
       <td style="text-align:left">Trigger</td>
-      <td style="text-align:left">User confirms initial specs</td>
+      <td style="text-align:left">User confirms changes</td>
     </tr>
     <tr>
       <td style="text-align:left">DESCRIPTION</td>
       <td style="text-align:left">
         <ol>
-          <li>User selects cells on the grid</li>
-          <li>User selects the speed</li>
-          <li>User confirms the changes</li>
-          <li>Changes melody is being generated</li>
-          <li>User terminates the melody</li>
+          <li>User repeats steps 1-3 from USE CASE 1</li>
+          <li>User confirms changes</li>
         </ol>
       </td>
     </tr>
@@ -57,35 +50,23 @@
     </tr>
     <tr>
       <td style="text-align:left">SUB-VARIATIONS</td>
-      <td style="text-align:left">Melody may be terminated on its own after a specific period of time</td>
+      <td style="text-align:left"></td>
     </tr>
     <tr>
       <td style="text-align:left">RELATED INFORMATION</td>
-      <td style="text-align:left">5. Melody is being generated</td>
+      <td style="text-align:left"></td>
     </tr>
     <tr>
       <td style="text-align:left">Priority</td>
-      <td style="text-align:left">top</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">Performance</td>
-      <td style="text-align:left"></td>
-    </tr>
-    <tr>
-      <td style="text-align:left">Frequency</td>
-      <td style="text-align:left"></td>
-    </tr>
-    <tr>
-      <td style="text-align:left">Channel to actors</td>
       <td style="text-align:left"></td>
     </tr>
     <tr>
       <td style="text-align:left">OPEN ISSUES</td>
-      <td style="text-align:left">Who terminates the melody?</td>
+      <td style="text-align:left"></td>
     </tr>
     <tr>
       <td style="text-align:left">Due Date</td>
-      <td style="text-align:left">release 1.0</td>
+      <td style="text-align:left"></td>
     </tr>
   </tbody>
 </table>

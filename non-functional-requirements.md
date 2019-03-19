@@ -1,6 +1,6 @@
 # Non-functional requirements
 
-1. Interface requirements
+1. Interface requirements: see: Interface requirements
 2. Operating requirements:
    * physical constraints: &lt;size of the app&gt;
    * app will be tested on Ubuntu 18.04 and Windows 10
