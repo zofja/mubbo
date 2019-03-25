@@ -20,20 +20,27 @@ public class Brain {
         this.speed = 100 * speed;
     }
 
-    // random for test purposes
-    public void init(int noParticles) {
+    // random test
+    public void initRandomTest(int noParticles) {
         // TEST
         int i = 0;
         while (i < noParticles) {
             int x = rand.nextInt(gridSize - 2) + 1;
             int y = rand.nextInt(gridSize - 2) + 1;
-            int d = rand.nextInt(Direction.getNoDirections());
+            int d = rand.nextInt(core.particle.Direction.getNoDirections());
             System.out.println(x + " " + y + " " + d);
             if (!grid.taken(x, y)) {
                 grid.insert(x, y, d);
                 i++;
             }
         }
+        grid.printGrid();
+    }
+
+    // to see if particles go in accurate direction
+    public void initDirectionTest() {
+        grid.insert(1, 1, 2);
+        grid.insert(3, 3, 1);
         grid.printGrid();
     }
 

@@ -1,5 +1,3 @@
-//package src;
-
 import core.Brain;
 import core.particle.Direction;
 import core.particle.Particle;
@@ -15,7 +13,8 @@ public class Main {
 
     public static void brainTest() {
         Brain brain = new Brain(9, 100, 10);
-        brain.init(8);
+        brain.initRandomTest(8);
+//        brain.initDirectionTest();
         brain.go();
     }
 
