@@ -1,7 +1,7 @@
-package src.core;
+package core;
 
-import src.core.particle.Particle;
-import src.sound.MusicBox;
+import core.particle.Particle;
+import sound.MusicBox;
 
 import javax.sound.midi.MidiUnavailableException;
 import java.awt.Point;
@@ -15,8 +15,8 @@ public class Grid {
 
     private /*final*/ MusicBox muBbo;
 
-    private List<Particle>[][] g;
-    private List<Particle>[][] n;
+    private List<Particle>[][] currGrid;
+    private List<Particle>[][] newGrid;
 
     public Grid(int gridSize) {
         this.gridSize = gridSize;
@@ -28,10 +28,10 @@ public class Grid {
             System.err.println("Couldn't load sound module.");
         }
 
-        this.g = new LinkedList[gridSize][gridSize];
-        initArray(g);
-        this.n = new LinkedList[gridSize][gridSize];
-        initArray(n);
+        this.currGrid = new LinkedList[gridSize][gridSize];
+        initArray(currGrid);
+        this.newGrid = new LinkedList[gridSize][gridSize];
+        initArray(newGrid);
     }
 
     private void initArray(List<Particle>[][] arr) {
@@ -42,16 +42,16 @@ public class Grid {
     }
 
     public void insert(int x, int y, int direction) {
-        g[x][y].add(new Particle(direction));
+        currGrid[x][y].add(new Particle(direction));
     }
 
     // TEST ONLY
     public boolean taken(int x, int y) {
-        return (g[x][y].size() > 0);
+        return (currGrid[x][y].size() > 0);
     }
 
     private int noParticles(int x, int y) {
-        return g[x][y].size();
+        return currGrid[x][y].size();
     }
 
     public void nextGeneration() {
@@ -61,9 +61,9 @@ public class Grid {
             }
         }
 
-        List<Particle>[][] t = g;
-        g = n;
-        n = t;
+        List<Particle>[][] t = currGrid;
+        currGrid = newGrid;
+        newGrid = t;
 
         muBbo.tick();
     }
@@ -76,7 +76,7 @@ public class Grid {
         Point current = new Point(x, y);
         boolean collision = (noParticles(x, y) >= 2);
 
-        for (ListIterator<Particle> iterator = g[x][y].listIterator(); iterator.hasNext(); ) {
+        for (ListIterator<Particle> iterator = currGrid[x][y].listIterator(); iterator.hasNext(); ) {
             Particle particle = iterator.next();
 
             if (collision) {
@@ -92,7 +92,7 @@ public class Grid {
             }
 
             iterator.remove();
-            n[destination.x][destination.y].add(particle);
+            newGrid[destination.x][destination.y].add(particle);
         }
     }
 
@@ -125,7 +125,7 @@ public class Grid {
         Point current = new Point(x, y);
         if (noParticles(x, y) == 1) {
             if (isInBoundaries(current)) {
-                return g[x][y].get(0).getSymbol();
+                return currGrid[x][y].get(0).getSymbol();
             } else {
                 return glow;
             }

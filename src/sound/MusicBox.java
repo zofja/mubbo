@@ -1,4 +1,4 @@
-package src.sound;
+package sound;
 
 import javax.sound.midi.MidiUnavailableException;
 import java.util.ArrayList;

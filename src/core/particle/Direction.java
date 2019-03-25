@@ -1,10 +1,10 @@
-package src.core.particle;
+package core.particle;
 
 public enum Direction {
     //TODO remove symbol~
 
-    LEFT(0, 0, -1, '<'), UP(1, -1, 0, 'ʌ'),
-    RIGHT(2, 0, 1, '>'), DOWN(3, 1, 0, 'v');
+    LEFT(0, -1, 0, '<'), UP(1, 0, -1, 'ʌ'),
+    RIGHT(2, 1, 0, '>'), DOWN(3, 0, 1, 'v');
 
     private final int index;
     private final int x;
