@@ -44,14 +44,25 @@ public class Brain {
         grid.printGrid();
     }
 
+    public void initMaxTestRandomDirection() {
+        for (int y = 1; y < gridSize - 2; y++) {
+            for (int x = 1; x < gridSize - 2; x++) {
+                int d = rand.nextInt(core.particle.Direction.getNoDirections());
+                grid.insert(x, y, d);
+            }
+        }
+        grid.printGrid();
+    }
+
     // TODO test, solve empty cell index problem
     public void init(int[][] arr) {
-        for (int x = 0; x < gridSize; x++) {
-            for (int y = 0; y < gridSize; y++) {
+        for (int y = 0; y < gridSize; y++) {
+            for (int x = 0; x < gridSize; x++) {
                 if (arr[x][y] >= 0 && arr[x][y] <= Direction.getNoDirections())
                     grid.insert(x, y, arr[x][y]);
             }
         }
+        grid.printGrid();
     }
 
 

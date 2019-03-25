@@ -13,8 +13,9 @@ public class Main {
 
     public static void brainTest() {
         Brain brain = new Brain(9, 100, 10);
-        brain.initRandomTest(8);
+//        brain.initRandomTest(8);
 //        brain.initDirectionTest();
+        brain.initMaxTestRandomDirection();
         brain.go();
     }
 
