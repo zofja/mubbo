@@ -5,6 +5,8 @@ import java.awt.*;
 
 public class Window extends JFrame {
 
+    public static Grid grid;
+
     public Window() {
 
         super("MuBbo");
@@ -14,12 +16,16 @@ public class Window extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        Grid grid = new Grid();
+        grid = new Grid();
         getContentPane().add(grid);
         getContentPane().add(new OptionBox(grid), BorderLayout.EAST);
 
         setVisible(true);
 
+    }
+
+    public Grid getGrid() {
+        return this.grid;
     }
 
 }

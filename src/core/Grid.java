@@ -58,8 +58,8 @@ public class Grid {
     }
 
     public void nextGeneration() {
-        for (int x = 0; x < gridSize; x++) {
-            for (int y = 0; y < gridSize; y++) {
+        for (int y = 0; y < gridSize; y++) {
+            for (int x = 0; x < gridSize; x++) {
                 move(x, y);
             }
         }
@@ -75,8 +75,8 @@ public class Grid {
     private void displayNext() {
         next = new Symbol[gridSize][gridSize];
 
-        for (int x = 0; x < gridSize; x++) {
-            for (int y = 0; y < gridSize; y++) {
+        for (int y = 0; y < gridSize; y++) {
+            for (int x = 0; x < gridSize; x++) {
                 if (currGrid[x][y].size() == 0) {
                     next[x][y] = Symbol.EMPTY;
                 } else if (currGrid[x][y].size() == 1) {

@@ -1,33 +1,53 @@
 package core;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.Random;
 
 class BrainTest {
 
     private final int gridSize = 9;
-    private final int speed = 10000;
+    private final int speed = 1;
     private final int length = 100;
-    private Brain brain = new Brain(gridSize, speed, length);
-    private Grid grid = new Grid(gridSize);
+    private final Random rand = new Random();
+    private Brain brain;
+    private Grid grid;
 
-
-    @Test
-    void DirectionTest() {
-        grid.insert(1, 1, 2);
-        grid.insert(3, 3, 1);
+    public void initRandomTest(int noParticles) {
+        int i = 0;
+        while (i < noParticles) {
+            int x = rand.nextInt(gridSize - 2) + 1;
+            int y = rand.nextInt(gridSize - 2) + 1;
+            int d = rand.nextInt(core.particle.Direction.getNoDirections());
+            System.out.println(x + " " + y + " " + d);
+            if (!grid.taken(x, y)) {
+                grid.insert(x, y, d);
+                i++;
+            }
+        }
         grid.printGrid();
-        brain.go();
+    }
+
+    public void initMaxTestRandomDirection() {
+        for (int y = 1; y < gridSize - 2; y++) {
+            for (int x = 1; x < gridSize - 2; x++) {
+                int d = rand.nextInt(core.particle.Direction.getNoDirections());
+                grid.insert(x, y, d);
+            }
+        }
+        grid.printGrid();
+    }
+
+    @BeforeEach
+    void setUp() {
+        brain = new Brain(gridSize, length, speed);
+        grid = new Grid(gridSize);
     }
 
     @Test
     void RandomTest() {
-        brain.initRandomTest(8);
-        brain.go();
-    }
-
-    @Test
-    void init1() {
+        initRandomTest(8);
+        brain.go(grid);
     }
 }

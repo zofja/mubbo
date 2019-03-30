@@ -2,73 +2,39 @@ package core;
 
 import core.particle.Direction;
 
-import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 public class Brain {
+
     private Grid grid;
-    private final int length;
+    private final long length;
 
     // TEST for testing purposes only
-    Random rand = new Random();
     private final int gridSize;
-    private final int speed;
+    private final long speed;
 
     public Brain(int gridSize, int length, int speed) {
         this.grid = new Grid(gridSize);
-        this.length = length;
         this.gridSize = gridSize;
-        this.speed = 100 * speed;
-    }
-
-    // random test
-    public void initRandomTest(int noParticles) {
-        // TEST
-        int i = 0;
-        while (i < noParticles) {
-            int x = rand.nextInt(gridSize - 2) + 1;
-            int y = rand.nextInt(gridSize - 2) + 1;
-            int d = rand.nextInt(core.particle.Direction.getNoDirections());
-            System.out.println(x + " " + y + " " + d);
-            if (!grid.taken(x, y)) {
-                grid.insert(x, y, d);
-                i++;
-            }
-        }
-        grid.printGrid();
-    }
-
-    // to see if particles go in accurate direction
-    public void initDirectionTest() {
-        grid.insert(1, 1, 2);
-        grid.insert(3, 3, 1);
-        grid.printGrid();
-    }
-
-    public void initMaxTestRandomDirection() {
-        for (int y = 1; y < gridSize - 2; y++) {
-            for (int x = 1; x < gridSize - 2; x++) {
-                int d = rand.nextInt(core.particle.Direction.getNoDirections());
-                grid.insert(x, y, d);
-            }
-        }
-        grid.printGrid();
+        this.length = TimeUnit.SECONDS.toMillis(length);
+        this.speed = TimeUnit.SECONDS.toMillis(speed);
     }
 
     // TODO test, solve empty cell index problem
-    public void init(int[][] arr) {
+    public void init(Symbol[][] arr) {
         for (int y = 0; y < gridSize; y++) {
             for (int x = 0; x < gridSize; x++) {
-                if (arr[x][y] >= 0 && arr[x][y] <= Direction.getNoDirections())
-                    grid.insert(x, y, arr[x][y]);
+                if (arr[x][y].ordinal() >= 0 && arr[x][y].ordinal() <= Direction.getNoDirections())
+                    grid.insert(x, y, arr[x][y].ordinal());
             }
         }
         grid.printGrid();
+        go(this.grid);
     }
 
-
-    public void go() {
+    public void go(Grid grid) {
         for (int i = 0; i < length; i++) {
-            tick();
+            tick(grid);
             // TEST
             try {
                 Thread.sleep(speed);
@@ -78,7 +44,7 @@ public class Brain {
         }
     }
 
-    private void tick() {
+    private void tick(Grid grid) {
         grid.nextGeneration();
         grid.printGrid();
     }
