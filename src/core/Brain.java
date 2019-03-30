@@ -8,16 +8,18 @@ public class Brain {
 
     private Grid grid;
     private final long length;
+    gui.Grid GUI_grid;
 
     // TEST for testing purposes only
     private final int gridSize;
     private final long speed;
 
-    public Brain(int gridSize, int length, int speed) {
+    public Brain(int gridSize, int length, int speed, gui.Grid GUI_grid) {
         this.grid = new Grid(gridSize);
         this.gridSize = gridSize;
         this.length = TimeUnit.SECONDS.toMillis(length);
         this.speed = TimeUnit.SECONDS.toMillis(speed);
+        this.GUI_grid = GUI_grid;
     }
 
     // TODO test, solve empty cell index problem

@@ -6,7 +6,11 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Window window = new Window();
+        try {
+            Window window = new Window();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
     }
 }

@@ -8,15 +8,15 @@ import java.awt.*;
 
 public class Window extends JFrame {
 
-    Brain brain;
-    Grid grid;
+    public static Brain brain;
+    private Grid grid;
 
-    public Window() {
+    public Window() throws InterruptedException {
 
         super("MuBbo");
 
         grid = new Grid();
-        brain = new Brain(9, 60, 1);
+        brain = new Brain(9, 60, 1, grid);
 
 
         setSize(1000, 700);
@@ -29,8 +29,7 @@ public class Window extends JFrame {
 
         setVisible(true);
 
+
     }
-
-
 
 }

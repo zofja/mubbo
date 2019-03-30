@@ -6,9 +6,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+import static core.Symbol.*;
+
 public class Grid extends JPanel {
 
-    private Symbol selected_symbol = Symbol.EMPTY;
+    private Symbol selected_symbol = EMPTY;
     private ImageIcon selected;
     private JButton board[][] = new JButton[9][9];
     private Symbol tab[][] = new Symbol[9][9];
@@ -58,7 +60,7 @@ public class Grid extends JPanel {
                 if (i == 0 || j == 0 || i == 8 || j == 8) board[i][j].setBackground(Color.BLACK);
                 else {
                     board[i][j].setBackground(Color.DARK_GRAY);
-                    tab[i][j] = Symbol.EMPTY;
+                    tab[i][j] = EMPTY;
                 }
                 add(board[i][j]);
                 board[i][j].addActionListener(button_handler);
@@ -73,24 +75,43 @@ public class Grid extends JPanel {
             for (int j = 0; j < 9; ++j) {
 
                 if (i == 0 || i == 8 || j == 0 || j == 8) {
-                    if (new_board[i][j] != Symbol.EMPTY) {
+                    if (new_board[i][j] != EMPTY) {
                         board[i][j].setBackground(Color.red);
                     }
                     else board[i][j].setBackground(Color.black);
                 } else {
-                    board[i][j].setBackground(Color.darkGray);
-                    board[i][j].setIcon(selected);
+                    board[i][j].setBackground(Color.pink);
+                    switch (new_board[i][j]) {
+                        case EMPTY:
+                            board[i][j].setBackground(Color.darkGray);
+                            board[i][j].setIcon(null);
+                            break;
+                        case DOWN:
+                            board[i][j].setIcon(arrow_bottom);
+                            break;
+                        case UP:
+                            board[i][j].setIcon(arrow_top);
+                            break;
+                        case LEFT:
+                            board[i][j].setIcon(arrow_left);
+                            break;
+                        case RIGHT:
+                            board[i][j].setIcon(arrow_right);
+                            break;
+                    }
                 }
             }
         }
+        this.revalidate();
+        this.repaint();
     }
 
     void setSelected(Symbol symbol) {
         selected_symbol = symbol;
-        if (symbol == Symbol.RIGHT) selected = arrow_right;
-        else if (symbol == Symbol.DOWN) selected = arrow_bottom;
-        else if (symbol == Symbol.UP) selected = arrow_top;
-        else if (symbol == Symbol.LEFT) selected = arrow_left;
+        if (symbol == RIGHT) selected = arrow_right;
+        else if (symbol == DOWN) selected = arrow_bottom;
+        else if (symbol == UP) selected = arrow_top;
+        else if (symbol == LEFT) selected = arrow_left;
         else selected = null;
     }
 

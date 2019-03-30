@@ -9,6 +9,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
+import static gui.Window.brain;
+
 public class Grid {
     private final int gridSize;
     private final int wall;
@@ -69,10 +71,11 @@ public class Grid {
         newGrid = t;
 
         // TODO tu dzieś wyświetlać
+        brain.GUI_grid.display(displayNext());
         muBbo.tick();
     }
 
-    private void displayNext() {
+    Symbol[][] displayNext() {
         next = new Symbol[gridSize][gridSize];
 
         for (int y = 0; y < gridSize; y++) {
@@ -86,6 +89,8 @@ public class Grid {
                 }
             }
         }
+
+        return next;
     }
 
 
