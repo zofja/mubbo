@@ -3,6 +3,7 @@ package gui;
 import core.Brain;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -22,13 +23,11 @@ public class OptionBox extends JPanel {
 
         JButton play = new JButton("PLAY");
 
-        play.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent e)
-            {
+        play.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
                 brain.init(grid.getGrid());
             }
-        });
+        } );
 
         add(play);
     }

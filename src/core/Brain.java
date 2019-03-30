@@ -22,8 +22,8 @@ public class Brain {
 
     // TODO test, solve empty cell index problem
     public void init(Symbol[][] arr) {
-        for (int y = 0; y < gridSize; y++) {
-            for (int x = 0; x < gridSize; x++) {
+        for (int y = 1; y < gridSize - 1; y++) {
+            for (int x = 1; x < gridSize - 1; x++) {
                 if (arr[x][y].ordinal() >= 0 && arr[x][y].ordinal() <= Direction.getNoDirections())
                     grid.insert(x, y, arr[x][y].ordinal());
             }
