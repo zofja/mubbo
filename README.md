@@ -1,3 +1,5 @@
+Merging GUI
+
 How to run:
 
 - in `File -> Project structure` set `path/mubbo/build` as compiler's output
