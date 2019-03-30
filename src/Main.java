@@ -1,4 +1,5 @@
 import core.Brain;
+import core.Symbol;
 import core.particle.Direction;
 import core.particle.Particle;
 
@@ -12,10 +13,10 @@ public class Main {
     }
 
     public static void brainTest() {
-        Brain brain = new Brain(9, 100, 10);
-//        brain.initRandomTest(8);
+        Brain brain = new Brain(9, 10000, 5);
+        brain.initRandomTest(9);
 //        brain.initDirectionTest();
-        brain.initMaxTestRandomDirection();
+//        brain.initMaxTestRandomDirection();
         brain.go();
     }
 

@@ -1,22 +1,24 @@
 package core.particle;
 
+import core.Symbol;
+
 public enum Direction {
-    //TODO remove symbol~
+    //TODO remove character~
 
-    LEFT(0, -1, 0, '<'), UP(1, 0, -1, 'ʌ'),
-    RIGHT(2, 1, 0, '>'), DOWN(3, 0, 1, 'v');
+    LEFT(Symbol.LEFT, -1, 0, '<'), UP(Symbol.UP, 0, -1, 'ʌ'),
+    RIGHT(Symbol.RIGHT, 1, 0, '>'), DOWN(Symbol.DOWN, 0, 1, 'v');
 
-    private final int index;
+    private final Symbol symbol;
     private final int x;
     private final int y;
-    private final char symbol;
+    private final char character;
     private static final int noDirections = 4;
 
-    Direction(int index, int x, int y, char symbol) {
-        this.index = index;
+    Direction(Symbol symbol, int x, int y, char character) {
+        this.symbol = symbol;
         this.x = x;
         this.y = y;
-        this.symbol = symbol;
+        this.character = character;
     }
 
     public int getX() {
@@ -28,11 +30,15 @@ public enum Direction {
     }
 
     public int getIndex() {
-        return index;
+        return symbol.ordinal();
     }
 
-    public char getSymbol() {
+    public Symbol getSymbol() {
         return symbol;
+    }
+
+    public char getCharacter() {
+        return character;
     }
 
     public static int getNoDirections() {

@@ -17,6 +17,7 @@ public class Grid {
 
     private List<Particle>[][] currGrid;
     private List<Particle>[][] newGrid;
+    private Symbol[][] next;
 
     public Grid(int gridSize) {
         this.gridSize = gridSize;
@@ -32,6 +33,8 @@ public class Grid {
         initArray(currGrid);
         this.newGrid = new LinkedList[gridSize][gridSize];
         initArray(newGrid);
+
+        next = new Symbol[gridSize][gridSize];
     }
 
     private void initArray(List<Particle>[][] arr) {
@@ -65,8 +68,26 @@ public class Grid {
         currGrid = newGrid;
         newGrid = t;
 
+        // TODO tu dzieś wyświetlać
         muBbo.tick();
     }
+
+    private void displayNext() {
+        next = new Symbol[gridSize][gridSize];
+
+        for (int x = 0; x < gridSize; x++) {
+            for (int y = 0; y < gridSize; y++) {
+                if (currGrid[x][y].size() == 0) {
+                    next[x][y] = Symbol.EMPTY;
+                } else if (currGrid[x][y].size() == 1) {
+                    next[x][y] = currGrid[x][y].get(0).getSymbol();
+                } else {
+                    next[x][y] = Symbol.COLLISION;
+                }
+            }
+        }
+    }
+
 
     private boolean isInBoundaries(Point p) {
         return !(p.x == 0 || p.x == wall || p.y == 0 || p.y == wall);
@@ -125,7 +146,7 @@ public class Grid {
         Point current = new Point(x, y);
         if (noParticles(x, y) == 1) {
             if (isInBoundaries(current)) {
-                return currGrid[x][y].get(0).getSymbol();
+                return currGrid[x][y].get(0).getCharacter();
             } else {
                 return glow;
             }

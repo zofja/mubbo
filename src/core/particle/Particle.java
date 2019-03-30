@@ -1,5 +1,7 @@
 package core.particle;
 
+import core.Symbol;
+
 import java.awt.Point;
 
 public class Particle {
@@ -20,6 +22,7 @@ public class Particle {
 
     // turn 90 degrees clockwise
     public void collide() {
+        int i = direction.getIndex();
         direction = directions[(direction.getIndex() + 1) % noDirections];
     }
 
@@ -31,7 +34,11 @@ public class Particle {
         return direction.name();
     }
 
-    public char getSymbol() {
+    public Symbol getSymbol() {
         return direction.getSymbol();
+    }
+
+    public char getCharacter() {
+        return direction.getCharacter();
     }
 }
