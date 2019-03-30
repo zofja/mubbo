@@ -1,16 +1,17 @@
 package gui;
 
+import core.Symbol;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
 public class Grid extends JPanel {
 
-
-    private int selected_idx = -1;
+    private Symbol selected_symbol = Symbol.EMPTY;
     private ImageIcon selected;
     private JButton board[][] = new JButton[9][9];
-    private int tab[][] = new int[9][9];
+    private Symbol tab[][] = new Symbol[9][9];
     private ImageIcon arrow_bottom = new ImageIcon(this.getClass()
             .getResource("bottom.png"));
     private ImageIcon arrow_top = new ImageIcon(this.getClass()
@@ -28,7 +29,7 @@ public class Grid extends JPanel {
 
             private void processClick(int i, int j) {
                 if (i != 0 && i !=8 && j != 0 && j != 8) {
-                    tab[i][j] = selected_idx;
+                    tab[i][j] = selected_symbol;
                     board[i][j].setIcon(selected);
                     if (selected != null) board[i][j].setBackground(Color.pink);
                     else board[i][j].setBackground(Color.darkGray);
@@ -57,7 +58,7 @@ public class Grid extends JPanel {
                 if (i == 0 || j == 0 || i == 8 || j == 8) board[i][j].setBackground(Color.BLACK);
                 else {
                     board[i][j].setBackground(Color.DARK_GRAY);
-                    tab[i][j] = 0;
+                    tab[i][j] = Symbol.EMPTY;
                 }
                 add(board[i][j]);
                 board[i][j].addActionListener(button_handler);
@@ -66,41 +67,34 @@ public class Grid extends JPanel {
     }
 
 
-    public void display(int[][] new_board) {
+    public void display(Symbol[][] new_board) {
         tab = new_board;
         for (int i = 0; i < 9; ++i) {
             for (int j = 0; j < 9; ++j) {
 
                 if (i == 0 || i == 8 || j == 0 || j == 8) {
-                    if (new_board[i][j] > 0) {
+                    if (new_board[i][j] != Symbol.EMPTY) {
                         board[i][j].setBackground(Color.red);
                     }
                     else board[i][j].setBackground(Color.black);
                 } else {
-
-                    switch (new_board[i][j]) {
-                        case 0:
-                            board[i][j].setBackground(Color.darkGray);
-                            board[i][j].setIcon(null);
-                            break;
-                        case 1:
-                            board[i][j].setBackground(Color.pink);
-                            board[i][j].setIcon(arrow_bottom);
-                            break;
-                    }
+                    board[i][j].setBackground(Color.darkGray);
+                    board[i][j].setIcon(selected);
                 }
             }
         }
     }
 
-    void setSelected(int index) {
-        selected_idx = index;
-        if (index == -1) selected = null;
-        else if (index == 0) selected = arrow_bottom;
-        else if (index == 1) selected = arrow_top;
-        else if (index == 2) selected = arrow_left;
-        else selected = arrow_right;
+    void setSelected(Symbol symbol) {
+        selected_symbol = symbol;
+        if (symbol == Symbol.RIGHT) selected = arrow_right;
+        else if (symbol == Symbol.DOWN) selected = arrow_bottom;
+        else if (symbol == Symbol.UP) selected = arrow_top;
+        else if (symbol == Symbol.LEFT) selected = arrow_left;
+        else selected = null;
     }
 
-
+    public Symbol[][] getGrid() {
+        return tab;
+    }
 }
