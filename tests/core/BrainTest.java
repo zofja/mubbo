@@ -1,4 +1,4 @@
-package core;
+/*package core;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,6 +13,7 @@ class BrainTest {
     private final Random rand = new Random();
     private Brain brain;
     private Grid grid;
+
 
     public void initRandomTest(int noParticles) {
         int i = 0;
@@ -51,3 +52,4 @@ class BrainTest {
         brain.go(grid);
     }
 }
+*/
