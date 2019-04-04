@@ -23,7 +23,7 @@ public class Grid extends JPanel {
     private ImageIcon arrow_right = new ImageIcon(this.getClass()
             .getResource("right.png"));
 
-    Grid() {
+    public Grid() {
         setLayout(new GridLayout(9, 9));
         setSize(700, 700);
 
@@ -71,8 +71,8 @@ public class Grid extends JPanel {
 
     public void display(Symbol[][] new_board) {
         tab = new_board;
-        for (int i = 0; i < 9; ++i) {
-            for (int j = 0; j < 9; ++j) {
+        for (int j = 0; j < 9; ++j) {
+            for (int i = 0; i < 9; ++i) {
 
                 if (i == 0 || i == 8 || j == 0 || j == 8) {
                     if (new_board[i][j] != EMPTY) {

@@ -31,23 +31,27 @@ public class Brain {
             }
         }
         grid.printGrid();
-        go(this.grid);
+//        go(this.grid);
     }
 
-    public void go(Grid grid) {
-        for (int i = 0; i < length; i++) {
-            tick(grid);
-            // TEST
-            try {
-                Thread.sleep(speed);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+//    public void go(Grid grid) {
+//        for (int i = 0; i < length; i++) {
+//            tick(grid);
+//            // TEST
+//            try {
+//                Thread.sleep(speed);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
 
-    private void tick(Grid grid) {
+    public void tick() {
         grid.nextGeneration();
         grid.printGrid();
+    }
+
+    public Grid getCoreGrid() {
+        return grid;
     }
 }

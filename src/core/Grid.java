@@ -19,7 +19,7 @@ public class Grid {
 
     private List<Particle>[][] currGrid;
     private List<Particle>[][] newGrid;
-    private Symbol[][] next;
+    public static Symbol[][] next;
 
     public Grid(int gridSize) {
         this.gridSize = gridSize;
@@ -71,11 +71,11 @@ public class Grid {
         newGrid = t;
 
         // TODO tu dzieś wyświetlać
-        brain.GUI_grid.display(displayNext());
+//        brain.GUI_grid.display(displayNext());
         muBbo.tick();
     }
 
-    Symbol[][] displayNext() {
+    public Symbol[][] displayNext() {
         next = new Symbol[gridSize][gridSize];
 
         for (int y = 0; y < gridSize; y++) {

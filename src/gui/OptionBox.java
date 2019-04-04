@@ -21,15 +21,6 @@ public class OptionBox extends JPanel {
 
         add(new CheckBoxList(grid));
 
-        JButton play = new JButton("PLAY");
-
-        play.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                brain.init(grid.getGrid());
-            }
-        } );
-
-        add(play);
     }
 
 }
