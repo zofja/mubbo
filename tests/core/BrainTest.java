@@ -12,7 +12,7 @@ class BrainTest {
     private final int length = 100;
     private final Random rand = new Random();
     private Brain brain;
-    private Grid grid;
+    private GridManager grid;
 
 
     public void initRandomTest(int noParticles) {
@@ -43,7 +43,7 @@ class BrainTest {
     @BeforeEach
     void setUp() {
         brain = new Brain(gridSize, length, speed);
-        grid = new Grid(gridSize);
+        grid = new GridManager(gridSize);
     }
 
     @Test

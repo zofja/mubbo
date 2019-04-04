@@ -1,25 +1,20 @@
 package gui;
 
-import core.Brain;
-import core.Symbol;
-
 import javax.swing.*;
 import java.awt.*;
 
 
 public class Window extends JFrame {
 
-    public static Brain brain;
     private Grid grid;
 
-    public Window(Brain brain, Grid grid) {
+    public Window(Grid grid) {
 
         super("MuBbo");
 
-//        grid = new Grid();
+//        grid = new GridManager();
 //        brain = new Brain(9, 60, 1, grid);
         this.grid = grid;
-        this.brain = brain;
 
 
         setSize(1000, 700);
@@ -28,7 +23,7 @@ public class Window extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         getContentPane().add(grid);
-        getContentPane().add(new OptionBox(grid, brain), BorderLayout.EAST);
+        getContentPane().add(new OptionBox(grid), BorderLayout.EAST);
 
         setVisible(true);
 

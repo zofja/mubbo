@@ -1,27 +1,30 @@
 package core;
 
+import core.particle.Direction;
 import core.particle.Particle;
 import sound.MusicBox;
 
 import javax.sound.midi.MidiUnavailableException;
-import java.awt.Point;
+import java.awt.*;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
-import static gui.Window.brain;
-
-public class Grid {
+public class GridManager {
     private final int gridSize;
     private final int wall;
 
-    private /*final*/ MusicBox muBbo;
+    private MusicBox muBbo;
 
-    private List<Particle>[][] currGrid;
-    private List<Particle>[][] newGrid;
-    public static Symbol[][] next;
+    private List<Particle>[][] prvGrid;
+    private List<Particle>[][] nxtGrid;
 
-    public Grid(int gridSize) {
+    /////////////////////////////////////////////////////////
+    private static Symbol[][] theUltimateMusicalGrid;
+    /////////////////////////////////////////////////////////
+
+
+    public GridManager(int gridSize) {
         this.gridSize = gridSize;
         this.wall = gridSize - 1;
 
@@ -31,12 +34,27 @@ public class Grid {
             System.err.println("Couldn't load sound module.");
         }
 
-        this.currGrid = new LinkedList[gridSize][gridSize];
-        initArray(currGrid);
-        this.newGrid = new LinkedList[gridSize][gridSize];
-        initArray(newGrid);
+        this.prvGrid = new LinkedList[gridSize][gridSize];
+        initArray(prvGrid);
+        this.nxtGrid = new LinkedList[gridSize][gridSize];
+        initArray(nxtGrid);
 
-        next = new Symbol[gridSize][gridSize];
+        theUltimateMusicalGrid = new Symbol[gridSize][gridSize];
+    }
+
+    public void init(Symbol[][] initGrid) {
+        for (int y = 1; y < gridSize - 1; y++) {
+            for (int x = 1; x < gridSize - 1; x++) {
+                if (initGrid[x][y].ordinal() >= 0 && initGrid[x][y].ordinal() <= Direction.getNoDirections())
+                    insert(x, y, initGrid[x][y].ordinal());
+            }
+        }
+        printGrid();
+    }
+
+    public void tick() {
+        nextGeneration();
+        printGrid();
     }
 
     private void initArray(List<Particle>[][] arr) {
@@ -47,16 +65,11 @@ public class Grid {
     }
 
     public void insert(int x, int y, int direction) {
-        currGrid[x][y].add(new Particle(direction));
-    }
-
-    // TEST ONLY
-    public boolean taken(int x, int y) {
-        return (currGrid[x][y].size() > 0);
+        prvGrid[x][y].add(new Particle(direction));
     }
 
     private int noParticles(int x, int y) {
-        return currGrid[x][y].size();
+        return prvGrid[x][y].size();
     }
 
     public void nextGeneration() {
@@ -66,33 +79,29 @@ public class Grid {
             }
         }
 
-        List<Particle>[][] t = currGrid;
-        currGrid = newGrid;
-        newGrid = t;
+        List<Particle>[][] t = prvGrid;
+        prvGrid = nxtGrid;
+        nxtGrid = t;
 
-        // TODO tu dzieś wyświetlać
-//        brain.GUI_grid.display(displayNext());
         muBbo.tick();
     }
 
     public Symbol[][] displayNext() {
-        next = new Symbol[gridSize][gridSize];
 
         for (int y = 0; y < gridSize; y++) {
             for (int x = 0; x < gridSize; x++) {
-                if (currGrid[x][y].size() == 0) {
-                    next[x][y] = Symbol.EMPTY;
-                } else if (currGrid[x][y].size() == 1) {
-                    next[x][y] = currGrid[x][y].get(0).getSymbol();
+                if (prvGrid[x][y].size() == 0) {
+                    theUltimateMusicalGrid[x][y] = Symbol.EMPTY;
+                } else if (prvGrid[x][y].size() == 1) {
+                    theUltimateMusicalGrid[x][y] = prvGrid[x][y].get(0).getSymbol();
                 } else {
-                    next[x][y] = Symbol.COLLISION;
+                    theUltimateMusicalGrid[x][y] = Symbol.COLLISION;
                 }
             }
         }
 
-        return next;
+        return theUltimateMusicalGrid;
     }
-
 
     private boolean isInBoundaries(Point p) {
         return !(p.x == 0 || p.x == wall || p.y == 0 || p.y == wall);
@@ -102,7 +111,7 @@ public class Grid {
         Point current = new Point(x, y);
         boolean collision = (noParticles(x, y) >= 2);
 
-        for (ListIterator<Particle> iterator = currGrid[x][y].listIterator(); iterator.hasNext(); ) {
+        for (ListIterator<Particle> iterator = prvGrid[x][y].listIterator(); iterator.hasNext(); ) {
             Particle particle = iterator.next();
 
             if (collision) {
@@ -118,10 +127,15 @@ public class Grid {
             }
 
             iterator.remove();
-            newGrid[destination.x][destination.y].add(particle);
+            nxtGrid[destination.x][destination.y].add(particle);
         }
     }
 
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     // TODO REMOVE AFTER GUI MERGE everything below & check what above
     private static final char border = '□';
@@ -129,6 +143,12 @@ public class Grid {
     private static final char empty = '.';
     private static final char collision = '◯';
     private static final char error = 'X';
+
+    // TEST ONLY
+    public boolean taken(int x, int y) {
+        return (prvGrid[x][y].size() > 0);
+    }
+
 
     public void printGrid() {
         System.out.print("  ");
@@ -151,7 +171,7 @@ public class Grid {
         Point current = new Point(x, y);
         if (noParticles(x, y) == 1) {
             if (isInBoundaries(current)) {
-                return currGrid[x][y].get(0).getCharacter();
+                return prvGrid[x][y].get(0).getCharacter();
             } else {
                 return glow;
             }

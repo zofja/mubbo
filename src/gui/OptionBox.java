@@ -1,15 +1,10 @@
 package gui;
 
-import core.Brain;
-
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class OptionBox extends JPanel {
 
-    public OptionBox(Grid grid, Brain brain) {
+    public OptionBox(Grid grid) {
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         setSize(700, 300);
         add(new JLabel("OPTIONS"));

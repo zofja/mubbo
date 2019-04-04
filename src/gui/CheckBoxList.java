@@ -24,7 +24,7 @@ class CheckBoxList extends JList<CheckListItem> {
         }
     }
 
-    CheckBoxList(Grid window) {
+    CheckBoxList(Grid grid) {
         super(new CheckListItem[]{
                 new CheckListItem("Left"),
                 new CheckListItem("Up"),
@@ -48,7 +48,7 @@ class CheckBoxList extends JList<CheckListItem> {
                         .getElementAt(selected_symbol.ordinal())).setSelected(false);
                 if (selected_symbol.ordinal() == index) selected_symbol = Symbol.EMPTY;
                 else selected_symbol = Symbol.values()[index];
-                window.setSelected(selected_symbol);
+                grid.setSelected(selected_symbol);
             }
         });
 

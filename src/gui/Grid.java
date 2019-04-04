@@ -4,7 +4,8 @@ import core.Symbol;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import static core.Symbol.*;
 
@@ -12,8 +13,11 @@ public class Grid extends JPanel {
 
     private Symbol selected_symbol = EMPTY;
     private ImageIcon selected;
-    private JButton board[][] = new JButton[9][9];
-    private Symbol tab[][] = new Symbol[9][9];
+    private JButton[][] clickableGrid;
+    private Symbol[][] grid;
+    private int gridSize;
+    private int wall;
+
     private ImageIcon arrow_bottom = new ImageIcon(this.getClass()
             .getResource("bottom.png"));
     private ImageIcon arrow_top = new ImageIcon(this.getClass()
@@ -23,27 +27,37 @@ public class Grid extends JPanel {
     private ImageIcon arrow_right = new ImageIcon(this.getClass()
             .getResource("right.png"));
 
-    public Grid() {
-        setLayout(new GridLayout(9, 9));
+    public Grid(int gridSize) {
+        setLayout(new GridLayout(gridSize, gridSize));
         setSize(700, 700);
+        this.gridSize = gridSize;
+        this.wall = gridSize - 1;
+
+        this.clickableGrid = new JButton[gridSize][gridSize];
+        this.grid = new Symbol[gridSize][gridSize];
+
+        initGrid();
+
+    }
+
+    private void initGrid() {
 
         class ButtonHandler implements ActionListener {
 
-            private void processClick(int i, int j) {
-                if (i != 0 && i !=8 && j != 0 && j != 8) {
-                    tab[i][j] = selected_symbol;
-                    board[i][j].setIcon(selected);
-                    if (selected != null) board[i][j].setBackground(Color.pink);
-                    else board[i][j].setBackground(Color.darkGray);
+            private void processClick(int x, int y) {
+                if (isInBoundaries(new Point(x, y))) {
+                    grid[x][y] = selected_symbol;
+                    clickableGrid[x][y].setIcon(selected);
+                    if (selected != null) clickableGrid[x][y].setBackground(Color.pink);
+                    else clickableGrid[x][y].setBackground(Color.darkGray);
                 }
             }
 
             public void actionPerformed(ActionEvent e) {
-                Object source = e.getSource();
-                for (int j = 0; j < 9; ++j) {
-                    for (int i = 0; i < 9; ++i) {
-                        if (source == board[i][j]) {
-                            processClick(i, j);
+                for (int y = 0; y < gridSize; ++y) {
+                    for (int x = 0; x < gridSize; ++x) {
+                        if (e.getSource() == clickableGrid[x][y]) {
+                            processClick(x, y);
                             return;
                         }
                     }
@@ -51,59 +65,60 @@ public class Grid extends JPanel {
             }
         }
 
-
         ButtonHandler button_handler = new ButtonHandler();
 
         for (int j = 0; j < 9; ++j) {
             for (int i = 0; i < 9; ++i) {
-                board[i][j] = new JButton();
-                if (i == 0 || j == 0 || i == 8 || j == 8) board[i][j].setBackground(Color.BLACK);
+                clickableGrid[i][j] = new JButton();
+                if (i == 0 || j == 0 || i == 8 || j == 8) clickableGrid[i][j].setBackground(Color.BLACK);
                 else {
-                    board[i][j].setBackground(Color.DARK_GRAY);
-                    tab[i][j] = EMPTY;
+                    clickableGrid[i][j].setBackground(Color.DARK_GRAY);
+                    grid[i][j] = EMPTY;
                 }
-                add(board[i][j]);
-                board[i][j].addActionListener(button_handler);
+                add(clickableGrid[i][j]);
+                clickableGrid[i][j].addActionListener(button_handler);
             }
         }
+
+    }
+
+    private boolean isInBoundaries(Point p) {
+        return !(p.x == 0 || p.x == wall || p.y == 0 || p.y == wall);
     }
 
 
     public void display(Symbol[][] new_board) {
-        tab = new_board;
-        for (int j = 0; j < 9; ++j) {
-            for (int i = 0; i < 9; ++i) {
+        grid = new_board;
+        for (int y = 0; y < 9; ++y) {
+            for (int x = 0; x < 9; ++x) {
 
-                if (i == 0 || i == 8 || j == 0 || j == 8) {
-                    if (new_board[i][j] != EMPTY) {
-                        board[i][j].setBackground(Color.red);
-                    }
-                    else board[i][j].setBackground(Color.black);
+                if (x == 0 || x == 8 || y == 0 || y == 8) {
+                    if (new_board[x][y] != EMPTY) {
+                        clickableGrid[x][y].setBackground(Color.red);
+                    } else clickableGrid[x][y].setBackground(Color.black);
                 } else {
-                    board[i][j].setBackground(Color.pink);
-                    switch (new_board[i][j]) {
+                    clickableGrid[x][y].setBackground(Color.pink);
+                    switch (new_board[x][y]) {
                         case EMPTY:
-                            board[i][j].setBackground(Color.darkGray);
-                            board[i][j].setIcon(null);
+                            clickableGrid[x][y].setBackground(Color.darkGray);
+                            clickableGrid[x][y].setIcon(null);
                             break;
                         case DOWN:
-                            board[i][j].setIcon(arrow_bottom);
+                            clickableGrid[x][y].setIcon(arrow_bottom);
                             break;
                         case UP:
-                            board[i][j].setIcon(arrow_top);
+                            clickableGrid[x][y].setIcon(arrow_top);
                             break;
                         case LEFT:
-                            board[i][j].setIcon(arrow_left);
+                            clickableGrid[x][y].setIcon(arrow_left);
                             break;
                         case RIGHT:
-                            board[i][j].setIcon(arrow_right);
+                            clickableGrid[x][y].setIcon(arrow_right);
                             break;
                     }
                 }
             }
         }
-        this.revalidate();
-        this.repaint();
     }
 
     void setSelected(Symbol symbol) {
@@ -116,6 +131,6 @@ public class Grid extends JPanel {
     }
 
     public Symbol[][] getGrid() {
-        return tab;
+        return grid;
     }
 }
