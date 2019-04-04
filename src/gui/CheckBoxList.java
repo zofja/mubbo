@@ -50,7 +50,7 @@ class CheckBoxList extends JList<CheckListItem> {
                 if (selected_symbol.ordinal() == index) {
                     selected_symbol = Symbol.EMPTY;
                 } else selected_symbol = Symbol.values()[index];
-                grid.setSelected(selected_symbol);
+                grid.setSelectedIcon(selected_symbol);
             }
         });
     }

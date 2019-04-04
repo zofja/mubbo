@@ -11,12 +11,16 @@ import java.awt.event.ActionListener;
 public class Engine {
 
     private final int intervalDuration = 1;
-    private final int gridSize = 16;
+    private final int gridSize = 9;
     private int iterations = 3000; // time playing = iterations * intervalDuration
 
     private Timer timer = new Timer(secondsToMillis(intervalDuration), new UpdateListener());
     private GridManager gridManager = new GridManager(gridSize);
     private Grid grid;
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////
+    //                                          CONSTRUCTORS
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public Engine() {
 
@@ -31,7 +35,11 @@ public class Engine {
 
     }
 
-    class UpdateListener implements ActionListener {
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////
+    //                                      NESTED PRIVATE CLASSES
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    private class UpdateListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
             if (iterations == 0) {
                 timer.stop();
@@ -54,7 +62,8 @@ public class Engine {
             PlayButton(String text) {
                 super(text);
 
-                setFont(new Font("Courier", Font.PLAIN, 50));
+                setSize(new Dimension(500, 50));
+                setFont(new Font("Courier", Font.PLAIN, 30));
                 addActionListener(new ButtonListener());
 
             }
@@ -64,10 +73,14 @@ public class Engine {
 
             public void actionPerformed(ActionEvent event) {
                 timer.start();
-                gridManager.init(grid.getGrid()); // przekazuje do braina grid wyklikany przez usera
+                gridManager.init(grid.getSymbolGrid()); // przekazuje do braina grid wyklikany przez usera
             }
         }
     }
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////
+    //                                      PRIVATE FUNCTIONS
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
     private int secondsToMillis(int seconds) {
         return 1000 * seconds;
