@@ -12,7 +12,7 @@ public class Window extends JFrame {
     public static Brain brain;
     private Grid grid;
 
-    public Window(Brain brain, Grid grid) throws InterruptedException {
+    public Window(Brain brain, Grid grid) {
 
         super("MuBbo");
 
