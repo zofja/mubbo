@@ -40,8 +40,8 @@ public class Grid extends JPanel {
 
             public void actionPerformed(ActionEvent e) {
                 Object source = e.getSource();
-                for (int i = 0; i < 9; ++i) {
-                    for (int j = 0; j < 9; ++j) {
+                for (int j = 0; j < 9; ++j) {
+                    for (int i = 0; i < 9; ++i) {
                         if (source == board[i][j]) {
                             processClick(i, j);
                             return;
@@ -54,8 +54,8 @@ public class Grid extends JPanel {
 
         ButtonHandler button_handler = new ButtonHandler();
 
-        for (int i = 0; i < 9; ++i) {
-            for (int j = 0; j < 9; ++j) {
+        for (int j = 0; j < 9; ++j) {
+            for (int i = 0; i < 9; ++i) {
                 board[i][j] = new JButton();
                 if (i == 0 || j == 0 || i == 8 || j == 8) board[i][j].setBackground(Color.BLACK);
                 else {
