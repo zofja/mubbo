@@ -133,7 +133,11 @@ public class GridManager {
                 move(x, y);
             }
         }
-        prvGrid = nxtGrid; // prv = nxt because it nxt will be needed in the next move
+
+        List<Particle>[][] t = prvGrid;
+        prvGrid = nxtGrid;
+        nxtGrid = t;
+
         muBbo.tick();
     }
 
