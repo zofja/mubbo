@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class Presets {
 
-    private static int gridSize = 9;
+    private static int gridSize = 16;
     private static Random rand = new Random();
 
     static Symbol[][] initGrid() {

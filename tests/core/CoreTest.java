@@ -11,8 +11,6 @@ import java.util.Random;
 class GridTest {
 
     private final int gridSize = 9;
-    private final int intervalDuration = 1;
-    private int iterations = 3000;
     private Random rand;
 
     @BeforeEach
@@ -46,7 +44,7 @@ class GridTest {
         return grid;
     }
 
-    @Test
+    @Test // not working, dunno why
     void RandomTest() {
         SwingUtilities.invokeLater(() -> new Engine(getRandomGrid(8)));
     }

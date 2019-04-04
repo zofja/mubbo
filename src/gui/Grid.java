@@ -76,8 +76,8 @@ class Grid extends JPanel {
 
         ButtonHandler button_handler = new ButtonHandler();
 
-        for (int y = 0; y < 9; ++y) {
-            for (int x = 0; x < 9; ++x) {
+        for (int y = 0; y < gridSize; ++y) {
+            for (int x = 0; x < gridSize; ++x) {
                 gridGUI[x][y] = new JButton();
                 if (!isInBoundaries(new Point(x, y))) {
                     gridGUI[x][y].setBackground(Color.BLACK);

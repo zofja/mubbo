@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 public class Engine {
 
     private final int intervalDuration = 1;
-    private final int gridSize = 9;
+    private final int gridSize = 16;
     private int iterations = 3000; // time playing = iterations * intervalDuration
 
     private Timer timer = new Timer(secondsToMillis(intervalDuration), new UpdateListener());
