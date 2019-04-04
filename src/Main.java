@@ -26,11 +26,13 @@ public class Main {
 
         Window window = new Window(grid); // grid, bo trzeba zmieniać guziki jak się wybierze
         JButton play = new JButton("PLAY");
+        play.setFont(new Font("Courier", Font.PLAIN, 50));
         play.addActionListener(new ButtonListener());
         ActionListener updateListener = new UpdateListener();
         JPanel panel = new JPanel();
         panel.add(play);
         window.getContentPane().add(panel, BorderLayout.SOUTH);
+
 
         // speed – interval
         timer = new Timer((int) TimeUnit.SECONDS.toMillis(speed), updateListener);

@@ -18,6 +18,7 @@ public class Window extends JFrame {
 
 
         setSize(1000, 700);
+        getContentPane().setFont(new Font("Verdana", Font.PLAIN, 50));
         setDefaultLookAndFeelDecorated(true);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
