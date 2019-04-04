@@ -3,19 +3,11 @@ package gui;
 import javax.swing.*;
 import java.awt.*;
 
-
 public class Window extends JFrame {
 
-    private Grid grid;
-
-    public Window(Grid grid) {
+    public Window(Grid grid, JPanel play) {
 
         super("MuBbo");
-
-//        grid = new GridManager();
-//        brain = new Brain(9, 60, 1, grid);
-        this.grid = grid;
-
 
         setSize(1000, 700);
         getContentPane().setFont(new Font("Verdana", Font.PLAIN, 50));
@@ -25,10 +17,8 @@ public class Window extends JFrame {
 
         getContentPane().add(grid);
         getContentPane().add(new OptionBox(grid), BorderLayout.EAST);
+        getContentPane().add(play, BorderLayout.SOUTH);
 
         setVisible(true);
-
-
     }
-
 }

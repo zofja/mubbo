@@ -23,7 +23,6 @@ public class GridManager {
     private static Symbol[][] theUltimateMusicalGrid;
     /////////////////////////////////////////////////////////
 
-
     public GridManager(int gridSize) {
         this.gridSize = gridSize;
         this.wall = gridSize - 1;
@@ -64,7 +63,7 @@ public class GridManager {
             }
     }
 
-    public void insert(int x, int y, int direction) {
+    private void insert(int x, int y, int direction) {
         prvGrid[x][y].add(new Particle(direction));
     }
 
@@ -72,7 +71,7 @@ public class GridManager {
         return prvGrid[x][y].size();
     }
 
-    public void nextGeneration() {
+    private void nextGeneration() {
         for (int y = 0; y < gridSize; y++) {
             for (int x = 0; x < gridSize; x++) {
                 move(x, y);
@@ -137,20 +136,14 @@ public class GridManager {
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    // TODO REMOVE AFTER GUI MERGE everything below & check what above
+    // Pretty terminal output :)
     private static final char border = '□';
     private static final char glow = '■';
     private static final char empty = '.';
     private static final char collision = '◯';
     private static final char error = 'X';
 
-    // TEST ONLY
-    public boolean taken(int x, int y) {
-        return (prvGrid[x][y].size() > 0);
-    }
-
-
-    public void printGrid() {
+    private void printGrid() {
         System.out.print("  ");
         for (int x = 0; x < gridSize; x++) {
             System.out.print(x + " ");
@@ -189,5 +182,4 @@ public class GridManager {
             }
         }
     }
-
 }
