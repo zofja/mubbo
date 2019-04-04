@@ -1,4 +1,4 @@
-Merged GUI
+Merged GUI + CORE
 
 How to run:
 
