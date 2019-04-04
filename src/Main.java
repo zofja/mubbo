@@ -33,7 +33,9 @@ public class Main {
             panel.add(play);
             window.getContentPane().add(panel, BorderLayout.SOUTH);
 
-            Thread.sleep(10000);
+            while(!start) {
+                Thread.sleep(100);
+            }
 
             brain.init(grid.getGrid());
             int length = 60;
