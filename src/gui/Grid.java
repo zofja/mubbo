@@ -6,10 +6,32 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 
 import static core.Symbol.*;
 
 class Grid extends JPanel {
+
+    /**
+     * Random generator used to get color.
+     */
+    private final Random random = new Random();
+
+    /**
+     * Color of the grid.
+     */
+    private static final Color GRID_COLOR = new Color(0x323232);
+
+    /**
+     * Color of the border.
+     */
+    private static final Color BORDER_COLOR = new Color(0x282828);
+
+    /**
+     * Color of the particle.
+     */
+    private static final Color PARTICLE_COLOR = new Color(0xeeeeee);
+
 
     private final int gridDimension = 500;
 
@@ -66,8 +88,8 @@ class Grid extends JPanel {
             if (isInBoundaries(new Point(x, y))) {
                 symbolGrid[x][y] = selectedSymbol;
                 buttonGrid[x][y].setIcon(selectedIcon);
-                if (selectedIcon != null) buttonGrid[x][y].setBackground(Color.pink);
-                else buttonGrid[x][y].setBackground(Color.darkGray);
+                if (selectedIcon != null) buttonGrid[x][y].setBackground(PARTICLE_COLOR);
+                else buttonGrid[x][y].setBackground(GRID_COLOR);
             }
         }
 
@@ -94,13 +116,32 @@ class Grid extends JPanel {
             for (int x = 0; x < gridSize; ++x) {
                 if (!isInBoundaries(new Point(x, y))) {
                     if (nxtBoard[x][y] != EMPTY) {
-                        buttonGrid[x][y].setBackground(Color.red);
-                    } else buttonGrid[x][y].setBackground(Color.black);
+                        buttonGrid[x][y].setBackground(randomColor().brighter());
+                    } else buttonGrid[x][y].setBackground(BORDER_COLOR);
                 } else {
-                    buttonGrid[x][y].setBackground(Color.pink);
+                    buttonGrid[x][y].setBackground(PARTICLE_COLOR);
                     changeCell(nxtBoard[x][y], x, y);
                 }
             }
+        }
+    }
+
+    /**
+     * Generates random, bright color.
+     *
+     * @return a Color.
+     */
+    private Color randomColor() {
+        int c = random.nextInt(3 * 0xff);
+        if (c < 0xff) {
+            c %= 0xff;
+            return new Color(0xff - c, c, 0xff);
+        } else if (c < 2 * 0xff) {
+            c %= 0xff;
+            return new Color(0xff, 0xff - c, c);
+        } else {
+            c %= 0xff;
+            return new Color(c, 0xff, 0xff - c);
         }
     }
 
@@ -129,9 +170,9 @@ class Grid extends JPanel {
             for (int x = 0; x < gridSize; ++x) {
                 buttonGrid[x][y] = new JButton();
                 if (!isInBoundaries(new Point(x, y))) {
-                    buttonGrid[x][y].setBackground(Color.BLACK);
+                    buttonGrid[x][y].setBackground(BORDER_COLOR);
                 } else {
-                    buttonGrid[x][y].setBackground(Color.DARK_GRAY);
+                    buttonGrid[x][y].setBackground(GRID_COLOR);
                     symbolGrid[x][y] = EMPTY;
                 }
                 add(buttonGrid[x][y]);
@@ -143,7 +184,7 @@ class Grid extends JPanel {
     private void changeCell(Symbol symbol, int x, int y) {
         switch (symbol) {
             case EMPTY:
-                buttonGrid[x][y].setBackground(Color.darkGray);
+                buttonGrid[x][y].setBackground(GRID_COLOR);
                 buttonGrid[x][y].setIcon(null);
                 break;
             case DOWN:
