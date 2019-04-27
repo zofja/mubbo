@@ -34,6 +34,11 @@ class CheckBoxList extends JList<CheckListItem> {
         setCellRenderer(new CheckListRenderer());
         setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
+        ListModel<CheckListItem> model = getModel();
+        model.getElementAt(0).setSelected(true);
+        selected_symbol = Symbol.values()[0];
+        grid.setSelectedIcon(selected_symbol);
+
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent event) {
