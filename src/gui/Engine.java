@@ -82,7 +82,8 @@ public class Engine {
         class ButtonListener implements ActionListener {
 
             public void actionPerformed(ActionEvent event) {
-                new Window(new Grid(gridSize), new PlayPanel("PLAY"));
+                grid = new Grid(gridSize);
+                new Window(grid, new PlayPanel("PLAY"));
             }
         }
     }
