@@ -10,12 +10,12 @@ import java.awt.event.ActionListener;
 
 public class Engine {
 
-    private final int intervalDuration = 1;
+    private final int intervalDuration = 250;
     private final int gridSize = 9;
     private int iterations = 3000; // time playing = iterations * intervalDuration
     private boolean ifStarted = false;
 
-    private Timer timer = new Timer(secondsToMillis(intervalDuration), new UpdateListener());
+    private Timer timer = new Timer(intervalDuration, new UpdateListener());
     private GridManager gridManager = new GridManager(gridSize);
     private Grid grid;
 
@@ -89,13 +89,5 @@ public class Engine {
                 }
             }
         }
-    }
-
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////
-    //                                      PRIVATE FUNCTIONS
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    private int secondsToMillis(int seconds) {
-        return 1000 * seconds;
     }
 }
