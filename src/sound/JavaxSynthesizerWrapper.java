@@ -15,7 +15,7 @@ public class JavaxSynthesizerWrapper implements SynthesizerWrapper {
     /**
      * Default value of a sound velocity.
      */
-    private static final int DEFAULT_VELOCITY = 100;
+    private static final int DEFAULT_VELOCITY = 50;
 
     /**
      * Midi channel where all sound are pointed to.
@@ -32,6 +32,7 @@ public class JavaxSynthesizerWrapper implements SynthesizerWrapper {
             Synthesizer synth = MidiSystem.getSynthesizer();
             synth.open();
             this.channel = synth.getChannels()[0];
+//            this.channel.programChange(5);
             Thread.sleep(100);                  // Without a short sleep, first notes sound out of tempo.
         } catch (InterruptedException | MidiUnavailableException e) {
             throw new RuntimeException("Unable to initialize sound module.");
