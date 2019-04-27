@@ -3,8 +3,18 @@ package gui;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Class opening the app's screen. An object of class Window displays:
+ * - grid, where the simulation of generated melody is shown,
+ * - option box, which enables a user to change settings such as new arrows direction,
+ * - play/pause button.
+ */
 class Window extends JFrame {
 
+    /**
+     * @param grid an object of class {@code Grid} enabling to show the simulation.
+     * @param play a panel containing play button.
+     */
     Window(Grid grid, JPanel play) {
 
         super("MuBbo");
