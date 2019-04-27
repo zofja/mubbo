@@ -77,9 +77,15 @@ public class Engine {
                     ifStarted = true;
                     timer.start();
                     gridManager.init(grid.getSymbolGrid()); // przekazuje do braina grid wyklikany przez usera
+
+                    JButton clicked = (JButton) event.getSource();
+                    clicked.setText("PAUSE");
                 } else {
                     ifStarted = false;
                     timer.stop();
+
+                    JButton clicked = (JButton) event.getSource();
+                    clicked.setText("PLAY");
                 }
             }
         }
