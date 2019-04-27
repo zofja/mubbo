@@ -4,37 +4,137 @@ import javax.sound.midi.MidiUnavailableException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Sound module main coordinating class. An object of class MusicBox processes coordinates into sound. Playing sound
+ * requires two different steps:
+ * - add a note (via {@code addNote} function), that is then converted into sound based on set scale
+ * - play all added notes: {@code tick}
+ * Sample usage:
+ * <pre>
+ * {@code
+ *      MusicBox mb = new MusicBox(10, 10);
+ *      mb.addNote(0, 1);
+ *      mb.addNote(1, 0);
+ *      mb.tick();              // play two given sounds at once
+ *      Thread.sleep(1000)      // wait 1 second
+ *      mb.changeScale("Major");
+ *      for (int i = 0; i < 8; i++) {   // play C major scale (one sound every half a second)
+ *          mb.addNode(i, 0);
+ *          Thread.sleep(500);
+ *      }
+ * }
+ * </pre>
+ */
 public class MusicBox {
 
-    private static final int DEFAULT_BASE_PITCH = 60;
+    /**
+     * Default value of a base pitch in MIDI number. (60 = C4)
+     */
+    private static final int DEFAULT_BASE_PITCH = 55;
 
-    private final SynthesizerWrapper player = new JavaxSynthesizerWrapper();
+    /**
+     * Minimal allowed base pitch value. (21 = A0, which is lowest piano note)
+     */
+    private static final int MIN_MIDI = 21;
+
+    /**
+     * Maximal allowed base pitch value. (84 = C6, which is two octaves below highest piano note)
+     */
+    private static final int MAX_MIDI = 84;
+
+
+    /**
+     * Sound producing module.
+     */
+    private final SynthesizerWrapper player;
+
+    /**
+     * Current value of a scale.
+     *
+     * @see Scale
+     */
     private Scale currentScale = Scale.DEFAULT_SCALE;
+
+    /**
+     * Current value of a base pitch in MIDI number.
+     */
     private int basePitch = DEFAULT_BASE_PITCH;
+
+    /**
+     * Horizontal grid size (used in converting coordinates to pitch.
+     */
     private int sizeX;
+
+    /**
+     * Vertical grid size (used in converting coordinates to pitch.
+     */
     private int sizeY;
 
+    /**
+     * Notes added since last {@code tick()} call in MIDI number.
+     */
     private List<Integer> currentTickNotes = new ArrayList<>();
 
+    /**
+     * @param x horizontal grid size.
+     * @param y vertical grid size.
+     * @throws MidiUnavailableException when it was impossible to init sound module.
+     */
     public MusicBox(int x, int y) throws MidiUnavailableException {
+        player = new JavaxSynthesizerWrapper();
         this.sizeX = x;
         this.sizeY = y;
     }
 
+    /**
+     * Changes current scale by a String of display name.
+     *
+     * @param scaleDisplayName scale display name.
+     */
     public void changeScale(String scaleDisplayName) {
         Scale newScale = Scale.reverseLookupByString(scaleDisplayName);
-        if (newScale != null) {
+        if (newScale == null) {
+            System.err.println("Couldn't find a scale of given name: " + scaleDisplayName);
+        } else {
             currentScale = newScale;
         }
     }
 
+    /**
+     * Changes current scale by pointing to enumeration value.
+     *
+     * @param scale scale enumeration value.
+     */
+    public void changeScale(Scale scale) {
+        if (scale == null) {
+            System.err.println("Pointed to a null value scale.");
+        } else {
+            currentScale = scale;
+        }
+    }
+
+    /**
+     * Changes grid size.
+     *
+     * @param x new horizontal size.
+     * @param y new vertical size.
+     */
     public void changeSize(int x, int y) {
         this.sizeX = x;
         this.sizeY = y;
     }
 
+    /**
+     * Pitch setter.
+     *
+     * @param newPitch new pitch value in MIDI number.
+     */
     public void setPitch(int newPitch) {
-        this.basePitch = newPitch;
+        if (newPitch < MIN_MIDI || newPitch > MAX_MIDI) {
+            System.err.println("new pitch not within expected range of [MIN_MIDI; MAX_MIDI] = [" + MIN_MIDI + "; " + MAX_MIDI + "].");
+        } else {
+            this.basePitch = newPitch;
+        }
     }
 
     private int soundCoordinateToScaleDegree(int x, int y) {

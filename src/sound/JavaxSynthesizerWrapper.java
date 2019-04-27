@@ -17,7 +17,7 @@ public class JavaxSynthesizerWrapper implements SynthesizerWrapper {
             this.channel = synth.getChannels()[0];
             Thread.sleep(100);                  // Without a short sleep, first notes sound out of tempo.
         } catch (InterruptedException | MidiUnavailableException e) {
-            throw new RuntimeException("Unable to initialize audio package.");
+            throw new RuntimeException("Unable to initialize sound module.");
         }
     }
 
