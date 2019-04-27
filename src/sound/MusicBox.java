@@ -11,7 +11,7 @@ import java.util.List;
  * - play all added notes: {@code tick}
  * Sample usage:
  * <pre>
- * {@code
+ *      {@code
  *      MusicBox mb = new MusicBox(10, 10);
  *      mb.addNote(0, 1);
  *      mb.addNote(1, 0);
@@ -137,6 +137,55 @@ public class MusicBox {
         }
     }
 
+    /**
+     * Adds node in corrdinates to play.
+     *
+     * @param x x coordinate.
+     * @param y y coordinate.
+     * @see MusicBox for further explanation.
+     */
+    public void addNote(int x, int y) {
+        currentTickNotes.add(currentScale.scaleDegreeToRelativePitch(soundCoordinateToScaleDegree(x, y)) + basePitch);
+    }
+
+    /**
+     * Plays all added notes.
+     *
+     * @see MusicBox for further explanation.
+     */
+    public void tick() {
+        player.playNotes(currentTickNotes);
+        currentTickNotes.clear();
+    }
+
+    /**
+     * Converts coordinates into a scale degree as follows:
+     * <pre>
+     *     {@code
+     * +---------+-------+-------+-------+-------+-------+---------+---------+
+     * |         |   0   |   1   |   2   |   3   |  ...  | sizeX-3 |         |
+     * +---------+-------+-------+-------+-------+-------+---------+---------+
+     * | sizeY-3 |       |       |       |       |       |         | sizeY-3 |
+     * +---------+-------+-------+-------+-------+-------+---------+---------+
+     * |    :    |       |       |       |       |       |         |    :    |
+     * +---------+-------+-------+-------+-------+-------+---------+---------+
+     * |    3    |       |       |       |       |       |         |    3    |
+     * +---------+-------+-------+-------+-------+-------+---------+---------+
+     * |    2    |       |       |       |       |       |         |    2    |
+     * +---------+-------+-------+-------+-------+-------+---------+---------+
+     * |    1    |       |       |       |       |       |         |    1    |
+     * +---------+-------+-------+-------+-------+-------+---------+---------+
+     * |    0    |       |       |       |       |       |         |    0    |
+     * +---------+-------+-------+-------+-------+-------+---------+---------+
+     * |         |   0   |   1   |   2   |   3   |  ...  | sizeX-3 |         |
+     * +---------+-------+-------+-------+-------+-------+---------+---------+
+     *     }
+     * </pre>
+     *
+     * @param x x coordinate
+     * @param y y coordinate
+     * @return scale degree as explained above
+     */
     private int soundCoordinateToScaleDegree(int x, int y) {
         if (x == 0 || x == this.sizeX - 1) {
             return this.sizeY - y - 2;
@@ -146,14 +195,5 @@ public class MusicBox {
             }
             return x - 1;
         }
-    }
-
-    public void addNote(int x, int y) {
-        currentTickNotes.add(currentScale.scaleDegreeToRelativePitch(soundCoordinateToScaleDegree(x, y)) + basePitch);
-    }
-
-    public void tick() {
-        player.playNotes(currentTickNotes);
-        currentTickNotes.clear();
     }
 }

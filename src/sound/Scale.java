@@ -7,11 +7,33 @@ package sound;
  */
 public enum Scale {
 
+    /**
+     * One of diatonic scale. Ionian mode.
+     */
     MAJOR("Major", new int[]{0, 2, 4, 5, 7, 9, 11}),
+    /**
+     * Diatonic scale. Aeolian mode.
+     */
     MINOR("Minor", new int[]{0, 2, 3, 5, 7, 8, 10}),
+    /**
+     * Major heptatonic<br>
+     * I-II-III-V-VI<br>
+     * (Omit 4 7) z
+     */
     MAJOR_PENTATONIC("Major Pentatonic", new int[]{0, 2, 4, 7, 9}),
+    /**
+     * Natural minor<br>
+     * I-III-IV-V-VII<br>
+     * (Omit 2 6)
+     */
     MINOR_PENTATONIC("Minor Pentatonic", new int[]{0, 3, 5, 7, 10}),
+    /**
+     * Fourth mode of the double harmonic scale.
+     */
     HUNGARIAN_MINOR("Hungarian Minor", new int[]{0, 2, 3, 6, 7, 8, 11}),
+    /**
+     * Locrian mode with a major third and major seventh degree.
+     */
     PERSIAN("Persian", new int[]{0, 1, 4, 5, 6, 8, 11});
 
     /**
@@ -46,8 +68,8 @@ public enum Scale {
     /**
      * Default and only constructor
      *
-     * @param displayName   common scale name.
-     * @param pitches       representation of scale pitches as relative pitches. See: {@code Scale.pitches}.s
+     * @param displayName common scale name.
+     * @param pitches     representation of scale pitches as relative pitches. See: {@code Scale.pitches}.s
      */
     Scale(String displayName, int[] pitches) {
         this.displayName = displayName;
@@ -57,8 +79,8 @@ public enum Scale {
     /**
      * Find a scale by reverse lookup via {@code displayName} field.
      *
-     * @param displayName   common name of searched scale
-     * @return              scale with a {@code displayName} field equal to the given - if exists <p> {@code null} - otherwise
+     * @param displayName common name of searched scale
+     * @return scale with a {@code displayName} field equal to the given - if exists <p> {@code null} - otherwise
      */
     public static Scale reverseLookupByString(String displayName) {
         for (Scale scale : Scale.values()) {

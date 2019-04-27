@@ -5,11 +5,28 @@ import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Synthesizer;
 
+/**
+ * Default implementation of Synthesizer Interface. Simple and not requiring external libraries, but strongly
+ * limited in usability.<br>
+ * May need to be replaced in further iterations to allow for multiple instruments of fading sounds, etc.
+ */
 public class JavaxSynthesizerWrapper implements SynthesizerWrapper {
 
-    public static final int DEFAULT_VELOCITY = 127;
+    /**
+     * Default value of a sound velocity.
+     */
+    private static final int DEFAULT_VELOCITY = 100;
+
+    /**
+     * Midi channel where all sound are pointed to.
+     */
     private final MidiChannel channel;
 
+    /**
+     * Default constructor.
+     *
+     * @throws RuntimeException when it was unable to initialize sound module.
+     */
     public JavaxSynthesizerWrapper() throws RuntimeException {
         try {
             Synthesizer synth = MidiSystem.getSynthesizer();
