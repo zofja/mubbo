@@ -13,7 +13,7 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * Class responsible for drawing new JFrames, i.e. {@code Window} and {@code StartScreen}.
+ * Class responsible for drawing new JFrames.
  */
 public class Engine {
 
