@@ -164,4 +164,5 @@ class Grid extends JPanel {
     private boolean isInBoundaries(Point p) {
         return !(p.x == 0 || p.x == wall || p.y == 0 || p.y == wall);
     }
+
 }

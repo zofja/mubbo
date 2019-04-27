@@ -13,6 +13,7 @@ public class Engine {
     private final int intervalDuration = 1;
     private final int gridSize = 9;
     private int iterations = 3000; // time playing = iterations * intervalDuration
+    private boolean ifStarted = false;
 
     private Timer timer = new Timer(secondsToMillis(intervalDuration), new UpdateListener());
     private GridManager gridManager = new GridManager(gridSize);
@@ -72,8 +73,14 @@ public class Engine {
         class ButtonListener implements ActionListener {
 
             public void actionPerformed(ActionEvent event) {
-                timer.start();
-                gridManager.init(grid.getSymbolGrid()); // przekazuje do braina grid wyklikany przez usera
+                if (!ifStarted) {
+                    ifStarted = true;
+                    timer.start();
+                    gridManager.init(grid.getSymbolGrid()); // przekazuje do braina grid wyklikany przez usera
+                } else {
+                    ifStarted = false;
+                    timer.stop();
+                }
             }
         }
     }
