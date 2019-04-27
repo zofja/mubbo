@@ -23,7 +23,7 @@ public class Presets {
         while (i < noParticles) {
             int x = rand.nextInt(gridSize - 2) + 1;
             int y = rand.nextInt(gridSize - 2) + 1;
-            int d = rand.nextInt(core.particle.Direction.getNoDirections());
+            int d = rand.nextInt(core.particle.Direction.getNumberOfDirections());
 
             if (grid[x][y] == Symbol.EMPTY) {
                 grid[x][y] = Symbol.values()[d];

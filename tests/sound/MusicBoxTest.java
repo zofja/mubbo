@@ -28,6 +28,8 @@ class MusicBoxTest {
     void legendOfZelda() throws InterruptedException {
         int timeQuiver = 500;
 
+        mb.changeScale("Major");
+
         int[] pitches = {8, 5, 8, 8, 9, 10, 11, 12};
         double[] lengths = {1, 1.5, 0.5, 0.25, 0.25, 0.25, 0.25, 2.5};
 
@@ -37,7 +39,7 @@ class MusicBoxTest {
             Thread.sleep((long) (lengths[i] * timeQuiver));
         }
 
-        mb.changeScale("minor");
+        mb.changeScale("Minor");
 
         pitches = new int[]{12, 12, 13, 14, 15, 15, 15, 14, 13, 14, 13, 12};
         lengths = new double[]{0.5, 0.33, 0.33, 0.33, 2.5, 0.5, 0.33, 0.33, 0.33, 0.66, 0.33, 2};
