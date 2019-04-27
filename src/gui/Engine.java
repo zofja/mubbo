@@ -25,15 +25,13 @@ public class Engine {
 
     public Engine() {
 
-        grid = new Grid(gridSize);
-        new Window(grid, new PlayPanel("PLAY"));
+        new StartScreen(new StartPanel("START"));
     }
 
     public Engine(Symbol[][] gridPreset) { // overloaded constructor to pass Symbol[][] grid
 
         grid = new Grid(gridSize, gridPreset);
-        new Window(grid, new PlayPanel("PLAY"));
-
+        new StartScreen(new StartPanel("START"));
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -48,6 +46,43 @@ public class Engine {
                 gridManager.tick();
                 grid.display(gridManager.displayNext());
                 iterations--;
+            }
+        }
+    }
+
+    private class StartPanel extends JPanel {
+
+        StartPanel(String text) {
+            StartButton start = new StartButton(text);
+            Dimension expectedDimension = new Dimension(300, 650);
+            setBackground(Color.BLACK);
+
+            setPreferredSize(expectedDimension);
+            setMaximumSize(expectedDimension);
+
+            add(Box.createVerticalGlue());
+            BoxLayout boxlayout = new BoxLayout(this, BoxLayout.Y_AXIS);
+            setLayout(boxlayout);
+            add(start);
+            add(Box.createVerticalGlue());
+        }
+
+        private class StartButton extends JButton {
+            StartButton(String text) {
+                super(text);
+
+                setFont(new Font("Courier", Font.PLAIN, 30));
+                setAlignmentX(Component.CENTER_ALIGNMENT);
+                setBackground(Color.RED);
+                addActionListener(new ButtonListener());
+
+            }
+        }
+
+        class ButtonListener implements ActionListener {
+
+            public void actionPerformed(ActionEvent event) {
+                new Window(new Grid(gridSize), new PlayPanel("PLAY"));
             }
         }
     }
