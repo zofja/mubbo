@@ -1,15 +1,11 @@
-Merged GUI + CORE
+# Initial page
 
-How to run:
+* [Table of contents](SUMMARY.md)
 
-- in `File -> Project structure` set `path/mubbo/build` as compiler's output
-- mark *only* `src` directory as `sources root`
+Simulation
 
-it will generate a runnable application `Main`
+![](mubbo.gif)
 
-\
-How to test:
+Start screen
 
-- mark `tests` as `tests sources root`
-- you may have to make sure JUnit is installed
-
+![](.gitbook/assets/screenshot-from-2019-03-18-22-31-57.png)
