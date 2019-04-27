@@ -12,6 +12,7 @@ class StartScreen extends JFrame {
 
     /**
      * Instantiates Start screen.
+     *
      * @param startPanel {@code JPanel} object with {@code Logo} and {@code StartPanel} components.
      */
     StartScreen(JPanel startPanel) {

@@ -3,14 +3,10 @@ package gui;
 import core.GridManager;
 import core.Symbol;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
 /**
  * Class responsible for drawing new JFrames.
@@ -26,6 +22,8 @@ public class Engine {
     private GridManager gridManager = new GridManager(gridSize);
     private Grid grid;
 
+    private StartScreen screen;
+
     ///////////////////////////////////////////////////////////////////////////////////////////////////////
     //                                          CONSTRUCTORS
     ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -34,18 +32,17 @@ public class Engine {
      * Instantiates new Engine object.
      */
     public Engine() {
-
-        new StartScreen(new StartPanel());
+        screen = new StartScreen(new StartPanel());
     }
 
     /**
      * Instantiates new Engine object.
+     *
      * @param gridPreset grid preset
      */
     public Engine(Symbol[][] gridPreset) {
-
         grid = new Grid(gridSize, gridPreset);
-        new StartScreen(new StartPanel());
+        screen = new StartScreen(new StartPanel());
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -59,6 +56,7 @@ public class Engine {
 
         /**
          * Specifies what happens after each tick.
+         *
          * @param event change on grid
          */
         public void actionPerformed(ActionEvent event) {
@@ -97,7 +95,6 @@ public class Engine {
             add(Box.createVerticalGlue());
             add(start);
             add(Box.createVerticalGlue());
-
         }
 
         /**
@@ -144,10 +141,12 @@ public class Engine {
 
             /**
              * Specifies what happens after clicking {@code StartButton}.
+             *
              * @param event start button click
              */
             public void actionPerformed(ActionEvent event) {
                 grid = new Grid(gridSize);
+                screen.dispose();
                 new Window(grid, new PlayPanel());
             }
         }
@@ -189,6 +188,7 @@ public class Engine {
 
             /**
              * Specifies what happens after clicking {@code PlayButton}.
+             *
              * @param event play/pause button click
              */
             public void actionPerformed(ActionEvent event) {
