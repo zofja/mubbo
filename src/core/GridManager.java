@@ -85,6 +85,7 @@ public class GridManager {
     public void init(Symbol[][] initGrid) {
         for (int y = 1; y < gridSize - 1; y++) {
             for (int x = 1; x < gridSize - 1; x++) {
+                clear(x, y);
                 if (initGrid[x][y].ordinal() >= 0 && initGrid[x][y].ordinal() <= Direction.getNumberOfDirections())
                     insert(x, y, initGrid[x][y].ordinal());
             }
@@ -180,6 +181,10 @@ public class GridManager {
             iterator.remove();
             nextGrid[destination.x][destination.y].add(particle);
         }
+    }
+
+    private void clear(int x, int y) {
+        currentGrid[x][y].clear();
     }
 
     /**
