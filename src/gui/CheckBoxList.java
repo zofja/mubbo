@@ -15,7 +15,7 @@ class CheckBoxList extends JList<CheckListItem> {
     /**
      * Currently selected symbol.
      */
-    private Symbol selected_symbol;
+    private Symbol selected_symbol = Symbol.EMPTY;
 
     /**
      * Class enabling marking items of checkbox list.
@@ -45,11 +45,6 @@ class CheckBoxList extends JList<CheckListItem> {
         setFont(new Font("Courier", Font.PLAIN, 20));
         setCellRenderer(new CheckListRenderer());
         setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
-        ListModel<CheckListItem> model = getModel();
-        model.getElementAt(0).setSelected(true);
-        selected_symbol = Symbol.values()[0];
-        grid.setSelectedIcon(selected_symbol);
 
         addMouseListener(new MouseAdapter() {
             /**
