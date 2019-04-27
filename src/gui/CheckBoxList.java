@@ -7,10 +7,19 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+/**
+ * Class used to create a checkbox list.
+ */
 class CheckBoxList extends JList<CheckListItem> {
 
-    private Symbol selected_symbol = Symbol.EMPTY;
+    /**
+     * Currently selected symbol.
+     */
+    private Symbol selected_symbol;
 
+    /**
+     * Class enabling marking items of checkbox list.
+     */
     private class CheckListRenderer extends JCheckBox implements ListCellRenderer {
         public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean hasFocus) {
             setEnabled(list.isEnabled());
@@ -23,6 +32,9 @@ class CheckBoxList extends JList<CheckListItem> {
         }
     }
 
+    /**
+     * @param grid GUI grid.
+     */
     CheckBoxList(Grid grid) {
         super(new CheckListItem[]{
                 new CheckListItem("Left"),
@@ -40,6 +52,11 @@ class CheckBoxList extends JList<CheckListItem> {
         grid.setSelectedIcon(selected_symbol);
 
         addMouseListener(new MouseAdapter() {
+            /**
+             * Marks as checked clicked item and changes {@code selected_symbol}.
+             *
+             * @param event click.
+             */
             @Override
             public void mouseClicked(MouseEvent event) {
 

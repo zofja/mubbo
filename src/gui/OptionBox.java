@@ -3,9 +3,16 @@ package gui;
 import javax.swing.*;
 import java.awt.*;
 
-public class OptionBox extends JPanel {
+/**
+ * Class which enables a user to change settings during the simulation.
+ * An object of class OptionBox is a JPanel, containing an object of class {@code CheckboxList}.
+ */
+class OptionBox extends JPanel {
 
-    public OptionBox(Grid grid) {
+    /**
+     * @param grid an object of class {@code Grid} enabling to show the simulation.
+     */
+    OptionBox(Grid grid) {
 
         setPreferredSize(new Dimension(150, 700));
 
