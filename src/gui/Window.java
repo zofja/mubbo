@@ -3,31 +3,30 @@ package gui;
 import javax.swing.*;
 import java.awt.*;
 
+class Window extends JFrame {
 
-public class Window extends JFrame {
-
-    private Grid grid;
-
-    public Window(Grid grid) {
+    Window(Grid grid, JPanel play) {
 
         super("MuBbo");
 
-//        grid = new GridManager();
-//        brain = new Brain(9, 60, 1, grid);
-        this.grid = grid;
-
-
-        setSize(1000, 700);
+        setSize(1000, 900);
+        setMinimumSize(new Dimension(700, 700));
+        getContentPane().setFont(new Font("Helvetica", Font.PLAIN, 50));
         setDefaultLookAndFeelDecorated(true);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        getContentPane().add(grid);
-        getContentPane().add(new OptionBox(grid), BorderLayout.EAST);
+        JPanel titlePane = new JPanel();
+        titlePane.setSize(700, 50);
+        CustomLabel title = new CustomLabel("Position arrows on the grid and click play", 25);
+        titlePane.add(title);
+        OptionBox box = new OptionBox(grid);
+
+        getContentPane().add(titlePane, BorderLayout.NORTH);
+        getContentPane().add(box, BorderLayout.EAST);
+        getContentPane().add(grid, BorderLayout.CENTER); // TODO grid size
+        getContentPane().add(play, BorderLayout.PAGE_END);
 
         setVisible(true);
-
-
     }
-
 }

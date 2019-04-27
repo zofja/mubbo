@@ -10,7 +10,7 @@ public enum Scale {
     PERSIAN("Persian", new int[]{0, 1, 4, 5, 6, 8, 11});
 
     private static final int PITCHES_IN_OCTAVE = 12;
-    public static final Scale DEFAULT_SCALE = Scale.MAJOR_PENTATONIC;
+    public static final Scale DEFAULT_SCALE = Scale.MAJOR_PENTATONIC; // change scale here
 
     private final String displayName;
     private final int[] pitches;

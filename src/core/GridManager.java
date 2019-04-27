@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 public class GridManager {
+
     private final int gridSize;
     private final int wall;
 
@@ -23,6 +24,9 @@ public class GridManager {
     private static Symbol[][] theUltimateMusicalGrid;
     /////////////////////////////////////////////////////////
 
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////
+    //                                          CONSTRUCTORS
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public GridManager(int gridSize) {
         this.gridSize = gridSize;
@@ -34,13 +38,15 @@ public class GridManager {
             System.err.println("Couldn't load sound module.");
         }
 
-        this.prvGrid = new LinkedList[gridSize][gridSize];
-        initArray(prvGrid);
-        this.nxtGrid = new LinkedList[gridSize][gridSize];
-        initArray(nxtGrid);
+        this.prvGrid = initParticleArray();
+        this.nxtGrid = initParticleArray();
 
         theUltimateMusicalGrid = new Symbol[gridSize][gridSize];
     }
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////
+    //                                      PUBLIC FUNCTIONS
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public void init(Symbol[][] initGrid) {
         for (int y = 1; y < gridSize - 1; y++) {
@@ -55,35 +61,6 @@ public class GridManager {
     public void tick() {
         nextGeneration();
         printGrid();
-    }
-
-    private void initArray(List<Particle>[][] arr) {
-        for (int x = 0; x < gridSize; x++)
-            for (int y = 0; y < gridSize; y++) {
-                arr[x][y] = new LinkedList<Particle>();
-            }
-    }
-
-    public void insert(int x, int y, int direction) {
-        prvGrid[x][y].add(new Particle(direction));
-    }
-
-    private int noParticles(int x, int y) {
-        return prvGrid[x][y].size();
-    }
-
-    public void nextGeneration() {
-        for (int y = 0; y < gridSize; y++) {
-            for (int x = 0; x < gridSize; x++) {
-                move(x, y);
-            }
-        }
-
-        List<Particle>[][] t = prvGrid;
-        prvGrid = nxtGrid;
-        nxtGrid = t;
-
-        muBbo.tick();
     }
 
     public Symbol[][] displayNext() {
@@ -103,10 +80,21 @@ public class GridManager {
         return theUltimateMusicalGrid;
     }
 
-    private boolean isInBoundaries(Point p) {
-        return !(p.x == 0 || p.x == wall || p.y == 0 || p.y == wall);
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////
+    //                                      PRIVATE FUNCTIONS
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    private LinkedList[][] initParticleArray() {
+        LinkedList[][] arr = new LinkedList[gridSize][gridSize];
+        for (int x = 0; x < gridSize; x++) {
+            for (int y = 0; y < gridSize; y++) {
+                arr[x][y] = new LinkedList<>();
+            }
+        }
+        return arr;
     }
 
+    // the most important function in cell automaton
     private void move(int x, int y) {
         Point current = new Point(x, y);
         boolean collision = (noParticles(x, y) >= 2);
@@ -123,12 +111,38 @@ public class GridManager {
             if (!isInBoundaries(destination)) {
                 particle.bounce();
                 muBbo.addNote(destination.x, destination.y);
-                System.out.println("(x: " + destination.x + ", y: " + destination.y + ") making sound");
+                printCurrentSound(destination);
             }
 
-            iterator.remove();
-            nxtGrid[destination.x][destination.y].add(particle);
+            iterator.remove(); // remove particle from the list
+            nxtGrid[destination.x][destination.y].add(particle); // add new destination to nxt grid
         }
+    }
+
+    private void insert(int x, int y, int direction) {
+        prvGrid[x][y].add(new Particle(direction));
+    }
+
+    private int noParticles(int x, int y) {
+        return prvGrid[x][y].size();
+    }
+
+    private void nextGeneration() {
+        for (int y = 0; y < gridSize; y++) {
+            for (int x = 0; x < gridSize; x++) {
+                move(x, y);
+            }
+        }
+
+        List<Particle>[][] t = prvGrid;
+        prvGrid = nxtGrid;
+        nxtGrid = t;
+
+        muBbo.tick();
+    }
+
+    private boolean isInBoundaries(Point p) {
+        return !(p.x == 0 || p.x == wall || p.y == 0 || p.y == wall);
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -137,20 +151,18 @@ public class GridManager {
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    // TODO REMOVE AFTER GUI MERGE everything below & check what above
+    // Pretty terminal output :)
     private static final char border = '□';
     private static final char glow = '■';
     private static final char empty = '.';
     private static final char collision = '◯';
     private static final char error = 'X';
 
-    // TEST ONLY
-    public boolean taken(int x, int y) {
-        return (prvGrid[x][y].size() > 0);
+    private void printCurrentSound(Point destination) {
+        System.out.println("(x: " + destination.x + ", y: " + destination.y + ") making sound");
     }
 
-
-    public void printGrid() {
+    private void printGrid() {
         System.out.print("  ");
         for (int x = 0; x < gridSize; x++) {
             System.out.print(x + " ");
@@ -189,5 +201,4 @@ public class GridManager {
             }
         }
     }
-
 }
