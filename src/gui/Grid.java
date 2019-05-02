@@ -78,6 +78,7 @@ class Grid extends JPanel {
     private ImageIcon arrowUp = new ImageIcon(this.getClass().getResource("top.png"));
     private ImageIcon arrowLeft = new ImageIcon(this.getClass().getResource("left.png"));
     private ImageIcon arrowRight = new ImageIcon(this.getClass().getResource("right.png"));
+    private ImageIcon collision = new ImageIcon(this.getClass().getResource("collision.png"));
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////
     //                                          CONSTRUCTORS
@@ -207,6 +208,7 @@ class Grid extends JPanel {
         else if (symbol == DOWN) selectedIcon = arrowDown;
         else if (symbol == UP) selectedIcon = arrowUp;
         else if (symbol == LEFT) selectedIcon = arrowLeft;
+        else if (symbol == COLLISION) selectedIcon = collision;
         else selectedIcon = null;
     }
 
@@ -217,6 +219,14 @@ class Grid extends JPanel {
      */
     Symbol[][] getSymbolGrid() {
         return symbolGrid;
+    }
+
+    void clearInitialSetup() {
+        for (int i = 0; i < gridSize; i++) {
+            for (int j = 0; j < gridSize; j++) {
+                symbolGrid[i][j] = EMPTY;
+            }
+        }
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -269,6 +279,9 @@ class Grid extends JPanel {
                 break;
             case RIGHT:
                 buttonGrid[x][y].setIcon(arrowRight);
+                break;
+            case COLLISION:
+                buttonGrid[x][y].setIcon(collision);
                 break;
         }
     }

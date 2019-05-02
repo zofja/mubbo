@@ -85,9 +85,12 @@ public class GridManager {
     public void init(Symbol[][] initGrid) {
         for (int y = 1; y < gridSize - 1; y++) {
             for (int x = 1; x < gridSize - 1; x++) {
-                clear(x, y);
-                if (initGrid[x][y].ordinal() >= 0 && initGrid[x][y].ordinal() <= Direction.getNumberOfDirections())
-                    insert(x, y, initGrid[x][y].ordinal());
+                if (initGrid[x][y] != Symbol.COLLISION) {
+                    clear(x, y);
+                    if (initGrid[x][y].ordinal() >= 0 && initGrid[x][y].ordinal() <= Direction.getNumberOfDirections()) {
+                        insert(x, y, initGrid[x][y].ordinal());
+                    }
+                }
             }
         }
         printGrid();
@@ -130,6 +133,7 @@ public class GridManager {
 
     /**
      * Initializes empty array of {@code Particle} of size {@code gridSize}.
+     *
      * @return Empty array of {@code Particle}.
      */
     private LinkedList[][] initParticleArray() {
@@ -147,11 +151,11 @@ public class GridManager {
      * based on the current state - moves {@code Particle}
      * between current generation ({@code currentGrid}) and
      * new generation ({@code nextGrid}).
-     *
+     * <p>
      * Collision happens, when there are 2 or more {@code Particle} in the same cell.
      * It results in 90 degrees clockwise change of {@code Direction} (turn) of each colliding
      * {@code Particle}.
-     *
+     * <p>
      * If {@code Particle} reaches any of the walls (any coordinate equals {@code 0} or {@code wall}),
      * then {@code Particle} has to make a 180 degrees change of direction (bounce)
      * and play a note.
@@ -189,9 +193,10 @@ public class GridManager {
 
     /**
      * Creates new {@code Particle} in grid cell.
-     * @param x index of column in grid.
-     * @param y index of row in grid.
-     * @param direction  index of direction in {@code Direction.values()} array.
+     *
+     * @param x         index of column in grid.
+     * @param y         index of row in grid.
+     * @param direction index of direction in {@code Direction.values()} array.
      */
     private void insert(int x, int y, int direction) {
         currentGrid[x][y].add(new Particle(direction));
@@ -199,6 +204,7 @@ public class GridManager {
 
     /**
      * Number of particles currently in cell.
+     *
      * @param x index of column in grid.
      * @param y index of row in grid.
      * @return Number of particles currently in cell.
@@ -232,7 +238,7 @@ public class GridManager {
      *
      * @param p coordinates
      * @return true {@code Particle} is in boundaries, it shouldn't make a sound
-     *         false {@code Particle} is in not boundaries, it should make a sound
+     * false {@code Particle} is in not boundaries, it should make a sound
      */
     private boolean isInBoundaries(Point p) {
         return !(p.x == 0 || p.x == wall || p.y == 0 || p.y == wall);
@@ -269,6 +275,7 @@ public class GridManager {
 
     /**
      * Helper function printing which cell had just made sound.
+     *
      * @param destination - coordinates
      */
     private void printCurrentSound(Point destination) {
@@ -297,6 +304,7 @@ public class GridManager {
 
     /**
      * Translates state of cell to character representation.
+     *
      * @param x index of column in grid.
      * @param y index of row in grid.
      * @return Character representing state of cell.

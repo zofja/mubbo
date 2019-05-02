@@ -16,6 +16,7 @@ public class Engine {
     private final int intervalDuration = 250;
     private final int gridSize = 9;
     private int iterations = 3000; // time playing = iterations * intervalDuration
+    private boolean firstTime = true;
     private boolean ifStarted = false;
 
     private Timer timer = new Timer(intervalDuration, new UpdateListener());
