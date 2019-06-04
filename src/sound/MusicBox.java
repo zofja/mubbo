@@ -4,6 +4,7 @@ import javax.sound.midi.MidiUnavailableException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Sound module main coordinating class. An object of class MusicBox processes coordinates into sound. Playing sound
@@ -84,6 +85,7 @@ public class MusicBox {
      * Notes added since last {@code tick()} call in MIDI number per instrument.
      */
     private List<List<Integer>> currentTickNotes = new ArrayList<>();
+
     {
         for (int i = 0; i < NUMBER_OF_INSTRUMENTS; i++) {
             currentTickNotes.add(new ArrayList<>());
@@ -155,8 +157,8 @@ public class MusicBox {
     /**
      * Adds node in coordinates to play.
      *
-     * @param x x coordinate.
-     * @param y y coordinate.
+     * @param x          x coordinate.
+     * @param y          y coordinate.
      * @param instrument no. of instrument
      * @see MusicBox for further explanation.
      */
@@ -198,6 +200,19 @@ public class MusicBox {
         player.tick();
         this.clearCurrentNotes();
     }
+
+    public void setReverb(int ms) {
+        player.setReverb(ms);
+    }
+
+    public Set<String> getAllPresets() {
+        return player.getAllPresets();
+    }
+
+    public void setPreset(String presetName) {
+        player.setPreset(presetName);
+    }
+
 
     /**
      * Clears all the currentTickNode subarrays. (Performed at each tick.)

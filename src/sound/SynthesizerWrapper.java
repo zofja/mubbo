@@ -2,6 +2,7 @@ package sound;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Interface of a functions required by MusicBox from Synthesizer.
@@ -47,4 +48,10 @@ public interface SynthesizerWrapper {
     }
 
     void tick();
+
+    void setReverb(int ms);
+
+    Set<String> getAllPresets();
+
+    void setPreset(String presetName);
 }
