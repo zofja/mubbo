@@ -2,6 +2,7 @@ package sound;
 
 import javax.sound.midi.MidiUnavailableException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -42,6 +43,10 @@ public class MusicBox {
      */
     private static final int MAX_MIDI = 84;
 
+    /**
+     * Number of available instruments including percussion.
+     */
+    public static final int NUMBER_OF_INSTRUMENTS = 10;
 
     /**
      * Sound producing module.
@@ -71,9 +76,14 @@ public class MusicBox {
     private int sizeY;
 
     /**
-     * Notes added since last {@code tick()} call in MIDI number.
+     * Notes added since last {@code tick()} call in MIDI number per instrument.
      */
-    private List<Integer> currentTickNotes = new ArrayList<>();
+    private List<List<Integer>> currentTickNotes = new ArrayList<>();
+    {
+        for (int i = 0; i < NUMBER_OF_INSTRUMENTS; i++) {
+            currentTickNotes.add(new ArrayList<>());
+        }
+    }
 
     /**
      * @param x horizontal grid size.
@@ -138,14 +148,37 @@ public class MusicBox {
     }
 
     /**
-     * Adds node in corrdinates to play.
+     * Adds node in coordinates to play.
+     *
+     * @param x x coordinate.
+     * @param y y coordinate.
+     * @param instrument no. of instrument
+     * @see MusicBox for further explanation.
+     */
+    public void addNote(int x, int y, int instrument) {
+        currentTickNotes.get(instrument).add(currentScale.scaleDegreeToRelativePitch(soundCoordinateToScaleDegree(x, y)) + basePitch);
+    }
+
+    /**
+     * Adds node in coordinates to play.
      *
      * @param x x coordinate.
      * @param y y coordinate.
      * @see MusicBox for further explanation.
      */
     public void addNote(int x, int y) {
-        currentTickNotes.add(currentScale.scaleDegreeToRelativePitch(soundCoordinateToScaleDegree(x, y)) + basePitch);
+        addNote(x, y, 0);
+    }
+
+    /**
+     * Adds node in coordinates to play.
+     *
+     * @param x x coordinate.
+     * @param y y coordinate.
+     * @see MusicBox for further explanation.
+     */
+    public void addPercussion(int x, int y) {
+        addNote(x, y, 9);
     }
 
     /**
@@ -154,8 +187,20 @@ public class MusicBox {
      * @see MusicBox for further explanation.
      */
     public void tick() {
-        player.playNotes(currentTickNotes);
-        currentTickNotes.clear();
+        for (int i = 0; i < NUMBER_OF_INSTRUMENTS; i++) {
+            player.playNotes(currentTickNotes.get(i), i);
+        }
+        player.tick();
+        this.clearCurrentNotes();
+    }
+
+    /**
+     * Clears all the currentTickNode subarrays. (Performed at each tick.)
+     */
+    private void clearCurrentNotes() {
+        for (int i = 0; i < currentTickNotes.size(); i++) {
+            currentTickNotes.get(i).clear();
+        }
     }
 
     /**
