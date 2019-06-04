@@ -13,7 +13,7 @@ import java.awt.event.ActionListener;
  */
 public class Engine {
 
-    public static final int intervalDuration = 250;        // @Borys note: do tej zmiennej odwołuje się assert w konstruktorze JavaxSynthesizerWrapper
+    public static final int intervalDuration = 250;
     private final int gridSize = 9;
     private int iterations = 3000; // time playing = iterations * intervalDuration
     private boolean firstTime = true;

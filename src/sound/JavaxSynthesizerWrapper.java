@@ -3,11 +3,8 @@ package sound;
 import gui.Engine;
 
 import javax.sound.midi.*;
-import java.sql.Time;
-import java.time.LocalDateTime;
 import java.util.*;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.*;
 
 /**
  * Default implementation of Synthesizer Interface. Simple and not requiring external libraries, but strongly
@@ -19,16 +16,29 @@ public class JavaxSynthesizerWrapper implements SynthesizerWrapper {
     private class Note {
         public final int instrument;
         public final int pitch;
-        private final long onTime;
 
         public Note(int instrument, int pitch) {
             this.instrument = instrument;
             this.pitch = pitch;
-            this.onTime = System.currentTimeMillis();
         }
 
-        public boolean isDue() {
-            return System.currentTimeMillis() < this.onTime + TIME_ON;
+        // will be unique, as pitch in (0, 200) and instrument in [0, 9]
+        @Override
+        public int hashCode() {
+            return instrument + pitch * 31;
+        }
+
+        @Override
+        public String toString() {
+            return "Note: [instrument : " + instrument + ", pitch : " + pitch + "]";
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj == null || getClass() != obj.getClass())
+                return false;
+            Note other = (Note) obj;
+            return this.pitch == other.pitch && this.instrument == other.instrument;
         }
     }
 
@@ -45,17 +55,43 @@ public class JavaxSynthesizerWrapper implements SynthesizerWrapper {
     public static final int DEFAULT_VELOCITY = 80;
 
     /**
-     * Time before turning off the note.
-     * Warning: in current implementation must be lower than Engine.intervalDuration.
-     */
-    private static final int TIME_ON = 100;
-
-    /**
      * Midi channel where all sound are pointed to.
      */
     private List<MidiChannel> channels;
 
-    private Queue<Note> notesOn;
+    /**
+     * Default value of a sound velocity.
+     */
+    public static final int DEFAULT_TIME_ON = 30;
+
+    /**
+     * Time before turning off the note.
+     * Warning: in current implementation must be lower than Engine.intervalDuration.
+     */
+    private int time_on = DEFAULT_TIME_ON;
+
+    private ConcurrentMap<Long, Collection<Note>> notesOn;
+
+    private ConcurrentMap<Note, Long> notesUpdates = new ConcurrentHashMap<>();
+
+    private List<Note> currTickNotesOn = new LinkedList<>();
+
+    private final ScheduledExecutorService noteDeleteScheduler = Executors.newScheduledThreadPool(1);
+
+    private Runnable deleteNotes(long hashSetKey) {
+        return () -> {
+            var notes = notesOn.remove(hashSetKey);
+            System.out.println("Delete " + notes.size() + " notes: " + notes);
+            System.out.println();
+            for (var n : notes) {
+                if (notesUpdates.get(n) == hashSetKey) {
+                    notesUpdates.remove(n);
+                    channels.get(n.instrument).noteOff(n.pitch, DEFAULT_VELOCITY);
+                }
+            }
+        };
+    }
+
 
     /**
      * Default constructor.
@@ -63,8 +99,7 @@ public class JavaxSynthesizerWrapper implements SynthesizerWrapper {
      * @throws RuntimeException when it was unable to initialize sound module.
      */
     public JavaxSynthesizerWrapper() throws RuntimeException {
-        assert TIME_ON < Engine.intervalDuration;
-        notesOn = new LinkedList<>();
+        notesOn = new ConcurrentHashMap<>();
 
         try {
             Synthesizer synth = MidiSystem.getSynthesizer();
@@ -79,29 +114,26 @@ public class JavaxSynthesizerWrapper implements SynthesizerWrapper {
             (new Thread()).run();
         } catch (InterruptedException | MidiUnavailableException e) {
             throw new RuntimeException("Unable to initialize sound module.");
-//        } catch (InvalidMidiDataException e) {
-//            e.printStackTrace();
         }
     }
 
     @Override
     public void playNote(int pitch, int instrument) {
         channels.get(instrument).noteOn(pitch, DEFAULT_VELOCITY);
-        notesOn.add(new Note(instrument, pitch));
+        currTickNotesOn.add(new Note(instrument, pitch));
     }
 
     @Override
     public void tick() {
-        new Thread(() -> {
-            try {
-                Thread.sleep(TIME_ON);
-                while (!notesOn.isEmpty()) {
-                    Note n = notesOn.poll();
-                    channels.get(n.instrument).noteOff(n.pitch, DEFAULT_VELOCITY);
-                }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        if (!currTickNotesOn.isEmpty()) {
+            long key = System.currentTimeMillis();
+
+            notesOn.put(key, new LinkedList<>(currTickNotesOn));
+            for (var n : currTickNotesOn) {
+                notesUpdates.put(n, key);
             }
-        }).start();
+            currTickNotesOn.clear();
+            noteDeleteScheduler.schedule(deleteNotes(key), time_on, TimeUnit.MILLISECONDS);
+        }
     }
 }

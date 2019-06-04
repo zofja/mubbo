@@ -49,6 +49,11 @@ public class MusicBox {
     public static final int NUMBER_OF_INSTRUMENTS = 10;
 
     /**
+     * Percussion channel.
+     */
+    public static final int PERCUSSION_CHANNEL = 9;
+
+    /**
      * Sound producing module.
      */
     private final SynthesizerWrapper player;
@@ -171,14 +176,14 @@ public class MusicBox {
     }
 
     /**
-     * Adds node in coordinates to play.
+     * Adds percussion node in coordinates to play. As opposed to addNote, percussion notes are not changed by scale.
+     * Instead, they are passed to the synthesizer as in a range of [0, size - 3].
      *
      * @param x x coordinate.
      * @param y y coordinate.
-     * @see MusicBox for further explanation.
      */
     public void addPercussion(int x, int y) {
-        addNote(x, y, 9);
+        currentTickNotes.get(PERCUSSION_CHANNEL).add(soundCoordinateToScaleDegree(x, y));
     }
 
     /**
