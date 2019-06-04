@@ -83,6 +83,7 @@ public class GridManager {
      * @param initGrid {@code Symbol} setup of particles on grid from GUI.
      */
     public void init(Symbol[][] initGrid) {
+        new EasterEgg(gridSize, initGrid);
         for (int y = 1; y < gridSize - 1; y++) {
             for (int x = 1; x < gridSize - 1; x++) {
                 if (initGrid[x][y] != Symbol.COLLISION) {

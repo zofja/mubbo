@@ -9,7 +9,7 @@ import java.util.Random;
 
 class MusicBoxTest {
 
-    private static final int SIZE = 15;
+    private static final int SIZE = 20;
     private MusicBox mb;
 
     @BeforeEach
@@ -24,34 +24,59 @@ class MusicBoxTest {
         Thread.sleep(1000);
     }
 
+    private void play(MusicBox mb, int[] pitches, double[] lengths, int i1, int i2, int timeQuiver) throws InterruptedException {
+        for (int i = 0; i < pitches.length; i++) {
+            mb.addNote(pitches[i], 0, i1);
+            mb.addNote(pitches[i], 0, i2);
+            mb.tick();
+            Thread.sleep((long) (lengths[i] * timeQuiver));
+        }
+    }
+
     @Test
     void legendOfZelda() throws InterruptedException {
         int timeQuiver = 500;
 
+        mb.setReverb(25);
+
         mb.changeScale("Major");
 
-        int[] pitches = {8, 5, 8, 8, 9, 10, 11, 12};
-        double[] lengths = {1, 1.5, 0.5, 0.25, 0.25, 0.25, 0.25, 2.5};
-
-        for (int i = 0; i < pitches.length; i++) {
-            mb.addNote(pitches[i], 0);
-            mb.tick();
-            Thread.sleep((long) (lengths[i] * timeQuiver));
-        }
+        play(mb,
+                new int[]{8, 5, 8, 8, 9, 10, 11, 12},
+                new double[]{1, 1.5, 0.5, 0.25, 0.25, 0.25, 0.25, 2.5},
+                4, 7, timeQuiver);
 
         mb.changeScale("Minor");
 
-        pitches = new int[]{12, 12, 13, 14, 15, 15, 15, 14, 13, 14, 13, 12};
-        lengths = new double[]{0.5, 0.33, 0.33, 0.33, 2.5, 0.5, 0.33, 0.33, 0.33, 0.66, 0.33, 2};
+        play(mb, new int[]{12, 12, 13, 14, 15, 15, 15, 14, 13, 14, 13, 12},
+                new double[]{0.5, 0.33, 0.33, 0.33, 2.5, 0.5, 0.33, 0.33, 0.33, 0.66, 0.33, 2},
+                2, 0, timeQuiver);
 
-        for (int i = 0; i < pitches.length; i++) {
-            mb.addNote(pitches[i], 0);
-            mb.tick();
-            Thread.sleep((long) (lengths[i] * timeQuiver));
-        }
+        mb.setReverb(200);
+        play(mb, new int[]{12, 11, 11, 12, 13},
+                new double[]{1, 0.5, 0.25, 0.25, 2},
+                3, 3, timeQuiver);
 
-        Thread.sleep(3000);
+        mb.setReverb(25);
+        play(mb, new int[]{12, 11, 10, 10, 11, 12},
+                new double[]{0.5, 0.5, 0.5, 0.25, 0.25, 2},
+                6, 6, timeQuiver);
+
+        play(mb, new int[]{11, 10},
+                new double[]{0.5, 0.5},
+                4, 4, timeQuiver);
+
+        mb.changeScale("Lydian");
+
+        play(mb, new int[]{9, 9, 10, 11, 13, 12},
+                new double[]{0.5, 0.25, 0.25, 2, 1, 0.5},
+                4, 7, timeQuiver);
+
+        play(mb, new int[]{5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5},
+                new double[]{0.25, 0.25, 0.5, 0.25, 0.25, 0.5, 0.25, 0.25, 0.33, 0.33, 0.33},
+                9, 7, timeQuiver);
     }
+
 
     @Test
     void aLotOfNotes() throws InterruptedException {

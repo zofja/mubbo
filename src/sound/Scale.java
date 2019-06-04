@@ -16,6 +16,10 @@ public enum Scale {
      */
     MINOR("Minor", new int[]{0, 2, 3, 5, 7, 8, 10}),
     /**
+     * Diatonic scale. Lydian.
+     */
+    LYDIAN("Lydian", new int[]{0, 2, 4, 6, 7, 9, 11}),
+    /**
      * Major heptatonic<br>
      * I-II-III-V-VI<br>
      * (Omit 4 7) z
