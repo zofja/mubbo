@@ -33,6 +33,50 @@ class MusicBoxTestNew {
 
 
     @Test
+    void shortNodeLongReverb() throws InterruptedException {
+        mb.addNote(1, 0, 0);
+        mb.tick();
+        Thread.sleep(1000);
+
+        mb.setReverb(1000);
+        mb.addNote(1, 0, 0);
+        mb.tick();
+        Thread.sleep(1000);
+
+        Thread.sleep(1000);
+
+        mb.setReverb(2000);
+        mb.addNote(1, 0, 0);
+        mb.tick();
+        Thread.sleep(1000);
+        mb.addNote(1, 0, 0);
+        mb.tick();
+        Thread.sleep(3000);
+    }
+
+    @Test
+    void sustainNoteLongReverb() throws InterruptedException {
+        mb.addNote(1, 0, 3);
+        mb.tick();
+        Thread.sleep(1000);
+
+        mb.setReverb(1000);
+        mb.addNote(1, 0, 3);
+        mb.tick();
+        Thread.sleep(1000);
+
+        Thread.sleep(1000);
+
+        mb.setReverb(2000);
+        mb.addNote(1, 0, 3);
+        mb.tick();
+        Thread.sleep(1000);
+        mb.addNote(1, 0, 3);
+        mb.tick();
+        Thread.sleep(3000);
+    }
+
+    @Test
     void reverb() throws InterruptedException {
         mb.setPreset("Classic");
         mb.setReverb(1000);
