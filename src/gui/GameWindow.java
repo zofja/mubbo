@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 /**
  * Class opening the app's screen. An object of class GameWindow displays:
@@ -19,7 +20,6 @@ class GameWindow extends JFrame {
     private GridManager gridManager;
 
     private final int gridSize = 9;
-    private boolean firstTime = true;
     private boolean ifStarted = false;
 
     public static final int intervalDuration = 250;
@@ -39,7 +39,8 @@ class GameWindow extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        JPanel titlePane = new JPanel();
+        // TODO make font work
+        JPanel titlePane = new PanelWrapper(32f);
         titlePane.setSize(700, 50);
         CustomLabel title = new CustomLabel("Position arrows on the grid and click play", 25);
         titlePane.add(title);
@@ -53,6 +54,23 @@ class GameWindow extends JFrame {
         getContentPane().add(play, BorderLayout.PAGE_END);
 
         setVisible(true);
+    }
+
+    private class PanelWrapper extends JPanel {
+
+        PanelWrapper(float fontSize) {
+            Font font = null;
+            try {
+                font = Font.createFont(Font.TRUETYPE_FONT, getClass().getResource("/gui/assets/fonts/IBM_Plex_Mono/IBMPlexMono-Regular.ttf").openStream());
+                GraphicsEnvironment genv = GraphicsEnvironment.getLocalGraphicsEnvironment();
+                genv.registerFont(font);
+                font = font.deriveFont(fontSize);
+                setFont(font);
+            } catch (FontFormatException | IOException e) {
+                System.err.println("Couldn't load desired font.");
+                System.exit(ERROR);
+            }
+        }
     }
 
     /**

@@ -30,6 +30,7 @@ public class StartScreenUI {
 
     private static JFrame frame;
 
+    // have to add forms_rt.jar to project dependencies
     public StartScreenUI() {
         $$$setupUI$$$();
         StartButton.addActionListener(actionEvent -> {
@@ -71,6 +72,7 @@ public class StartScreenUI {
         for (var scale : Scale.values()) {
             ScaleList.addItem(scale.getDisplayName());
         }
+        ScaleList.setSelectedItem(Scale.MAJOR.getDisplayName());
 
         // reverb slider custom create
         ReverbSlider = new JSlider(REVERB_MIN, REVERB_MAX, REVERB_DEFAULT);
