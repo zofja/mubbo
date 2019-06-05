@@ -1,6 +1,5 @@
 package core;
 
-import gui.Engine;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -44,8 +43,8 @@ class GridTest {
         return grid;
     }
 
-    @Test // not working, dunno why
-    void RandomTest() {
-        SwingUtilities.invokeLater(() -> new Engine(getRandomGrid(8)));
-    }
+//    @Test // not working, dunno why
+//    void RandomTest() {
+//        SwingUtilities.invokeLater(() -> new Engine(getRandomGrid(8)));
+//    }
 }

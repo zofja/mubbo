@@ -57,12 +57,14 @@ public class GridManager {
      *
      * @param gridSize number of cells in each row/column.
      */
-    public GridManager(int gridSize) {
+    public GridManager(int gridSize, String scale, int reverb) {
         this.gridSize = gridSize;
         this.wall = gridSize - 1;
 
         try {
             this.muBbo = new MusicBox(gridSize, gridSize);
+            this.muBbo.changeScale(scale);
+            this.muBbo.setReverb(reverb);
         } catch (MidiUnavailableException e) {
             System.err.println("Couldn't load sound module.");
         }
