@@ -74,11 +74,11 @@ class Grid extends JPanel {
     /**
      * Icons shown on the board.
      */
-    private ImageIcon arrowDown = new ImageIcon(this.getClass().getResource("bottom.png"));
-    private ImageIcon arrowUp = new ImageIcon(this.getClass().getResource("top.png"));
-    private ImageIcon arrowLeft = new ImageIcon(this.getClass().getResource("left.png"));
-    private ImageIcon arrowRight = new ImageIcon(this.getClass().getResource("right.png"));
-    private ImageIcon collision = new ImageIcon(this.getClass().getResource("collision.png"));
+    private ImageIcon arrowDown = new ImageIcon(this.getClass().getResource("assets/bottom.png"));
+    private ImageIcon arrowUp = new ImageIcon(this.getClass().getResource("assets/top.png"));
+    private ImageIcon arrowLeft = new ImageIcon(this.getClass().getResource("assets/left.png"));
+    private ImageIcon arrowRight = new ImageIcon(this.getClass().getResource("assets/right.png"));
+    private ImageIcon collision = new ImageIcon(this.getClass().getResource("assets/collision.png"));
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////
     //                                          CONSTRUCTORS
