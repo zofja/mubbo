@@ -2,7 +2,6 @@ package sound;
 
 import javax.sound.midi.MidiUnavailableException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -45,14 +44,9 @@ public class MusicBox {
     private static final int MAX_MIDI = 84;
 
     /**
-     * Number of available instruments including percussion.
+     * Number of available instruments excluding percussion.
      */
-    public static final int NUMBER_OF_INSTRUMENTS = 10;
-
-    /**
-     * Percussion channel.
-     */
-    public static final int PERCUSSION_CHANNEL = 9;
+    public static final int NUMBER_OF_INSTRUMENTS = 9;
 
     /**
      * Sound producing module.
@@ -84,11 +78,16 @@ public class MusicBox {
     /**
      * Notes added since last {@code tick()} call in MIDI number per instrument.
      */
-    private List<List<Integer>> currentTickNotes = new ArrayList<>();
+    private List<List<Integer>> currentTickInstruments = new ArrayList<>();
+
+    /**
+     * Percussion sounds added since last {@code tick()} call in range [0; max(sizeX - 3, sizeY - 3)].
+     */
+    private List<Integer> currentTickPercussion = new ArrayList<>();
 
     {
         for (int i = 0; i < NUMBER_OF_INSTRUMENTS; i++) {
-            currentTickNotes.add(new ArrayList<>());
+            currentTickInstruments.add(new ArrayList<>());
         }
     }
 
@@ -163,7 +162,7 @@ public class MusicBox {
      * @see MusicBox for further explanation.
      */
     public void addNote(int x, int y, int instrument) {
-        currentTickNotes.get(instrument).add(currentScale.scaleDegreeToRelativePitch(soundCoordinateToScaleDegree(x, y)) + basePitch);
+        currentTickInstruments.get(instrument).add(currentScale.scaleDegreeToRelativePitch(soundCoordinateToScaleDegree(x, y)) + basePitch);
     }
 
     /**
@@ -173,6 +172,7 @@ public class MusicBox {
      * @param y y coordinate.
      * @see MusicBox for further explanation.
      */
+    @Deprecated
     public void addNote(int x, int y) {
         addNote(x, y, 0);
     }
@@ -185,7 +185,7 @@ public class MusicBox {
      * @param y y coordinate.
      */
     public void addPercussion(int x, int y) {
-        currentTickNotes.get(PERCUSSION_CHANNEL).add(soundCoordinateToScaleDegree(x, y));
+        currentTickPercussion.add(soundCoordinateToScaleDegree(x, y));
     }
 
     /**
@@ -195,8 +195,9 @@ public class MusicBox {
      */
     public void tick() {
         for (int i = 0; i < NUMBER_OF_INSTRUMENTS; i++) {
-            player.playNotes(currentTickNotes.get(i), i);
+            player.playNotes(currentTickInstruments.get(i), i);
         }
+        player.playPercussionSounds(currentTickPercussion);
         player.tick();
         this.clearCurrentNotes();
     }
@@ -206,11 +207,11 @@ public class MusicBox {
     }
 
     public Set<String> getAllPresets() {
-        return player.getAllPresets();
+        return player.getAllInstrumentPresets();
     }
 
     public void setPreset(String presetName) {
-        player.setPreset(presetName);
+        player.setInstrumentPreset(presetName);
     }
 
 
@@ -218,9 +219,10 @@ public class MusicBox {
      * Clears all the currentTickNode subarrays. (Performed at each tick.)
      */
     private void clearCurrentNotes() {
-        for (int i = 0; i < currentTickNotes.size(); i++) {
-            currentTickNotes.get(i).clear();
+        for (var currentTickInstrument : currentTickInstruments) {
+            currentTickInstrument.clear();
         }
+        currentTickPercussion.clear();
     }
 
     /**

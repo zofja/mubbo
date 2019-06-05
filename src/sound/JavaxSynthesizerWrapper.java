@@ -31,16 +31,26 @@ public class JavaxSynthesizerWrapper implements SynthesizerWrapper {
     public static final int NUMBER_OF_INSTRUMENTS = MusicBox.NUMBER_OF_INSTRUMENTS;
 
     /**
+     * Channel number that MIDI operates a percussion on.
+     */
+    private static final int PERCUSSION_CHANNEL = 9;
+
+    /**
      * Map of available presets: preset name -> List of instruments in MIDI general bank number.
      */
-    private static final Map<String, List<Integer>> PRESETS = Map.of(
+    private static final Map<String, List<Integer>> INSTRUMENTS_PRESETS = Map.of(
             "Classic", List.of(1, 48, 4, 54, 7, 56, 14, 55, 62),
             "Electronic", List.of(19, 8, 24, 29, 32, 54, 0, 7, 55)
     );
 
     /**
+     * Preset for percussion sounds: list of all distinct sounding MIDI pitches on 10'th channel.
+     */
+    private static final List<Integer> PERCUSSION_PRESET = List.of(35, 37, 38, 41, 42, 43, 46, 49);
+
+    /**
      * Name of a default preset.
-     * PRESETS.get(DEFAULT_PRESET_NAME) must not be null.
+     * INSTRUMENTS_PRESETS.get(DEFAULT_PRESET_NAME) must not be null.
      */
     private static final String DEFAULT_PRESET_NAME = "Classic";
 
@@ -54,8 +64,8 @@ public class JavaxSynthesizerWrapper implements SynthesizerWrapper {
             Synthesizer synth = MidiSystem.getSynthesizer();
             synth.open();
             this.channels = new ArrayList<>();
-            channels.addAll(Arrays.asList(synth.getChannels()).subList(0, NUMBER_OF_INSTRUMENTS));
-            setPreset(DEFAULT_PRESET_NAME);
+            channels.addAll(Arrays.asList(synth.getChannels()).subList(0, NUMBER_OF_INSTRUMENTS + 1));
+            setInstrumentPreset(DEFAULT_PRESET_NAME);
 
             Thread.sleep(100);                  // Without a short sleep, first notes sound out of tempo.
             (new Thread()).run();
@@ -70,6 +80,13 @@ public class JavaxSynthesizerWrapper implements SynthesizerWrapper {
         nd.noteOn(instrument, pitch);
     }
 
+    @Override
+    public void playPercussionSound(int sound) {
+        int midiSound = PERCUSSION_PRESET.get(sound % PERCUSSION_PRESET.size());
+        channels.get(PERCUSSION_CHANNEL).noteOn(midiSound, DEFAULT_VELOCITY);
+        nd.noteOn(PERCUSSION_CHANNEL, midiSound);
+    }
+
     /**
      * Turn off note as used by external note deleter.
      * @param instrument instrument of a note to turn off.
@@ -80,21 +97,16 @@ public class JavaxSynthesizerWrapper implements SynthesizerWrapper {
     }
 
     @Override
-    public void playPercussionSound(int sound) {
-
-    }
-
-    @Override
     public void tick() {
         nd.tick();
     }
 
-    public Set<String> getAllPresets() {
-        return PRESETS.keySet();
+    public Set<String> getAllInstrumentPresets() {
+        return INSTRUMENTS_PRESETS.keySet();
     }
 
-    public void setPreset(String presetName) {
-        var preset = PRESETS.getOrDefault(presetName, PRESETS.get(DEFAULT_PRESET_NAME));
+    public void setInstrumentPreset(String presetName) {
+        var preset = INSTRUMENTS_PRESETS.getOrDefault(presetName, INSTRUMENTS_PRESETS.get(DEFAULT_PRESET_NAME));
         nd.setPreset(preset);
         for (int i = 0; i < preset.size(); i++) {
             channels.get(i).programChange(preset.get(i));

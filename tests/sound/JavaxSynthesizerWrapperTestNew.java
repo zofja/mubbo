@@ -4,6 +4,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class JavaxSynthesizerWrapperTestNew {
@@ -35,10 +37,10 @@ class JavaxSynthesizerWrapperTestNew {
 
     @Test
     void PercussionTest() throws InterruptedException {
-
-        for (int i = 35; i <= 81; i++) {
-            player.playNote(i, 9);
-            Thread.sleep(100);
+        for (int i = 0; i < 25; i++) {
+            System.out.println(i);
+            player.playPercussionSound(i);
+            Thread.sleep(500);
         }
     }
 }
