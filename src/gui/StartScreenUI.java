@@ -25,8 +25,8 @@ public class StartScreenUI {
     private static final int REVERB_MIN = 25;
     private static final int REVERB_DEFAULT = 200;
 
-    private String scaleToMuBbo;
-    private int reverbToMuBbo;
+    private String scaleToMuBbo = Scale.MAJOR.getDisplayName();
+    private int reverbToMuBbo = 250;
 
     private static JFrame frame;
 
@@ -48,6 +48,7 @@ public class StartScreenUI {
             if (itemEvent.getStateChange() == ItemEvent.SELECTED) {
                 ItemSelectable is = itemEvent.getItemSelectable();
                 scaleToMuBbo = selectedString(is);
+                System.out.println(scaleToMuBbo);
             }
         });
     }
@@ -72,6 +73,7 @@ public class StartScreenUI {
         for (var scale : Scale.values()) {
             ScaleList.addItem(scale.getDisplayName());
         }
+        System.out.println(Scale.MAJOR.getDisplayName());
         ScaleList.setSelectedItem(Scale.MAJOR.getDisplayName());
 
         // reverb slider custom create
