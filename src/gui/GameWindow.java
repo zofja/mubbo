@@ -25,7 +25,6 @@ class GameWindow extends JFrame {
     public static final int intervalDuration = 250;
     private int iterations = 3000; // time playing = iterations * intervalDuration
 
-
     private Timer timer = new Timer(intervalDuration, new UpdateGridAfterTick());
 
     GameWindow(String scale, int reverb) {

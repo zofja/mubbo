@@ -1,7 +1,7 @@
 package gui;
 
 /**
- * An object od class is an item of {@code CheckBoxList}.
+ * An object od class is an item of {@code ArrowList}.
  */
 class CheckListItem {
 

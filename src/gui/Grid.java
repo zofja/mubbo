@@ -6,9 +6,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashSet;
 import java.util.Random;
 
-import static core.Symbol.*;
+import static core.Symbol.COLLISION;
+import static core.Symbol.EMPTY;
+import static sound.MusicBox.NUMBER_OF_INSTRUMENTS;
 
 /**
  * Class responsible for displaying a simulation of generated music - a board with moving {@code Particles}.
@@ -35,11 +38,15 @@ class Grid extends JPanel {
      */
     private static final Color PARTICLE_COLOR = new Color(0xeeeeee);
 
+    /**
+     * Number of available instruments.
+     */
+    private final int instrumentsNumber = NUMBER_OF_INSTRUMENTS + 1;
 
     /**
-     *  Length and width of grid.
+     * Length and width of grid.
      */
-    private final int gridDimension = 500;
+    private final int gridDimension = 500; // pixels
 
     /**
      * Currently marked as checked symbol.
@@ -52,6 +59,11 @@ class Grid extends JPanel {
     private ImageIcon selectedIcon;
 
     /**
+     * Currently selected icon.
+     */
+    private Integer selectedInstrument;
+
+    /**
      * Enables a user to add and delete arrows from board.
      */
     private JButton[][] buttonGrid;
@@ -59,7 +71,12 @@ class Grid extends JPanel {
     /**
      * Used for visual representation.
      */
-    private Symbol[][] symbolGrid;
+    private Symbol[][][] symbolGrid;
+
+    /**
+     * Used for painting instrument icons.
+     */
+    private HashSet<Integer>[][] instruments;
 
     /**
      * Number of cells in each row/column.
@@ -74,8 +91,8 @@ class Grid extends JPanel {
     /**
      * Icons shown on the board.
      */
-    private ImageIcon arrowDown = new ImageIcon(this.getClass().getResource("assets/bottom.png"));
-    private ImageIcon arrowUp = new ImageIcon(this.getClass().getResource("assets/top.png"));
+    private ImageIcon arrowDown = new ImageIcon(this.getClass().getResource("assets/down.png"));
+    private ImageIcon arrowUp = new ImageIcon(this.getClass().getResource("assets/up.png"));
     private ImageIcon arrowLeft = new ImageIcon(this.getClass().getResource("assets/left.png"));
     private ImageIcon arrowRight = new ImageIcon(this.getClass().getResource("assets/right.png"));
     private ImageIcon collision = new ImageIcon(this.getClass().getResource("assets/collision.png"));
@@ -92,25 +109,32 @@ class Grid extends JPanel {
         setSize(gridDimension, gridDimension);
         this.gridSize = gridSize;
         this.wall = gridSize - 1;
+        InstrumentIcon.generateImages();
+        this.instruments = new HashSet[gridSize][gridSize];
+        for (int x = 0; x < gridSize; x++) {
+            for (int y = 0; y < gridSize; y++) {
+                instruments[x][y] = new HashSet<>();
+            }
+        }
         this.buttonGrid = new JButton[gridSize][gridSize];
-        this.symbolGrid = new Symbol[gridSize][gridSize];
-
+        this.symbolGrid = new Symbol[gridSize][gridSize][instrumentsNumber];
         initGrid();
     }
 
     // TODO eliminate copypaste
+
     /**
      * @param gridSize   grid size.
      * @param gridPreset current visual grid representation.
      */
-    Grid(int gridSize, Symbol[][] gridPreset) {
+    Grid(int gridSize, Symbol[][][] gridPreset) {
         setLayout(new GridLayout(gridSize, gridSize));
         setSize(gridDimension, gridDimension);
         this.gridSize = gridSize;
         this.wall = gridSize - 1;
 
         this.buttonGrid = new JButton[gridSize][gridSize];
-        this.symbolGrid = new Symbol[gridSize][gridSize];
+        this.symbolGrid = new Symbol[gridSize][gridSize][instrumentsNumber];
 
         initGrid();
         display(gridPreset);
@@ -132,11 +156,17 @@ class Grid extends JPanel {
          * @param y y coordinate of clicked button.
          */
         private void processClick(int x, int y) {
-            if (isInBoundaries(new Point(x, y))) {
-                symbolGrid[x][y] = selectedSymbol;
-                buttonGrid[x][y].setIcon(selectedIcon);
-                if (selectedIcon != null) buttonGrid[x][y].setBackground(PARTICLE_COLOR);
-                else buttonGrid[x][y].setBackground(GRID_COLOR);
+            if (!isInBoundaries(new Point(x, y)) || selectedInstrument == -1) {
+                return;
+            }
+            symbolGrid[x][y][selectedInstrument] = selectedSymbol;
+            if (selectedSymbol == EMPTY || selectedSymbol == COLLISION) {
+                buttonGrid[x][y].setBackground(GRID_COLOR);
+                buttonGrid[x][y].setIcon(null);
+            } else {
+                assert (instruments[x][y] != null);
+                instruments[x][y].add(selectedInstrument);
+                buttonGrid[x][y].setIcon(new InstrumentIcon(instruments[x][y], symbolGrid[x][y][selectedInstrument])); // ustaw customową ikonę
             }
         }
 
@@ -162,17 +192,19 @@ class Grid extends JPanel {
      *
      * @param nxtBoard grid to display.
      */
-    void display(Symbol[][] nxtBoard) {
+    void display(Symbol[][][] nxtBoard) {
         symbolGrid = nxtBoard;
         for (int y = 0; y < gridSize; ++y) {
             for (int x = 0; x < gridSize; ++x) {
-                if (!isInBoundaries(new Point(x, y))) {
-                    if (nxtBoard[x][y] != EMPTY) {
-                        buttonGrid[x][y].setBackground(randomColor().brighter());
-                    } else buttonGrid[x][y].setBackground(BORDER_COLOR);
-                } else {
-                    buttonGrid[x][y].setBackground(PARTICLE_COLOR);
-                    changeCell(nxtBoard[x][y], x, y);
+                for (int i = 0; i < instrumentsNumber; i++) {
+                    if (!isInBoundaries(new Point(x, y))) {
+                        if (nxtBoard[x][y][i] != EMPTY) {
+                            buttonGrid[x][y].setBackground(randomColor().brighter());
+                        } else buttonGrid[x][y].setBackground(BORDER_COLOR);
+                    } else {
+                        buttonGrid[x][y].setBackground(PARTICLE_COLOR); // TODO custom instrument kolor
+                        changeCell(nxtBoard[x][y][i], x, y);
+                    }
                 }
             }
         }
@@ -202,31 +234,28 @@ class Grid extends JPanel {
      *
      * @param symbol currently selected symbol.
      */
-    void setSelectedIcon(Symbol symbol) {
+    void setSelectedSymbol(Symbol symbol) {
         selectedSymbol = symbol;
-        if (symbol == RIGHT) selectedIcon = arrowRight;
-        else if (symbol == DOWN) selectedIcon = arrowDown;
-        else if (symbol == UP) selectedIcon = arrowUp;
-        else if (symbol == LEFT) selectedIcon = arrowLeft;
-        else if (symbol == COLLISION) selectedIcon = collision;
-        else selectedIcon = null;
+        System.out.println(selectedSymbol);
     }
+
+    void setSelectedInstrument(Integer instrument) {
+        selectedInstrument = instrument;
+        System.out.println(selectedInstrument);
+    }
+
+    Integer getSelectedInstrument() {
+        return this.selectedInstrument;
+    }
+
 
     /**
      * Getter.
      *
      * @return current grid.
      */
-    Symbol[][] getSymbolGrid() {
+    Symbol[][][] getSymbolGrid() {
         return symbolGrid;
-    }
-
-    void clearInitialSetup() {
-        for (int i = 0; i < gridSize; i++) {
-            for (int j = 0; j < gridSize; j++) {
-                symbolGrid[i][j] = EMPTY;
-            }
-        }
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -243,14 +272,16 @@ class Grid extends JPanel {
         for (int y = 0; y < gridSize; ++y) {
             for (int x = 0; x < gridSize; ++x) {
                 buttonGrid[x][y] = new JButton();
-                if (!isInBoundaries(new Point(x, y))) {
-                    buttonGrid[x][y].setBackground(BORDER_COLOR);
-                } else {
-                    buttonGrid[x][y].setBackground(GRID_COLOR);
-                    symbolGrid[x][y] = EMPTY;
+                for (int i = 0; i < instrumentsNumber; i++) {
+                    if (!isInBoundaries(new Point(x, y))) {
+                        buttonGrid[x][y].setBackground(BORDER_COLOR);
+                    } else {
+                        buttonGrid[x][y].setBackground(GRID_COLOR);
+                        symbolGrid[x][y][i] = EMPTY;
+                    }
+                    add(buttonGrid[x][y]);
+                    buttonGrid[x][y].addActionListener(button_handler);
                 }
-                add(buttonGrid[x][y]);
-                buttonGrid[x][y].addActionListener(button_handler);
             }
         }
     }
@@ -259,8 +290,8 @@ class Grid extends JPanel {
      * Changes given cell's symbol and colour.
      *
      * @param symbol new symbol.
-     * @param x x coordinate of cell to change.
-     * @param y y coordinate of cell to change.
+     * @param x      x coordinate of cell to change.
+     * @param y      y coordinate of cell to change.
      */
     private void changeCell(Symbol symbol, int x, int y) {
         switch (symbol) {
@@ -288,6 +319,7 @@ class Grid extends JPanel {
 
     /**
      * Checks if given point is in boundaries.
+     *
      * @param p coordinates
      * @return true if point in in boundaries, otherwise false.
      */

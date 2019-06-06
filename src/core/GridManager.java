@@ -32,7 +32,7 @@ public class GridManager {
     /**
      * Number of available instruments.
      */
-    private final int instrumentsNumber = NUMBER_OF_INSTRUMENTS+1;
+    private final int instrumentsNumber = NUMBER_OF_INSTRUMENTS + 1;
 
     /**
      * Main music engine.
@@ -91,14 +91,17 @@ public class GridManager {
      *
      * @param initGrid {@code Symbol} setup of particles on grid from GUI.
      */
-    public void init(Symbol[][] initGrid) {
-        new EasterEgg(gridSize, initGrid);
+    // TODO fix instrument dimension
+    public void init(Symbol[][][] initGrid) {
+//        new EasterEgg(gridSize, initGrid);
         for (int y = 1; y < gridSize - 1; y++) {
             for (int x = 1; x < gridSize - 1; x++) {
-                if (initGrid[x][y] != Symbol.COLLISION) {
-                    clear(x, y);
-                    if (initGrid[x][y].ordinal() >= 0 && initGrid[x][y].ordinal() <= Direction.getNumberOfDirections()) {
-                        insert(x, y, initGrid[x][y].ordinal());
+                for (int i = 0; i < instrumentsNumber; i++) {
+                    if (initGrid[x][y][i] != Symbol.COLLISION) {
+                        clear(x, y, i);
+                        if (initGrid[x][y][i].ordinal() >= 0 && initGrid[x][y][i].ordinal() <= Direction.getNumberOfDirections()) {
+                            insert(x, y, i, initGrid[x][y][i].ordinal());
+                        }
                     }
                 }
             }
@@ -178,10 +181,11 @@ public class GridManager {
      * @param y index of row in grid.
      */
     private void move(int x, int y) {
-        Point current = new Point(x, y);
-        boolean collision = (numberOfParticles(x, y) >= 2);
 
         for (int i = 0; i < instrumentsNumber; i++) {
+            Point current = new Point(x, y);
+            boolean collision = (numberOfParticles(x, y, i) >= 2);
+
             for (ListIterator<Particle> iterator = currentGrid[x][y][i].listIterator(); iterator.hasNext(); ) {
                 Particle particle = iterator.next();
 
@@ -193,7 +197,7 @@ public class GridManager {
 
                 if (!isInBoundaries(destination)) {
                     particle.bounce();
-                    muBbo.addNote(destination.x, destination.y);
+                    muBbo.addNote(destination.x, destination.y, i);
                     printCurrentSound(destination);
                 }
 
@@ -203,10 +207,8 @@ public class GridManager {
         }
     }
 
-    private void clear(int x, int y) {
-        for (int i = 0; i < instrumentsNumber; i++) {
-            currentGrid[x][y][i].clear();
-        }
+    private void clear(int x, int y, int i) {
+        currentGrid[x][y][i].clear();
     }
 
     /**
@@ -216,10 +218,8 @@ public class GridManager {
      * @param y         index of row in grid.
      * @param direction index of direction in {@code Direction.values()} array.
      */
-    private void insert(int x, int y, int direction) {
-        for (int i = 0; i < instrumentsNumber; i++) {
-            currentGrid[x][y][i].add(new Particle(direction));
-        }
+    private void insert(int x, int y, int i, int direction) {
+        currentGrid[x][y][i].add(new Particle(direction));
     }
 
     /**
@@ -229,8 +229,8 @@ public class GridManager {
      * @param y index of row in grid.
      * @return Number of particles currently in cell.
      */
-    private int numberOfParticles(int x, int y) {
-        return currentGrid[x][y][0].size();
+    private int numberOfParticles(int x, int y, int i) {
+        return currentGrid[x][y][i].size();
     }
 
     /**
@@ -333,13 +333,13 @@ public class GridManager {
      */
     private char getSymbol(int x, int y, int i) {
         Point current = new Point(x, y);
-        if (numberOfParticles(x, y) == 1) {
+        if (numberOfParticles(x, y, i) == 1) {
             if (isInBoundaries(current)) {
                 return currentGrid[x][y][i].get(0).getCharacter();
             } else {
                 return glow;
             }
-        } else if (numberOfParticles(x, y) > 1) {
+        } else if (numberOfParticles(x, y, i) > 1) {
             if (isInBoundaries(current)) {
                 return collision;
             } else {

@@ -2,6 +2,7 @@ package gui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * Class which enables a user to change settings during the simulation.
@@ -17,6 +18,16 @@ class OptionBox extends JPanel {
         setPreferredSize(new Dimension(150, 700));
 
         add(new CustomLabel("ARROW", 30), BorderLayout.NORTH);
-        add(new CheckBoxList(grid), BorderLayout.EAST);
+        add(new ArrowList(grid, new CheckListItem[]{
+                new CheckListItem("Left"),
+                new CheckListItem("Up"),
+                new CheckListItem("Right"),
+                new CheckListItem("Down")}), BorderLayout.EAST);
+
+        ArrayList<CheckListItem> instruments = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            instruments.add(new CheckListItem("Instrument1"));
+        }
+        add(new InstrumentList(grid, instruments.toArray(CheckListItem[]::new)), BorderLayout.EAST);
     }
 }
