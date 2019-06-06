@@ -1,82 +1,71 @@
-# Start generating melody
-
-### Start generating melody
-
+# Rozpoczęcie generowania melodii
 <table>
   <thead>
     <tr>
       <th style="text-align:left">USE CASE 2</th>
-      <th style="text-align:left">Start generating melody</th>
+      <th style="text-align:left">Rozpoczęcie generowania melodii</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td style="text-align:left">Goal in Context</td>
-      <td style="text-align:left">Melody starts being generated after User confirms configurations</td>
+      <td style="text-align:left">Cel</td>
+      <td style="text-align:left">Po zatwierdzeniu konfiguracji przez użytkownika melodia zaczyna być generowana</td>
     </tr>
     <tr>
-      <td style="text-align:left">Preconditions</td>
-      <td style="text-align:left">Computer with any OS and <code>MuBbo</code> app installed</td>
+      <td style="text-align:left">Warunki początkowe</td>
+      <td style="text-align:left">Komputer z systemem operacyjnym Linux, zainstalowana aplikacja <code>MuBbo</code> oraz wybrana z ekranu startowego skala i pogłos</td>
     </tr>
     <tr>
-      <td style="text-align:left">Success End Condition</td>
-      <td style="text-align:left">Moving particles on the grid generate melody upon hitting a wall</td>
+      <td style="text-align:left">Akceptujący warunek końcowy</td>
+      <td style="text-align:left">Uderzające o ścianę cząsteczki na planszy generują melodię</td>
     </tr>
     <tr>
-      <td style="text-align:left">Failed End Condition</td>
-      <td style="text-align:left">Melody is not being generated</td>
+      <td style="text-align:left">Nieakceptujący warunek końcowy</td>
+      <td style="text-align:left">Melodia nie jest generowana</td>
     </tr>
     <tr>
-      <td style="text-align:left">Primary Actor</td>
-      <td style="text-align:left">User</td>
+      <td style="text-align:left">Aktor główny</td>
+      <td style="text-align:left">Użytkownik</td>
     </tr>
     <tr>
-      <td style="text-align:left">Trigger</td>
-      <td style="text-align:left">User confirms configurations</td>
+      <td style="text-align:left">Wyzwalacz</td>
+      <td style="text-align:left">Zatwierdzenie konfiguracji</td>
     </tr>
     <tr>
-      <td style="text-align:left">DESCRIPTION</td>
+      <td style="text-align:left">OPIS</td>
       <td style="text-align:left">
         <ol>
-          <li>Melody is being generated</li>
-          <li>User terminates the melody</li>
+          <li>Melodia jest generowana</li>
+          <li>Użytkownik zatrzymuje melodię</li>
         </ol>
       </td>
     </tr>
     <tr>
-      <td style="text-align:left">EXTENSIONS</td>
+      <td style="text-align:left">ROZSZERZENIA</td>
       <td style="text-align:left"></td>
     </tr>
     <tr>
-      <td style="text-align:left">SUB-VARIATIONS</td>
-      <td style="text-align:left">Melody may be terminated on its own after a specific period of time</td>
+      <td style="text-align:left">WARIACJE POBOCZNE</td>
+      <td style="text-align:left">Melodia może się zatrzymywać samoistnie po określonym czasie</td>
     </tr>
     <tr>
-      <td style="text-align:left">RELATED INFORMATION</td>
-      <td style="text-align:left">1. Melody is being generated</td>
+      <td style="text-align:left">POWIĄZANE INFORMACJE</td>
+      <td style="text-align:left">
+        <ol>
+          <li>Melodia jest generowana</li>
+        </ol>
+      </td>
     </tr>
     <tr>
-      <td style="text-align:left">Priority</td>
-      <td style="text-align:left">top</td>
+      <td style="text-align:left">Priorytet</td>
+      <td style="text-align:left">wysoki</td>
     </tr>
     <tr>
-      <td style="text-align:left">Performance</td>
-      <td style="text-align:left"></td>
+      <td style="text-align:left">OTWARTE PROBLEMY</td>
+      <td style="text-align:left">Kto terminuje melodię?</td>
     </tr>
     <tr>
-      <td style="text-align:left">Frequency</td>
-      <td style="text-align:left"></td>
-    </tr>
-    <tr>
-      <td style="text-align:left">Channel to actors</td>
-      <td style="text-align:left"></td>
-    </tr>
-    <tr>
-      <td style="text-align:left">OPEN ISSUES</td>
-      <td style="text-align:left">Who terminates the melody?</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">Due Date</td>
+      <td style="text-align:left">Termin oddania</td>
       <td style="text-align:left">release 1.0</td>
     </tr>
   </tbody>
