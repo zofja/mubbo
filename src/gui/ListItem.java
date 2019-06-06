@@ -3,7 +3,7 @@ package gui;
 /**
  * An object od class is an item of {@code ArrowList}.
  */
-class CheckListItem {
+class ListItem {
 
     /**
      * Label of an item.
@@ -19,7 +19,7 @@ class CheckListItem {
     /**
      * @param label label of an item.
      */
-    CheckListItem(String label) {
+    ListItem(String label) {
         this.label = label;
     }
 

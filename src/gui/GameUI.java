@@ -12,7 +12,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.Random;
 
 import static core.Symbol.COLLISION;
@@ -27,7 +27,6 @@ public class GameUI {
     public static final int intervalDuration = 250;
     private int iterations = 3000; // time playing = iterations * intervalDuration
     private Timer timer = new Timer(intervalDuration, new UpdateGridAfterTick());
-
 
     private JPanel rootPanel;
     private JLabel description;
@@ -52,12 +51,8 @@ public class GameUI {
     /**
      * Color of the border.
      */
-    private static final Color BORDER_COLOR = new Color(0xffffff);
+    private static final Color BORDER_COLOR = new Color(0xB8B8B8);
 
-    /**
-     * Color of the particle.
-     */
-    private static final Color PARTICLE_COLOR = new Color(0xeeeeee);
 
     /**
      * Number of available instruments.
@@ -69,10 +64,6 @@ public class GameUI {
      */
     private static Symbol selectedSymbol = EMPTY;
 
-    /**
-     * Currently selected icon.
-     */
-    private ImageIcon selectedIcon;
 
     /**
      * Currently selected icon.
@@ -82,7 +73,8 @@ public class GameUI {
     /**
      * Enables a user to add and delete arrows from board.
      */
-    private static JButton[][] buttonGrid = new JButton[gridSize][gridSize];;
+    private static JButton[][] buttonGrid = new JButton[gridSize][gridSize];
+    ;
 
     /**
      * Used for visual representation.
@@ -92,7 +84,8 @@ public class GameUI {
     /**
      * Used for painting instrument icons.
      */
-    private static HashSet<Integer>[][] instruments;
+    private static Hashtable<Integer, Symbol>[][] instruments;
+
 
     /**
      * Number of row/column in grid which will play a note if it contains {@code Particle}.
@@ -105,7 +98,7 @@ public class GameUI {
             if (!ifStarted) {
                 ifStarted = true;
                 timer.start();
-                gridManager.init(getSymbolGrid());
+                gridManager.init(symbolGrid);
                 JButton clicked = (JButton) actionEvent.getSource();
                 clicked.setText("PAUSE");
             } else {
@@ -121,18 +114,15 @@ public class GameUI {
                 JList list = (JList) e.getSource();
                 int index = list.locationToIndex(e.getPoint());
 
-                CheckListItem item = (CheckListItem) list.getModel().getElementAt(index);
+                ListItem item = (ListItem) list.getModel().getElementAt(index);
                 item.setSelected(!item.isSelected());
                 list.repaint(list.getCellBounds(index, index));
                 if (selectedSymbol != Symbol.EMPTY) {
-                    ((CheckListItem) list.getModel().getElementAt(selectedSymbol.ordinal())).setSelected(false);
+                    ((ListItem) list.getModel().getElementAt(selectedSymbol.ordinal())).setSelected(false);
                 }
                 if (selectedSymbol.ordinal() == index) {
                     selectedSymbol = Symbol.EMPTY;
                 } else selectedSymbol = Symbol.values()[index];
-                if (getSelectedInstrument() != -1) {
-                    setSelectedSymbol(selectedSymbol);
-                }
             }
         });
         instrumentList.addMouseListener(new MouseAdapter() {
@@ -141,16 +131,15 @@ public class GameUI {
                 JList list = (JList) e.getSource();
                 int index = list.locationToIndex(e.getPoint());
 
-                CheckListItem item = (CheckListItem) list.getModel().getElementAt(index);
+                ListItem item = (ListItem) list.getModel().getElementAt(index);
                 item.setSelected(!item.isSelected());
                 list.repaint(list.getCellBounds(index, index));
                 if (selectedInstrument != -1) {
-                    ((CheckListItem) list.getModel().getElementAt(selectedInstrument)).setSelected(false);
+                    ((ListItem) list.getModel().getElementAt(selectedInstrument)).setSelected(false);
                 }
                 if (selectedInstrument == index) {
                     selectedInstrument = -1;
                 } else selectedInstrument = index;
-                setSelectedInstrument(selectedInstrument);
             }
         });
     }
@@ -166,18 +155,13 @@ public class GameUI {
         // initialize attributes
         gridManager = new GridManager(gridSize, scale, reverb);
         InstrumentIcon.generateImages();
-        instruments = new HashSet[gridSize][gridSize];
+        instruments = new Hashtable[gridSize][gridSize];
         for (int x = 0; x < gridSize; x++) {
             for (int y = 0; y < gridSize; y++) {
-                instruments[x][y] = new HashSet<>();
+                instruments[x][y] = new Hashtable<>();
             }
         }
     }
-
-
-    /**
-     * Inits an empty grid.
-     */
 
 
     private void createUIComponents() {
@@ -188,6 +172,7 @@ public class GameUI {
             for (int x = 0; x < gridSize; ++x) {
                 JButton button = new JButton();
                 button.setPreferredSize(new Dimension(70, 70));
+                button.setBorderPainted(false);
                 buttonGrid[x][y] = button;
                 for (int i = 0; i < instrumentsNumber; i++) {
                     if (!isInBoundaries(new Point(x, y))) {
@@ -203,25 +188,23 @@ public class GameUI {
         }
 
         // custom arrowList
-        arrowList = new JList<CheckListItem>();
-        CheckListItem[] list = new CheckListItem[]{
-                new CheckListItem("Left"),
-                new CheckListItem("Up"),
-                new CheckListItem("Right"),
-                new CheckListItem("Down")};
+        arrowList = new JList<ListItem>();
+        ListItem[] list = new ListItem[]{
+                new ListItem("LEFT"),
+                new ListItem("UP"),
+                new ListItem("RIGHT"),
+                new ListItem("DOWN")};
         arrowList.setListData(list);
-        arrowList.setCellRenderer(new CheckListRenderer());
-        arrowList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        arrowList.setCellRenderer(new ListRenderer());
 
         // custom instrumentList
-        instrumentList = new JList<CheckListItem>();
-        ArrayList<CheckListItem> instruments = new ArrayList<>();
+        instrumentList = new JList<ListItem>();
+        ArrayList<ListItem> instruments = new ArrayList<>();
         for (int i = 0; i < instrumentsNumber; i++) {
-            instruments.add(new CheckListItem("Instrument1"));
+            instruments.add(new ListItem("Instrument " + i));
         }
         instrumentList.setListData(instruments.toArray());
-        instrumentList.setCellRenderer(new CheckListRenderer());
-        instrumentList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        instrumentList.setCellRenderer(new ListRenderer());
     }
 
     /**
@@ -236,7 +219,7 @@ public class GameUI {
          * @param y y coordinate of clicked button.
          */
         private void processClick(int x, int y) {
-            if (!isInBoundaries(new Point(x, y)) || selectedInstrument == -1) {
+            if (!isInBoundaries(new Point(x, y)) || selectedInstrument == -1 || selectedSymbol == EMPTY) {
                 return;
             }
             symbolGrid[x][y][selectedInstrument] = selectedSymbol;
@@ -245,8 +228,8 @@ public class GameUI {
                 buttonGrid[x][y].setIcon(null);
             } else {
                 assert (instruments[x][y] != null);
-                instruments[x][y].add(selectedInstrument);
-                buttonGrid[x][y].setIcon(new InstrumentIcon(instruments[x][y], symbolGrid[x][y][selectedInstrument])); // ustaw customową ikonę
+                instruments[x][y].put(selectedInstrument, selectedSymbol);
+                buttonGrid[x][y].setIcon(new InstrumentIcon(instruments[x][y])); // ustaw customową ikonę
             }
         }
 
@@ -296,20 +279,26 @@ public class GameUI {
         for (int y = 0; y < gridSize; ++y) {
             for (int x = 0; x < gridSize; ++x) {
                 instruments[x][y].clear();
+                boolean lightWall = false;
                 for (int i = 0; i < instrumentsNumber; i++) {
                     if (!isInBoundaries(new Point(x, y))) {
                         if (nxtBoard[x][y][i] != EMPTY) {
-                            buttonGrid[x][y].setBackground(randomColor().brighter());
-                        } else buttonGrid[x][y].setBackground(BORDER_COLOR);
+                            lightWall = true;
+                        } else {
+                            buttonGrid[x][y].setBackground(BORDER_COLOR);
+                        }
                     } else {
                         if (nxtBoard[x][y][i] != EMPTY) {
-                            instruments[x][y].add(i);
+                            instruments[x][y].put(i, nxtBoard[x][y][i]);
                         } else {
                             buttonGrid[x][y].setIcon(null);
                         }
                     }
                 }
-                buttonGrid[x][y].setIcon(new InstrumentIcon(instruments[x][y], Symbol.DOWN));
+                if (lightWall) {
+                    buttonGrid[x][y].setBackground(randomColor().brighter());
+                }
+                buttonGrid[x][y].setIcon(new InstrumentIcon(instruments[x][y]));
             }
         }
     }
@@ -331,35 +320,6 @@ public class GameUI {
             c %= 0xff;
             return new Color(c, 0xff, 0xff - c);
         }
-    }
-
-    /**
-     * Sets currently marked as checked icon.
-     *
-     * @param symbol currently selected symbol.
-     */
-    void setSelectedSymbol(Symbol symbol) {
-        selectedSymbol = symbol;
-        System.out.println(selectedSymbol);
-    }
-
-    void setSelectedInstrument(Integer instrument) {
-        selectedInstrument = instrument;
-        System.out.println(selectedInstrument);
-    }
-
-    Integer getSelectedInstrument() {
-        return this.selectedInstrument;
-    }
-
-
-    /**
-     * Getter.
-     *
-     * @return current grid.
-     */
-    Symbol[][][] getSymbolGrid() {
-        return symbolGrid;
     }
 
 
@@ -385,28 +345,65 @@ public class GameUI {
         createUIComponents();
         rootPanel = new JPanel();
         rootPanel.setLayout(new GridLayoutManager(3, 2, new Insets(20, 20, 20, 20), -1, -1));
+        rootPanel.setBackground(new Color(-2105377));
         rootPanel.setMaximumSize(new Dimension(900, 900));
         rootPanel.setMinimumSize(new Dimension(900, 900));
         rootPanel.setPreferredSize(new Dimension(900, 900));
         description = new JLabel();
-        description.setText("Position arrows on the grid");
-        rootPanel.add(description, new GridConstraints(0, 0, 1, 2, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        Font descriptionFont = this.$$$getFont$$$("Noto Sans Mono CJK KR Regular", -1, 20, description.getFont());
+        if (descriptionFont != null) description.setFont(descriptionFont);
+        description.setText("Position arrows on the grid and click PLAY.");
+        rootPanel.add(description, new GridConstraints(0, 0, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         PLAYButton = new JButton();
+        PLAYButton.setBackground(new Color(-14869219));
+        PLAYButton.setFocusPainted(false);
+        PLAYButton.setFocusable(false);
+        Font PLAYButtonFont = this.$$$getFont$$$("Noto Sans Mono CJK KR Regular", -1, 28, PLAYButton.getFont());
+        if (PLAYButtonFont != null) PLAYButton.setFont(PLAYButtonFont);
+        PLAYButton.setForeground(new Color(-2105377));
         PLAYButton.setText("PLAY");
-        rootPanel.add(PLAYButton, new GridConstraints(2, 0, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        grid.setBackground(new Color(-12512962));
+        rootPanel.add(PLAYButton, new GridConstraints(2, 0, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        grid.setBackground(new Color(-1907998));
         rootPanel.add(grid, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, new Dimension(630, 630), new Dimension(630, 630), new Dimension(630, 630), 0, true));
         options = new JPanel();
         options.setLayout(new GridLayoutManager(2, 1, new Insets(0, 0, 0, 0), -1, -1));
+        options.setOpaque(false);
         rootPanel.add(options, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         arrowMenu = new JPanel();
         arrowMenu.setLayout(new GridLayoutManager(1, 1, new Insets(10, 10, 10, 10), -1, -1));
-        options.add(arrowMenu, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        arrowMenu.add(arrowList, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
+        arrowMenu.setOpaque(false);
+        options.add(arrowMenu, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        Font arrowListFont = this.$$$getFont$$$("Noto Sans Mono CJK JP Regular", -1, 20, arrowList.getFont());
+        if (arrowListFont != null) arrowList.setFont(arrowListFont);
+        arrowList.setOpaque(false);
+        arrowMenu.add(arrowList, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
         instrumentMenu = new JPanel();
         instrumentMenu.setLayout(new GridLayoutManager(1, 1, new Insets(10, 10, 10, 10), -1, -1));
-        options.add(instrumentMenu, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        instrumentMenu.add(instrumentList, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
+        instrumentMenu.setOpaque(false);
+        options.add(instrumentMenu, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        Font instrumentListFont = this.$$$getFont$$$("Noto Sans Mono CJK KR Regular", -1, 18, instrumentList.getFont());
+        if (instrumentListFont != null) instrumentList.setFont(instrumentListFont);
+        instrumentList.setOpaque(false);
+        instrumentMenu.add(instrumentList, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
+    }
+
+    /**
+     * @noinspection ALL
+     */
+    private Font $$$getFont$$$(String fontName, int style, int size, Font currentFont) {
+        if (currentFont == null) return null;
+        String resultName;
+        if (fontName == null) {
+            resultName = currentFont.getName();
+        } else {
+            Font testFont = new Font(fontName, Font.PLAIN, 10);
+            if (testFont.canDisplay('a') && testFont.canDisplay('1')) {
+                resultName = fontName;
+            } else {
+                resultName = currentFont.getName();
+            }
+        }
+        return new Font(resultName, style >= 0 ? style : currentFont.getStyle(), size >= 0 ? size : currentFont.getSize());
     }
 
     /**
