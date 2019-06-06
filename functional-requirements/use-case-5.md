@@ -1,4 +1,4 @@
-# Ekspoortowanie wygenerowanej melodii do pliku
+# Eksportowanie wygenerowanej melodii do pliku
 
 <table>
   <thead>
