@@ -162,7 +162,11 @@ public class MusicBox {
      * @see MusicBox for further explanation.
      */
     public void addNote(int x, int y, int instrument) {
-        currentTickInstruments.get(instrument).add(currentScale.scaleDegreeToRelativePitch(soundCoordinateToScaleDegree(x, y)) + basePitch);
+        if (instrument == 9) {
+            addPercussion(x, y);
+        } else {
+            currentTickInstruments.get(instrument).add(currentScale.scaleDegreeToRelativePitch(soundCoordinateToScaleDegree(x, y)) + basePitch);
+        }
     }
 
     /**

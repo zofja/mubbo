@@ -10,6 +10,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
+import static sound.MusicBox.NUMBER_OF_INSTRUMENTS;
+
 /**
  * Class responsible for logic of {@code Particles} moving
  * each generation throughout runtime.
@@ -28,6 +30,11 @@ public class GridManager {
     private final int wall;
 
     /**
+     * Number of available instruments.
+     */
+    private final int instrumentsNumber = NUMBER_OF_INSTRUMENTS+1;
+
+    /**
      * Main music engine.
      */
     private MusicBox muBbo;
@@ -35,18 +42,18 @@ public class GridManager {
     /**
      * Current placement of particles.
      */
-    private List<Particle>[][] currentGrid;
+    private List<Particle>[][][] currentGrid;
 
     /**
      * Placement of particles after
      * one tick (after movement).
      */
-    private List<Particle>[][] nextGrid;
+    private List<Particle>[][][] nextGrid;
 
     /**
      * Used for visual representation.
      */
-    private static Symbol[][] theUltimateMusicalGrid;
+    private static Symbol[][][] theUltimateMusicalGrid;
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////
     //                                          CONSTRUCTORS
@@ -72,7 +79,7 @@ public class GridManager {
         this.currentGrid = initParticleArray();
         this.nextGrid = initParticleArray();
 
-        theUltimateMusicalGrid = new Symbol[gridSize][gridSize];
+        theUltimateMusicalGrid = new Symbol[gridSize][gridSize][instrumentsNumber];
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -114,15 +121,17 @@ public class GridManager {
      *
      * @return {@code Symbol} representation of current grid.
      */
-    public Symbol[][] displayNext() {
-        for (int y = 0; y < gridSize; y++) {
-            for (int x = 0; x < gridSize; x++) {
-                if (currentGrid[x][y].size() == 0) {
-                    theUltimateMusicalGrid[x][y] = Symbol.EMPTY;
-                } else if (currentGrid[x][y].size() == 1) {
-                    theUltimateMusicalGrid[x][y] = currentGrid[x][y].get(0).getSymbol();
-                } else {
-                    theUltimateMusicalGrid[x][y] = Symbol.COLLISION;
+    public Symbol[][][] displayNext() {
+        for (int i = 0; i < instrumentsNumber; i++) {
+            for (int y = 0; y < gridSize; y++) {
+                for (int x = 0; x < gridSize; x++) {
+                    if (currentGrid[x][y][i].size() == 0) {
+                        theUltimateMusicalGrid[x][y][i] = Symbol.EMPTY;
+                    } else if (currentGrid[x][y][i].size() == 1) {
+                        theUltimateMusicalGrid[x][y][i] = currentGrid[x][y][i].get(0).getSymbol();
+                    } else {
+                        theUltimateMusicalGrid[x][y][i] = Symbol.COLLISION;
+                    }
                 }
             }
         }
@@ -139,11 +148,13 @@ public class GridManager {
      *
      * @return Empty array of {@code Particle}.
      */
-    private LinkedList[][] initParticleArray() {
-        LinkedList[][] arr = new LinkedList[gridSize][gridSize];
-        for (int x = 0; x < gridSize; x++) {
-            for (int y = 0; y < gridSize; y++) {
-                arr[x][y] = new LinkedList<>();
+    private LinkedList[][][] initParticleArray() {
+        LinkedList[][][] arr = new LinkedList[gridSize][gridSize][instrumentsNumber];
+        for (int i = 0; i < instrumentsNumber; i++) {
+            for (int x = 0; x < gridSize; x++) {
+                for (int y = 0; y < gridSize; y++) {
+                    arr[x][y][i] = new LinkedList<>();
+                }
             }
         }
         return arr;
@@ -170,28 +181,32 @@ public class GridManager {
         Point current = new Point(x, y);
         boolean collision = (numberOfParticles(x, y) >= 2);
 
-        for (ListIterator<Particle> iterator = currentGrid[x][y].listIterator(); iterator.hasNext(); ) {
-            Particle particle = iterator.next();
+        for (int i = 0; i < instrumentsNumber; i++) {
+            for (ListIterator<Particle> iterator = currentGrid[x][y][i].listIterator(); iterator.hasNext(); ) {
+                Particle particle = iterator.next();
 
-            if (collision) {
-                particle.collide();
+                if (collision) {
+                    particle.collide();
+                }
+
+                Point destination = particle.destination(current);
+
+                if (!isInBoundaries(destination)) {
+                    particle.bounce();
+                    muBbo.addNote(destination.x, destination.y);
+                    printCurrentSound(destination);
+                }
+
+                iterator.remove();
+                nextGrid[destination.x][destination.y][i].add(particle);
             }
-
-            Point destination = particle.destination(current);
-
-            if (!isInBoundaries(destination)) {
-                particle.bounce();
-                muBbo.addNote(destination.x, destination.y);
-                printCurrentSound(destination);
-            }
-
-            iterator.remove();
-            nextGrid[destination.x][destination.y].add(particle);
         }
     }
 
     private void clear(int x, int y) {
-        currentGrid[x][y].clear();
+        for (int i = 0; i < instrumentsNumber; i++) {
+            currentGrid[x][y][i].clear();
+        }
     }
 
     /**
@@ -202,7 +217,9 @@ public class GridManager {
      * @param direction index of direction in {@code Direction.values()} array.
      */
     private void insert(int x, int y, int direction) {
-        currentGrid[x][y].add(new Particle(direction));
+        for (int i = 0; i < instrumentsNumber; i++) {
+            currentGrid[x][y][i].add(new Particle(direction));
+        }
     }
 
     /**
@@ -213,7 +230,7 @@ public class GridManager {
      * @return Number of particles currently in cell.
      */
     private int numberOfParticles(int x, int y) {
-        return currentGrid[x][y].size();
+        return currentGrid[x][y][0].size();
     }
 
     /**
@@ -226,7 +243,7 @@ public class GridManager {
             }
         }
 
-        List<Particle>[][] t = currentGrid;
+        List<Particle>[][][] t = currentGrid;
         currentGrid = nextGrid;
         nextGrid = t;
 
@@ -295,14 +312,16 @@ public class GridManager {
         }
         System.out.println();
 
-        for (int y = 0; y < gridSize; y++) {
-            System.out.print(y + " ");
-            for (int x = 0; x < gridSize; x++) {
-                System.out.print(getSymbol(x, y) + " ");
+        for (int i = 0; i < instrumentsNumber; i++) {
+            for (int y = 0; y < gridSize; y++) {
+                System.out.print(y + " ");
+                for (int x = 0; x < gridSize; x++) {
+                    System.out.print(getSymbol(x, y, i) + " ");
+                }
+                System.out.println();
             }
             System.out.println();
         }
-        System.out.println();
     }
 
     /**
@@ -312,11 +331,11 @@ public class GridManager {
      * @param y index of row in grid.
      * @return Character representing state of cell.
      */
-    private char getSymbol(int x, int y) {
+    private char getSymbol(int x, int y, int i) {
         Point current = new Point(x, y);
         if (numberOfParticles(x, y) == 1) {
             if (isInBoundaries(current)) {
-                return currentGrid[x][y].get(0).getCharacter();
+                return currentGrid[x][y][i].get(0).getCharacter();
             } else {
                 return glow;
             }
