@@ -58,5 +58,13 @@ class InstrumentIcon extends ImageIcon {
                 e.printStackTrace();
             }
         }
+        try {
+            BufferedImage img = ImageIO.read(InstrumentIcon.class.getResource("assets/down/0.png"));
+            instrumentImages[0].put(Symbol.DOWN, img);
+            img = ImageIO.read(InstrumentIcon.class.getResource("assets/down/3.png"));
+            instrumentImages[3].put(Symbol.DOWN, img);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

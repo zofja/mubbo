@@ -32,7 +32,7 @@ public class GridManager {
     /**
      * Number of available instruments.
      */
-    private final int instrumentsNumber = NUMBER_OF_INSTRUMENTS + 1;
+    private final int instrumentsNumber = NUMBER_OF_INSTRUMENTS;
 
     /**
      * Main music engine.
@@ -197,7 +197,9 @@ public class GridManager {
 
                 if (!isInBoundaries(destination)) {
                     particle.bounce();
-                    muBbo.addNote(destination.x, destination.y, i);
+                    if (i == 9) muBbo.addPercussion(destination.x, destination.y);
+                    else
+                        muBbo.addNote(destination.x, destination.y, i);
                     printCurrentSound(destination);
                 }
 

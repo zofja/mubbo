@@ -36,7 +36,7 @@ public class StartScreenUI {
         StartButton.addActionListener(actionEvent -> {
             System.out.println("start button");
             frame.dispose();
-            new GameWindow(scaleToMuBbo, reverbToMuBbo);
+            new GameUI().main2(scaleToMuBbo, reverbToMuBbo);
         });
         ReverbSlider.addChangeListener(changeEvent -> {
             JSlider source = (JSlider) changeEvent.getSource();
@@ -204,5 +204,4 @@ public class StartScreenUI {
     public JComponent $$$getRootComponent$$$() {
         return rootPanel;
     }
-
 }
