@@ -46,13 +46,13 @@ class InstrumentIcon extends ImageIcon {
 
         for (int i = 0; i < instrumentsNumber; i++) {
             try {
-//                BufferedImage imgL = ImageIO.read(InstrumentIcon.class.getResource("assets/left/" + i + ".png"));
-//                BufferedImage imgR = ImageIO.read(InstrumentIcon.class.getResource("assets/right/" + i + ".png"));
-//                BufferedImage imgU = ImageIO.read(InstrumentIcon.class.getResource("assets/up/" + i + ".png"));
+                BufferedImage imgL = ImageIO.read(InstrumentIcon.class.getResource("assets/left/" + i + ".png"));
+                BufferedImage imgR = ImageIO.read(InstrumentIcon.class.getResource("assets/right/" + i + ".png"));
+                BufferedImage imgU = ImageIO.read(InstrumentIcon.class.getResource("assets/up/" + i + ".png"));
                 BufferedImage imgD = ImageIO.read(InstrumentIcon.class.getResource("assets/down/" + i + ".png"));
-//                instrumentImages[i].put(Symbol.LEFT, imgL);
-//                instrumentImages[i].put(Symbol.RIGHT, imgR);
-//                instrumentImages[i].put(Symbol.UP, imgU);
+                instrumentImages[i].put(Symbol.LEFT, imgL);
+                instrumentImages[i].put(Symbol.RIGHT, imgR);
+                instrumentImages[i].put(Symbol.UP, imgU);
                 instrumentImages[i].put(Symbol.DOWN, imgD);
             } catch (IOException e) {
                 System.err.println("Couldn't load icon image, check directory");
