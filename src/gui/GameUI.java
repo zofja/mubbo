@@ -6,6 +6,8 @@ import core.GridManager;
 import core.Symbol;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,7 +17,6 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Random;
 
-import static core.Symbol.COLLISION;
 import static core.Symbol.EMPTY;
 import static sound.MusicBox.NUMBER_OF_INSTRUMENTS;
 
@@ -97,6 +98,11 @@ public class GameUI {
         PLAYButton.addActionListener(actionEvent -> {
             if (!ifStarted) {
                 ifStarted = true;
+                for (var row : buttonGrid) {
+                    for (var button : row) {
+                        button.setBorderPainted(false);
+                    }
+                }
                 timer.start();
                 gridManager.init(symbolGrid);
                 JButton clicked = (JButton) actionEvent.getSource();
@@ -104,6 +110,11 @@ public class GameUI {
             } else {
                 ifStarted = false;
                 timer.stop();
+                for (var row : buttonGrid) {
+                    for (var button : row) {
+                        button.setBorderPainted(true);
+                    }
+                }
                 JButton clicked = (JButton) actionEvent.getSource();
                 clicked.setText("PLAY");
             }
@@ -113,16 +124,19 @@ public class GameUI {
             public void mouseClicked(MouseEvent e) {
                 JList list = (JList) e.getSource();
                 int index = list.locationToIndex(e.getPoint());
-
                 ListItem item = (ListItem) list.getModel().getElementAt(index);
                 item.setSelected(!item.isSelected());
                 list.repaint(list.getCellBounds(index, index));
                 if (selectedSymbol != Symbol.EMPTY) {
                     ((ListItem) list.getModel().getElementAt(selectedSymbol.ordinal())).setSelected(false);
                 }
-                if (selectedSymbol.ordinal() == index) {
+                if (index == selectedSymbol.ordinal()) {
                     selectedSymbol = Symbol.EMPTY;
-                } else selectedSymbol = Symbol.values()[index];
+                } else if (index == 4) { // because COLLISION is originally 4th in Symbol enum
+                    selectedSymbol = Symbol.EMPTY;
+                } else {
+                    selectedSymbol = Symbol.values()[index];
+                }
             }
         });
         instrumentList.addMouseListener(new MouseAdapter() {
@@ -130,8 +144,8 @@ public class GameUI {
             public void mouseClicked(MouseEvent e) {
                 JList list = (JList) e.getSource();
                 int index = list.locationToIndex(e.getPoint());
-
                 ListItem item = (ListItem) list.getModel().getElementAt(index);
+                System.out.println(item);
                 item.setSelected(!item.isSelected());
                 list.repaint(list.getCellBounds(index, index));
                 if (selectedInstrument != -1) {
@@ -139,7 +153,9 @@ public class GameUI {
                 }
                 if (selectedInstrument == index) {
                     selectedInstrument = -1;
-                } else selectedInstrument = index;
+                } else {
+                    selectedInstrument = index;
+                }
             }
         });
     }
@@ -172,7 +188,8 @@ public class GameUI {
             for (int x = 0; x < gridSize; ++x) {
                 JButton button = new JButton();
                 button.setPreferredSize(new Dimension(70, 70));
-                button.setBorderPainted(false);
+                Border border = new LineBorder(Color.LIGHT_GRAY, 1);
+                button.setBorder(border);
                 buttonGrid[x][y] = button;
                 for (int i = 0; i < instrumentsNumber; i++) {
                     if (!isInBoundaries(new Point(x, y))) {
@@ -193,7 +210,8 @@ public class GameUI {
                 new ListItem("LEFT"),
                 new ListItem("UP"),
                 new ListItem("RIGHT"),
-                new ListItem("DOWN")};
+                new ListItem("DOWN"),
+                new ListItem("EMPTY")};
         arrowList.setListData(list);
         arrowList.setCellRenderer(new ListRenderer());
 
@@ -219,15 +237,14 @@ public class GameUI {
          * @param y y coordinate of clicked button.
          */
         private void processClick(int x, int y) {
-            if (!isInBoundaries(new Point(x, y)) || selectedInstrument == -1 || selectedSymbol == EMPTY) {
+            if (!isInBoundaries(new Point(x, y)) || selectedInstrument == -1) {
                 return;
             }
             symbolGrid[x][y][selectedInstrument] = selectedSymbol;
-            if (selectedSymbol == EMPTY || selectedSymbol == COLLISION) {
-                buttonGrid[x][y].setBackground(GRID_COLOR);
-                buttonGrid[x][y].setIcon(null);
+            if (selectedSymbol == EMPTY) {
+                instruments[x][y].remove(selectedInstrument);
+                buttonGrid[x][y].setIcon(new InstrumentIcon(instruments[x][y]));
             } else {
-                assert (instruments[x][y] != null);
                 instruments[x][y].put(selectedInstrument, selectedSymbol);
                 buttonGrid[x][y].setIcon(new InstrumentIcon(instruments[x][y])); // ustaw customową ikonę
             }
