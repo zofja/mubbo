@@ -82,6 +82,14 @@ public class GridManager {
         theUltimateMusicalGrid = new Symbol[gridSize][gridSize][instrumentsNumber];
     }
 
+    public void changeScaleFromManager(String scale) {
+        this.muBbo.changeScale(scale);
+    }
+
+    public void changeReverbFromManager(int reverb) {
+        this.muBbo.setReverb(reverb);
+    }
+
     ///////////////////////////////////////////////////////////////////////////////////////////////////////
     //                                      PUBLIC FUNCTIONS
     ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -197,14 +205,26 @@ public class GridManager {
 
                 if (!isInBoundaries(destination)) {
                     particle.bounce();
-                    if (i == 9) muBbo.addPercussion(destination.x, destination.y);
-                    else
+                    if (i == 9) {
+                        muBbo.addPercussion(destination.x, destination.y);
+                    } else {
                         muBbo.addNote(destination.x, destination.y, i);
+                    }
                     printCurrentSound(destination);
                 }
 
                 iterator.remove();
                 nextGrid[destination.x][destination.y][i].add(particle);
+            }
+        }
+    }
+
+    public void clear() {
+        for (int y = 0; y < gridSize; y++) {
+            for (int x = 0; x < gridSize; x++) {
+                for (int i = 0; i < instrumentsNumber; i++) {
+                    currentGrid[x][y][i].clear();
+                }
             }
         }
     }

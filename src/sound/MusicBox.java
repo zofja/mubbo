@@ -44,6 +44,13 @@ public class MusicBox {
     private static final int MAX_MIDI = 84;
 
     /**
+     * Reverb consts // TODO okomentarzować
+     */
+    public static final int REVERB_MAX = 2000;
+    public static final int REVERB_MIN = 25;
+    public static final int REVERB_DEFAULT = 200;
+
+    /**
      * Number of available instruments excluding percussion.
      */
     public static final int NUMBER_OF_INSTRUMENTS = 9;

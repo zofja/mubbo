@@ -1,5 +1,7 @@
 package gui;
 
+import javax.swing.*;
+
 /**
  * An object od class is an item of {@code ArrowList}.
  */
@@ -9,6 +11,7 @@ class ListItem {
      * Label of an item.
      */
     private String label;
+    private ImageIcon icon;
 
     /**
      * True if an item is marked as checked.
@@ -19,8 +22,17 @@ class ListItem {
     /**
      * @param label label of an item.
      */
+    ListItem(String label, ImageIcon icon) {
+        this.label = label;
+        this.icon = icon;
+    }
+
     ListItem(String label) {
         this.label = label;
+    }
+
+    ImageIcon getIcon() {
+        return this.icon;
     }
 
     /**
