@@ -86,4 +86,16 @@ class MusicBoxTestNew {
             Thread.sleep(1000);
         }
     }
+
+    @Test
+    void percussion() throws InterruptedException {
+        for (int j = 0; j < 3; j++) {
+            for (int i = 1; i < 10; i++) {
+                mb.addPercussion(i, 0);
+                mb.tick();
+                Thread.sleep(500);
+            }
+            Thread.sleep(500);
+        }
+    }
 }

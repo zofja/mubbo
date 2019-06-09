@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.*;
 
+import static sound.JavaxSynthesizerWrapper.PERCUSSION_CHANNEL;
+
 /**
  * Helper class used by JavaxSynth to perform a TurnOff MIDI action after desired amount of time.
  * Also handles the difference between sustain and non-sustain notes and reverb time.
@@ -127,7 +129,7 @@ public class NoteDeleter {
      */
     private ConcurrentMap<Note, Long> notesUpdates = new ConcurrentHashMap<>();
 
-    /**
+    /**private
      * Coordinating scheduler that turns off notes.
      */
     private final ScheduledExecutorService noteDeleteScheduler = Executors.newScheduledThreadPool(1);
@@ -196,7 +198,7 @@ public class NoteDeleter {
             long keySustain = -System.currentTimeMillis();
 
             var fadeNotes = new LinkedList<>(currTickNotesOn);
-            fadeNotes.removeIf(note -> SUSTAIN_INSTRUMENTS.contains(currentPreset.get(note.instrument)));
+            fadeNotes.removeIf(note -> note.instrument == PERCUSSION_CHANNEL || SUSTAIN_INSTRUMENTS.contains(currentPreset.get(note.instrument)));
             var sustainNotes = new LinkedList<>(currTickNotesOn);
             sustainNotes.removeAll(fadeNotes);
             currTickNotesOn.clear();

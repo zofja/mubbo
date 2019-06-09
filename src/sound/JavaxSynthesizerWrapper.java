@@ -33,7 +33,7 @@ public class JavaxSynthesizerWrapper implements SynthesizerWrapper {
     /**
      * Channel number that MIDI operates a percussion on.
      */
-    private static final int PERCUSSION_CHANNEL = 9;
+    public static final int PERCUSSION_CHANNEL = 9;
 
     /**
      * Map of available presets: preset name -> List of instruments in MIDI general bank number.
@@ -46,7 +46,7 @@ public class JavaxSynthesizerWrapper implements SynthesizerWrapper {
     /**
      * Preset for percussion sounds: list of all distinct sounding MIDI pitches on 10'th channel.
      */
-    private static final List<Integer> PERCUSSION_PRESET = List.of(35, 37, 38, 41, 42, 43, 46, 49);
+    private static final List<Integer> PERCUSSION_PRESET = List.of(35, 37, 38, 41, 42, 46, 49);
 
     /**
      * Name of a default preset.
