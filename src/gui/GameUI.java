@@ -163,12 +163,9 @@ public class GameUI {
                 if (selectedSymbol != Symbol.EMPTY) {
                     ((ListItem) list.getModel().getElementAt(selectedSymbol.ordinal())).setSelected(false);
                 }
-                if (index == selectedSymbol.ordinal()) {
-                    selectedSymbol = Symbol.EMPTY;
-                } else if (index == 4) { // because COLLISION is originally 4th in Symbol enum
-                    selectedSymbol = Symbol.EMPTY;
-                } else {
-                    selectedSymbol = Symbol.values()[index];
+                selectedSymbol = Symbol.values()[index];
+                if (index == 4) {
+                    selectedSymbol = EMPTY;
                 }
             }
         });
@@ -184,11 +181,7 @@ public class GameUI {
                 if (selectedInstrument != -1) {
                     ((ListItem) list.getModel().getElementAt(selectedInstrument)).setSelected(false);
                 }
-                if (selectedInstrument == index) {
-                    selectedInstrument = -1;
-                } else {
-                    selectedInstrument = index;
-                }
+                selectedInstrument = index;
             }
         });
         ReverbSlider.addChangeListener(changeEvent -> {
@@ -212,6 +205,9 @@ public class GameUI {
                     }
                     buttonGrid[x][y].setIcon(null);
                 }
+            }
+            if (ifStarted) {
+                PLAYButton.doClick();
             }
         });
     }
