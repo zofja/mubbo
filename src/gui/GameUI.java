@@ -3,6 +3,7 @@ package gui;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import core.GridManager;
+import core.Presetter;
 import core.Symbol;
 import sound.Scale;
 
@@ -11,6 +12,7 @@ import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.Random;
 
@@ -38,6 +40,8 @@ public class GameUI {
     private JPanel reverbChanger;
     private JPanel scaleChanger;
     private JButton RESTARTButton;
+    private JButton SAVEbutton;
+    private JPanel gridPanel;
 
     /**
      * Random generator used to get color.
@@ -57,12 +61,12 @@ public class GameUI {
     /**
      * Number of available instruments.
      */
-    private static final int instrumentsNumber = NUMBER_OF_INSTRUMENTS;
+    static final int instrumentsNumber = NUMBER_OF_INSTRUMENTS;
 
     /**
      * Size of the grid.
      */
-    private static final int gridSize = 9;
+    static final int gridSize = 9;
 
     /**
      * Duration of each tick in milliseconds.
@@ -203,12 +207,18 @@ public class GameUI {
                         symbolGrid[x][y][i] = EMPTY;
                         clearCell(x, y, i);
                     }
+                    instruments[x][y].clear();
                     buttonGrid[x][y].setIcon(null);
                 }
             }
             if (ifStarted) {
                 PLAYButton.doClick();
             }
+        });
+        SAVEbutton.addActionListener(actionEvent -> {
+
+            System.out.println(Arrays.deepToString(symbolGrid));
+            new SaveScreenUI().main3(symbolGrid);
         });
     }
 
@@ -219,7 +229,7 @@ public class GameUI {
     }
 
 
-    void main2(String scale, int reverb) {
+    void main2(String preset, String scale, int reverb) {
         JFrame frame = new JFrame("GameUI");
         frame.setContentPane(rootPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -228,6 +238,13 @@ public class GameUI {
         frame.setVisible(true);
 
         // initialize attributes
+        for (int x = 0; x < gridSize; x++) {
+            for (int y = 0; y < gridSize; y++) {
+                for (int i = 0; i < instrumentsNumber; i++) {
+                    symbolGrid[x][y][i] = EMPTY;
+                }
+            }
+        }
         gridManager = new GridManager(gridSize, scale, reverb);
         instruments = new Hashtable[gridSize][gridSize];
         for (int x = 0; x < gridSize; x++) {
@@ -235,6 +252,7 @@ public class GameUI {
                 instruments[x][y] = new Hashtable<>();
             }
         }
+        display(Presetter.importPreset(preset));
     }
 
 
@@ -447,7 +465,7 @@ public class GameUI {
         rootPanel = new JPanel();
         rootPanel.setLayout(new GridLayoutManager(3, 5, new Insets(20, 20, 20, 20), -1, -1));
         rootPanel.setBackground(new Color(-2105377));
-        rootPanel.setMaximumSize(new Dimension(900, 900));
+        rootPanel.setMaximumSize(new Dimension(-1, -1));
         rootPanel.setMinimumSize(new Dimension(900, 900));
         rootPanel.setPreferredSize(new Dimension(900, 900));
         description = new JLabel();
@@ -456,12 +474,10 @@ public class GameUI {
         description.setForeground(new Color(-13619152));
         description.setText("Position arrows on the grid and click PLAY.");
         rootPanel.add(description, new GridConstraints(0, 0, 1, 5, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        grid.setBackground(new Color(-1907998));
-        rootPanel.add(grid, new GridConstraints(1, 0, 1, 4, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, new Dimension(630, 630), new Dimension(630, 630), new Dimension(630, 630), 0, true));
         options = new JPanel();
-        options.setLayout(new GridLayoutManager(5, 1, new Insets(10, 10, 10, 10), -1, -1));
+        options.setLayout(new GridLayoutManager(4, 1, new Insets(10, 10, 10, 10), -1, -1));
         options.setOpaque(false);
-        rootPanel.add(options, new GridConstraints(1, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, new Dimension(-1, 630), new Dimension(-1, 630), new Dimension(-1, 630), 0, false));
+        rootPanel.add(options, new GridConstraints(1, 4, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_VERTICAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, new Dimension(-1, 630), new Dimension(-1, 630), null, 0, false));
         arrowMenu = new JPanel();
         arrowMenu.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         arrowMenu.setOpaque(false);
@@ -506,27 +522,14 @@ public class GameUI {
         ScaleList.setName("");
         ScaleList.setOpaque(false);
         scaleChanger.add(ScaleList, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_NORTH, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final JPanel panel1 = new JPanel();
-        panel1.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
-        panel1.setBackground(new Color(-2105377));
-        options.add(panel1, new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, 1, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        RESTARTButton = new JButton();
-        RESTARTButton.setBackground(new Color(-8224126));
-        RESTARTButton.setFocusPainted(false);
-        RESTARTButton.setFocusable(false);
-        Font RESTARTButtonFont = this.$$$getFont$$$("Noto Sans Mono CJK KR Regular", -1, 24, RESTARTButton.getFont());
-        if (RESTARTButtonFont != null) RESTARTButton.setFont(RESTARTButtonFont);
-        RESTARTButton.setForeground(new Color(-2105377));
-        RESTARTButton.setText("CLEAR");
-        panel1.add(RESTARTButton, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         bottomPanel = new JPanel();
         bottomPanel.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         bottomPanel.setOpaque(false);
         rootPanel.add(bottomPanel, new GridConstraints(2, 0, 1, 5, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         playPanel = new JPanel();
-        playPanel.setLayout(new GridLayoutManager(1, 1, new Insets(20, 0, 0, 0), -1, -1));
+        playPanel.setLayout(new GridLayoutManager(1, 3, new Insets(20, 0, 0, 0), -1, -1));
         playPanel.setBackground(new Color(-2105377));
-        bottomPanel.add(playPanel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, 1, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        bottomPanel.add(playPanel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, 1, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         PLAYButton = new JButton();
         PLAYButton.setBackground(new Color(-14145496));
         PLAYButton.setFocusPainted(false);
@@ -535,7 +538,31 @@ public class GameUI {
         if (PLAYButtonFont != null) PLAYButton.setFont(PLAYButtonFont);
         PLAYButton.setForeground(new Color(-2105377));
         PLAYButton.setText("PLAY");
-        playPanel.add(PLAYButton, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        playPanel.add(PLAYButton, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        RESTARTButton = new JButton();
+        RESTARTButton.setBackground(new Color(-8224126));
+        RESTARTButton.setFocusPainted(false);
+        RESTARTButton.setFocusable(false);
+        Font RESTARTButtonFont = this.$$$getFont$$$("Noto Sans Mono CJK KR Regular", -1, 24, RESTARTButton.getFont());
+        if (RESTARTButtonFont != null) RESTARTButton.setFont(RESTARTButtonFont);
+        RESTARTButton.setForeground(new Color(-2105377));
+        RESTARTButton.setText("CLEAR");
+        playPanel.add(RESTARTButton, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        SAVEbutton = new JButton();
+        SAVEbutton.setBackground(new Color(-8224126));
+        SAVEbutton.setFocusPainted(false);
+        SAVEbutton.setFocusable(false);
+        Font SAVEbuttonFont = this.$$$getFont$$$("Noto Sans Mono CJK KR Regular", -1, 24, SAVEbutton.getFont());
+        if (SAVEbuttonFont != null) SAVEbutton.setFont(SAVEbuttonFont);
+        SAVEbutton.setForeground(new Color(-2105377));
+        SAVEbutton.setText("SAVE");
+        playPanel.add(SAVEbutton, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        gridPanel = new JPanel();
+        gridPanel.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        gridPanel.setOpaque(false);
+        rootPanel.add(gridPanel, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_VERTICAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        grid.setBackground(new Color(-1907998));
+        gridPanel.add(grid, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, new Dimension(630, 630), new Dimension(630, 630), new Dimension(630, 630), 0, true));
     }
 
     /**

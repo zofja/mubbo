@@ -7,6 +7,8 @@ import sound.Scale;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ItemEvent;
+import java.io.File;
+import java.util.Objects;
 
 public class StartScreenUI {
     private JPanel rootPanel;
@@ -20,6 +22,9 @@ public class StartScreenUI {
     private JPanel ScalePanel;
     private JComboBox ScaleList;
     private JLabel ScaleListName;
+    private JPanel presetsPanel;
+    private JLabel presetPanelDescription;
+    private JComboBox presetsList;
 
     private static final int REVERB_MAX = 2000;
     private static final int REVERB_MIN = 25;
@@ -27,6 +32,7 @@ public class StartScreenUI {
 
     private String scaleToMuBbo = Scale.MAJOR.getDisplayName();
     private int reverbToMuBbo = 250;
+    private String presetToMuBbo = "preset";
 
     private static JFrame frame;
 
@@ -36,7 +42,7 @@ public class StartScreenUI {
         StartButton.addActionListener(actionEvent -> {
             System.out.println("start button");
             frame.dispose();
-            new GameUI().main2(scaleToMuBbo, reverbToMuBbo);
+            new GameUI().main2(presetToMuBbo, scaleToMuBbo, reverbToMuBbo);
         });
         ReverbSlider.addChangeListener(changeEvent -> {
             JSlider source = (JSlider) changeEvent.getSource();
@@ -49,6 +55,13 @@ public class StartScreenUI {
                 ItemSelectable is = itemEvent.getItemSelectable();
                 scaleToMuBbo = selectedString(is);
                 System.out.println(scaleToMuBbo);
+            }
+        });
+        presetsList.addItemListener(itemEvent -> {
+            if (itemEvent.getStateChange() == ItemEvent.SELECTED) {
+                ItemSelectable is = itemEvent.getItemSelectable();
+                presetToMuBbo = selectedString(is);
+                System.out.println(presetToMuBbo);
             }
         });
     }
@@ -78,6 +91,20 @@ public class StartScreenUI {
 
         // reverb slider custom create
         ReverbSlider = new JSlider(REVERB_MIN, REVERB_MAX, REVERB_DEFAULT);
+
+        // presets list custom create
+        presetsList = new JComboBox();
+        File folder = new File("presets");
+
+        for (File file : Objects.requireNonNull(folder.listFiles())) {
+            if (file.isFile()) {
+                System.out.println("File " + file.getName());
+                presetsList.addItem(file.getName());
+            } else if (file.isDirectory()) {
+                System.out.println("Directory " + file.getName());
+            }
+        }
+        presetsList.setSelectedItem("preset");
     }
 
 
@@ -91,7 +118,7 @@ public class StartScreenUI {
     private void $$$setupUI$$$() {
         createUIComponents();
         rootPanel = new JPanel();
-        rootPanel.setLayout(new GridLayoutManager(5, 1, new Insets(0, 0, 0, 0), -1, -1));
+        rootPanel.setLayout(new GridLayoutManager(6, 1, new Insets(0, 0, 0, 0), -1, -1));
         rootPanel.setAutoscrolls(false);
         rootPanel.setBackground(new Color(-14869219));
         rootPanel.setEnabled(true);
@@ -111,7 +138,7 @@ public class StartScreenUI {
         rootPanel.add(NamePanel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         MuBbo = new JLabel();
         MuBbo.setBackground(new Color(-13882324));
-        Font MuBboFont = this.$$$getFont$$$("Noto Sans Mono CJK SC Regular", Font.PLAIN, 72, MuBbo.getFont());
+        Font MuBboFont = this.$$$getFont$$$("Noto Sans Mono CJK KR Bold", Font.PLAIN, 72, MuBbo.getFont());
         if (MuBboFont != null) MuBbo.setFont(MuBboFont);
         MuBbo.setForeground(new Color(-5789785));
         MuBbo.setHorizontalAlignment(0);
@@ -123,20 +150,20 @@ public class StartScreenUI {
         Font ReverbPanelFont = this.$$$getFont$$$("Noto Sans Mono CJK JP Regular", -1, 16, ReverbPanel.getFont());
         if (ReverbPanelFont != null) ReverbPanel.setFont(ReverbPanelFont);
         ReverbPanel.setOpaque(false);
-        rootPanel.add(ReverbPanel, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        rootPanel.add(ReverbPanel, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         ReverbSliderName = new JLabel();
         ReverbSliderName.setBackground(new Color(-5789785));
         ReverbSliderName.setFocusable(false);
-        Font ReverbSliderNameFont = this.$$$getFont$$$("Noto Sans Mono CJK TC Regular", Font.PLAIN, 26, ReverbSliderName.getFont());
+        Font ReverbSliderNameFont = this.$$$getFont$$$("Noto Sans Mono CJK KR Regular", -1, 24, ReverbSliderName.getFont());
         if (ReverbSliderNameFont != null) ReverbSliderName.setFont(ReverbSliderNameFont);
         ReverbSliderName.setForeground(new Color(-5789785));
         ReverbSliderName.setOpaque(false);
-        ReverbSliderName.setText("Set Reverb:");
+        ReverbSliderName.setText("Set reverb:");
         ReverbPanel.add(ReverbSliderName, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         ReverbSlider.setBackground(new Color(-5789785));
         Font ReverbSliderFont = this.$$$getFont$$$("Noto Sans Mono CJK KR Regular", -1, 20, ReverbSlider.getFont());
         if (ReverbSliderFont != null) ReverbSlider.setFont(ReverbSliderFont);
-        ReverbSlider.setForeground(new Color(-3421237));
+        ReverbSlider.setForeground(new Color(-5789785));
         ReverbSlider.setMajorTickSpacing(1975);
         ReverbSlider.setMaximum(2000);
         ReverbSlider.setMinimum(25);
@@ -148,10 +175,9 @@ public class StartScreenUI {
         StartPanel.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         StartPanel.setOpaque(false);
         StartPanel.setVisible(true);
-        rootPanel.add(StartPanel, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        rootPanel.add(StartPanel, new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         StartButton = new JButton();
-        StartButton.setBackground(new Color(-1907998));
-        StartButton.setContentAreaFilled(false);
+        StartButton.setBackground(new Color(-5789785));
         StartButton.setFocusPainted(true);
         Font StartButtonFont = this.$$$getFont$$$("Noto Sans Mono CJK KR Regular", Font.BOLD, 36, StartButton.getFont());
         if (StartButtonFont != null) StartButton.setFont(StartButtonFont);
@@ -162,21 +188,38 @@ public class StartScreenUI {
         ScalePanel = new JPanel();
         ScalePanel.setLayout(new GridLayoutManager(2, 1, new Insets(0, 0, 0, 0), -1, -1));
         ScalePanel.setOpaque(false);
-        rootPanel.add(ScalePanel, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        rootPanel.add(ScalePanel, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         ScaleListName = new JLabel();
         ScaleListName.setBackground(new Color(-14869219));
-        Font ScaleListNameFont = this.$$$getFont$$$("Noto Sans Mono CJK TC Regular", -1, 26, ScaleListName.getFont());
+        Font ScaleListNameFont = this.$$$getFont$$$("Noto Sans Mono CJK KR Regular", -1, 24, ScaleListName.getFont());
         if (ScaleListNameFont != null) ScaleListName.setFont(ScaleListNameFont);
         ScaleListName.setForeground(new Color(-5789785));
         ScaleListName.setText("Choose scale");
         ScalePanel.add(ScaleListName, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         ScaleList.setBackground(new Color(-14869219));
-        Font ScaleListFont = this.$$$getFont$$$("Noto Sans Mono CJK JP Regular", -1, 18, ScaleList.getFont());
+        Font ScaleListFont = this.$$$getFont$$$("Noto Sans Mono CJK KR Regular", -1, 18, ScaleList.getFont());
         if (ScaleListFont != null) ScaleList.setFont(ScaleListFont);
         ScaleList.setForeground(new Color(-5789785));
         ScaleList.setName("");
         ScaleList.setOpaque(false);
         ScalePanel.add(ScaleList, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        presetsPanel = new JPanel();
+        presetsPanel.setLayout(new GridLayoutManager(2, 1, new Insets(0, 0, 0, 0), -1, -1));
+        presetsPanel.setOpaque(false);
+        rootPanel.add(presetsPanel, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        presetPanelDescription = new JLabel();
+        presetPanelDescription.setBackground(new Color(-14869219));
+        Font presetPanelDescriptionFont = this.$$$getFont$$$("Noto Sans Mono CJK KR Regular", -1, 24, presetPanelDescription.getFont());
+        if (presetPanelDescriptionFont != null) presetPanelDescription.setFont(presetPanelDescriptionFont);
+        presetPanelDescription.setForeground(new Color(-5789785));
+        presetPanelDescription.setText("Choose preset:");
+        presetsPanel.add(presetPanelDescription, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        presetsList.setBackground(new Color(-14869219));
+        Font presetsListFont = this.$$$getFont$$$("Noto Sans Mono CJK KR Regular", -1, 16, presetsList.getFont());
+        if (presetsListFont != null) presetsList.setFont(presetsListFont);
+        presetsList.setForeground(new Color(-5789785));
+        presetsList.setOpaque(false);
+        presetsPanel.add(presetsList, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 
     /**
@@ -204,4 +247,5 @@ public class StartScreenUI {
     public JComponent $$$getRootComponent$$$() {
         return rootPanel;
     }
+
 }

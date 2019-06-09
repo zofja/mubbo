@@ -105,7 +105,6 @@ public class GridManager {
      * @param initGrid {@code Symbol} setup of particles on grid from GUI.
      */
     public void init(Symbol[][][] initGrid) {
-        preset = initGrid;
         for (int y = 1; y < gridSize - 1; y++) {
             for (int x = 1; x < gridSize - 1; x++) {
                 for (int i = 0; i < instrumentsNumber; i++) {
@@ -128,6 +127,8 @@ public class GridManager {
      */
     public void init(String path) {
         Symbol[][][] initGrid = Presetter.importPreset(path);
+        preset = initGrid;
+//        exportPreset(path);
         init(initGrid);
     }
 
@@ -136,7 +137,7 @@ public class GridManager {
      *
      * @param path {@code Symbol} path to JSON file.
      */
-    public void exportPreset(String path) {
+    public static void exportPreset(Symbol[][][] preset, String path) {
         Presetter.exportPreset(preset, path);
     }
 
