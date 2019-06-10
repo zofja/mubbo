@@ -89,7 +89,7 @@ public class StartScreenUI {
 
         // presets list custom create
         presetsList = new JComboBox();
-        File folder = new File("presets");
+        File folder = new File("./presets");
 
         for (File file : Objects.requireNonNull(folder.listFiles())) {
             if (file.isFile()) {

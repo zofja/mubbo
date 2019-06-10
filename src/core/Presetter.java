@@ -5,11 +5,10 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 
 import java.io.*;
-import java.util.ArrayList;
 
 public class Presetter {
 
-    private static final String presetDirectory = "presets";
+    private static final String presetDirectory = "./presets";
 
     static void exportPreset(Symbol[][][] preset, String path) {
         GsonBuilder builder;
@@ -40,7 +39,7 @@ public class Presetter {
 
             fromJSON = gson.fromJson(jreader, Symbol[][][].class);
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            System.err.println("Couldn't open preset.");
             System.exit(1);
         }
 
