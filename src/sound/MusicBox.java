@@ -217,9 +217,6 @@ public class MusicBox {
         player.setReverb(ms);
     }
 
-    public Set<String> getAllPresets() {
-        return player.getAllInstrumentPresets();
-    }
 
     public void setPreset(String presetName) {
         player.setInstrumentPreset(presetName);

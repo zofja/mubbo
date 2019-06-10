@@ -78,11 +78,6 @@ public interface SynthesizerWrapper {
     void setReverb(int ms);
 
     /**
-     * @return Set of all instrument presets.
-     */
-    Set<String> getAllInstrumentPresets();
-
-    /**
      * Sets new instrument preset.
      *
      * @param presetName preset name to be set.

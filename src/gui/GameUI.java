@@ -43,6 +43,9 @@ public class GameUI {
     private JButton SAVEbutton;
     private JPanel gridPanel;
     private JButton colorBlindMode;
+    private JPanel modePanel;
+    private JLabel reverbPanelDescription;
+    private JButton ELECTRONICModeButton;
 
     /**
      * Random generator used to get color.
@@ -96,6 +99,11 @@ public class GameUI {
     private static Integer selectedInstrument = -1;
 
     /**
+     * Currently selected mode.
+     */
+    private static String selectedInstrumentMode = null;
+
+    /**
      * Remembers state of the game.
      */
     private boolean ifStarted = false;
@@ -131,6 +139,8 @@ public class GameUI {
     private static int wall = 8;
 
     private static boolean colorBlindOn = false;
+
+    private static boolean electronicMode = false;
 
     private void changeButtonGridBorders(boolean visibility) {
         for (var row : buttonGrid) {
@@ -236,19 +246,31 @@ public class GameUI {
             new SaveScreenUI().main3(symbolGrid);
         });
         colorBlindMode.addActionListener(actionEvent -> {
-            colorBlindMode.setBackground(COLOR_BLIND_EDGE);
             if (colorBlindOn) {
+                colorBlindMode.setBackground(BORDER_COLOR);
                 colorBlindOn = false;
             } else {
                 colorBlindOn = true;
+                colorBlindMode.setBackground(COLOR_BLIND_EDGE);
             }
-            setInstrumentList();
+            populateInstrumentList();
             changeButtonGridBorders(true);
             display(symbolGrid);
         });
+        ELECTRONICModeButton.addActionListener(actionEvent -> {
+            if (electronicMode) {
+                electronicMode = false;
+                ELECTRONICModeButton.setBackground(BORDER_COLOR);
+                gridManager.setPresetTouBbo("Classic");
+            } else {
+                electronicMode = true;
+                ELECTRONICModeButton.setBackground(COLOR_BLIND_EDGE);
+                gridManager.setPresetTouBbo("Electronic");
+            }
+        });
     }
 
-    private void setInstrumentList() {
+    private void populateInstrumentList() {
         ListItem[] instruments = new ListItem[NUMBER_OF_INSTRUMENTS];
         for (int i = 0; i < NUMBER_OF_INSTRUMENTS; i++) {
             instruments[i] = new ListItem(JavaxSynthesizerWrapper.INSTRUMENTS_NAMES.get(i), InstrumentIcon.getListIcon(EMPTY, i, colorBlindOn));
@@ -346,11 +368,13 @@ public class GameUI {
 
         // custom instrumentList
         instrumentList = new JList<ListItem>();
-        setInstrumentList();
+        populateInstrumentList();
         instrumentList.setSelectionModel(new SelectionModel(instrumentList, 1));
         instrumentList.setCellRenderer(new ListRenderer());
         selectedInstrument = 0;
         instrumentList.setSelectedIndex(selectedInstrument);
+
+//        modeList.setListData(JavaxSynthesizerWrapper.getAllInstrumentPresets().stream().map(ListItem::new).toArray());
     }
 
     /**
@@ -499,20 +523,20 @@ public class GameUI {
         description = new JLabel();
         Font descriptionFont = this.$$$getFont$$$("Noto Sans Mono CJK KR Regular", -1, 22, description.getFont());
         if (descriptionFont != null) description.setFont(descriptionFont);
-        description.setForeground(new Color(-13619152));
+        description.setForeground(new Color(-12763843));
         description.setText("Position arrows on the grid and click PLAY.");
         rootPanel.add(description, new GridConstraints(0, 0, 1, 5, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         options = new JPanel();
-        options.setLayout(new GridLayoutManager(5, 1, new Insets(10, 10, 10, 10), -1, -1));
+        options.setLayout(new GridLayoutManager(6, 1, new Insets(10, 10, 10, 10), -1, -1));
         options.setOpaque(false);
-        rootPanel.add(options, new GridConstraints(1, 4, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_VERTICAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, new Dimension(-1, 630), new Dimension(-1, 630), null, 0, false));
+        rootPanel.add(options, new GridConstraints(1, 4, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_VERTICAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         arrowMenu = new JPanel();
         arrowMenu.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         arrowMenu.setOpaque(false);
         options.add(arrowMenu, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         Font arrowListFont = this.$$$getFont$$$("Noto Sans CJK KR Regular", -1, 18, arrowList.getFont());
         if (arrowListFont != null) arrowList.setFont(arrowListFont);
-        arrowList.setForeground(new Color(-13619152));
+        arrowList.setForeground(new Color(-12763843));
         arrowList.setOpaque(false);
         arrowMenu.add(arrowList, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
         instrumentMenu = new JPanel();
@@ -521,28 +545,35 @@ public class GameUI {
         options.add(instrumentMenu, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         Font instrumentListFont = this.$$$getFont$$$("Noto Sans Mono CJK KR Regular", -1, 18, instrumentList.getFont());
         if (instrumentListFont != null) instrumentList.setFont(instrumentListFont);
-        instrumentList.setForeground(new Color(-13619152));
+        instrumentList.setForeground(new Color(-12763843));
         instrumentList.setOpaque(false);
         instrumentMenu.add(instrumentList, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
         reverbChanger = new JPanel();
-        reverbChanger.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        reverbChanger.setLayout(new GridLayoutManager(2, 1, new Insets(0, 0, 0, 0), -1, -1));
         reverbChanger.setBackground(new Color(-2105377));
-        options.add(reverbChanger, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        options.add(reverbChanger, new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         ReverbSlider.setBackground(new Color(-5789785));
-        Font ReverbSliderFont = this.$$$getFont$$$("Noto Sans Mono CJK KR Regular", -1, 20, ReverbSlider.getFont());
+        Font ReverbSliderFont = this.$$$getFont$$$("Noto Sans Mono CJK KR Regular", -1, 16, ReverbSlider.getFont());
         if (ReverbSliderFont != null) ReverbSlider.setFont(ReverbSliderFont);
-        ReverbSlider.setForeground(new Color(-13619152));
+        ReverbSlider.setForeground(new Color(-12763843));
         ReverbSlider.setMajorTickSpacing(1975);
         ReverbSlider.setMaximum(2000);
         ReverbSlider.setMinimum(25);
         ReverbSlider.setOpaque(false);
         ReverbSlider.setPaintLabels(true);
         ReverbSlider.setPaintTrack(true);
-        reverbChanger.add(ReverbSlider, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_NORTH, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        reverbChanger.add(ReverbSlider, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_NORTH, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        reverbPanelDescription = new JLabel();
+        reverbPanelDescription.setFocusable(true);
+        Font reverbPanelDescriptionFont = this.$$$getFont$$$("Noto Sans Mono CJK KR Regular", -1, 16, reverbPanelDescription.getFont());
+        if (reverbPanelDescriptionFont != null) reverbPanelDescription.setFont(reverbPanelDescriptionFont);
+        reverbPanelDescription.setForeground(new Color(-12763843));
+        reverbPanelDescription.setText("Reverb:");
+        reverbChanger.add(reverbPanelDescription, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         scaleChanger = new JPanel();
         scaleChanger.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         scaleChanger.setBackground(new Color(-2105377));
-        options.add(scaleChanger, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        options.add(scaleChanger, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         ScaleList.setBackground(new Color(-2105377));
         Font ScaleListFont = this.$$$getFont$$$("Noto Sans Mono CJK JP Regular", -1, 18, ScaleList.getFont());
         if (ScaleListFont != null) ScaleList.setFont(ScaleListFont);
@@ -558,17 +589,30 @@ public class GameUI {
         if (colorBlindModeFont != null) colorBlindMode.setFont(colorBlindModeFont);
         colorBlindMode.setForeground(new Color(-2105377));
         colorBlindMode.setText("COLOR-BLIND");
-        options.add(colorBlindMode, new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        options.add(colorBlindMode, new GridConstraints(5, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        modePanel = new JPanel();
+        modePanel.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        modePanel.setOpaque(false);
+        options.add(modePanel, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        ELECTRONICModeButton = new JButton();
+        ELECTRONICModeButton.setBackground(new Color(-6513508));
+        ELECTRONICModeButton.setFocusPainted(false);
+        ELECTRONICModeButton.setFocusable(false);
+        Font ELECTRONICModeButtonFont = this.$$$getFont$$$("Noto Sans Mono CJK KR Regular", -1, 16, ELECTRONICModeButton.getFont());
+        if (ELECTRONICModeButtonFont != null) ELECTRONICModeButton.setFont(ELECTRONICModeButtonFont);
+        ELECTRONICModeButton.setForeground(new Color(-2105377));
+        ELECTRONICModeButton.setText("ELECTRONIC");
+        modePanel.add(ELECTRONICModeButton, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         bottomPanel = new JPanel();
         bottomPanel.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         bottomPanel.setOpaque(false);
-        rootPanel.add(bottomPanel, new GridConstraints(2, 0, 1, 5, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        rootPanel.add(bottomPanel, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         playPanel = new JPanel();
         playPanel.setLayout(new GridLayoutManager(1, 3, new Insets(20, 0, 0, 0), -1, -1));
         playPanel.setBackground(new Color(-2105377));
         bottomPanel.add(playPanel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, 1, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         PLAYButton = new JButton();
-        PLAYButton.setBackground(new Color(-14145496));
+        PLAYButton.setBackground(new Color(-12763843));
         PLAYButton.setFocusPainted(false);
         PLAYButton.setFocusable(false);
         Font PLAYButtonFont = this.$$$getFont$$$("Noto Sans Mono CJK KR Regular", -1, 28, PLAYButton.getFont());

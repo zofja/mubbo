@@ -21,7 +21,7 @@ public class JavaxSynthesizerWrapper implements SynthesizerWrapper {
     public static final int DEFAULT_VELOCITY = 80;
 
     /**
-     * Midi channel where all sound are pointed to.
+     * Midi channel where all sounds are pointed to.
      */
     private List<MidiChannel> channels;
 
@@ -107,7 +107,7 @@ public class JavaxSynthesizerWrapper implements SynthesizerWrapper {
         nd.tick();
     }
 
-    public Set<String> getAllInstrumentPresets() {
+    public static Set<String> getAllInstrumentPresets() {
         return INSTRUMENTS_PRESETS.keySet();
     }
 
