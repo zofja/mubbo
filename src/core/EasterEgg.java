@@ -4,36 +4,21 @@ import sound.MusicBox;
 
 import javax.sound.midi.MidiUnavailableException;
 
+import static sound.MusicBox.NUMBER_OF_INSTRUMENTS;
+
 public class EasterEgg {
 
-    private Symbol[][] ethDnegelFoAdlez = new Symbol[9][9];
+    private int gridSize;
+    private Symbol[][][] ethDnegelFoAdlez = new Symbol[9][9][9];
 
-    {
-        for (int i = 1; i < 8; i++) {
-            for (int j = 1; j < 8; j++) {
-                ethDnegelFoAdlez[i][j] = Symbol.EMPTY;
-            }
-        }
-        ethDnegelFoAdlez[1][5] = Symbol.UP;
-        ethDnegelFoAdlez[2][4] = Symbol.UP;
-        ethDnegelFoAdlez[2][5] = Symbol.UP;
-        ethDnegelFoAdlez[3][3] = Symbol.UP;
-        ethDnegelFoAdlez[3][5] = Symbol.UP;
-        ethDnegelFoAdlez[4][2] = Symbol.UP;
-        ethDnegelFoAdlez[4][4] = Symbol.UP;
-        ethDnegelFoAdlez[4][5] = Symbol.UP;
-        ethDnegelFoAdlez[5][3] = Symbol.UP;
-        ethDnegelFoAdlez[5][5] = Symbol.UP;
-        ethDnegelFoAdlez[6][4] = Symbol.UP;
-        ethDnegelFoAdlez[6][5] = Symbol.UP;
-        ethDnegelFoAdlez[7][5] = Symbol.UP;
-    }
 
-    public EasterEgg(int gridSize, Symbol[][] initGrid) {
+    public EasterEgg(int gridSize, Symbol[][][] initGrid) {
+        this.gridSize = gridSize;
+        initZeldaGrid();
         if (gridSize != 9) return;
-        for (int i = 1; i < gridSize - 1; i++) {
-            for (int j = 1; j < gridSize - 1; j++) {
-                if (initGrid[i][j] != ethDnegelFoAdlez[i][j]) return;
+        for (int y = 0; y < gridSize; y++) {
+            for (int x = 0; x < gridSize; x++) {
+                if (initGrid[x][y][0] != ethDnegelFoAdlez[x][y][0]) return;
             }
         }
 
@@ -44,6 +29,30 @@ public class EasterEgg {
         }
         System.exit(0);
     }
+
+    private void initZeldaGrid() {
+
+        for (int y = 0; y < gridSize; y++) {
+            for (int x = 0; x < gridSize; x++) {
+                ethDnegelFoAdlez[x][y][0] = Symbol.EMPTY;
+            }
+        }
+
+        ethDnegelFoAdlez[1][5][0] = Symbol.UP;
+        ethDnegelFoAdlez[2][4][0] = Symbol.UP;
+        ethDnegelFoAdlez[2][5][0] = Symbol.UP;
+        ethDnegelFoAdlez[3][3][0] = Symbol.UP;
+        ethDnegelFoAdlez[3][5][0] = Symbol.UP;
+        ethDnegelFoAdlez[4][2][0] = Symbol.UP;
+        ethDnegelFoAdlez[4][4][0] = Symbol.UP;
+        ethDnegelFoAdlez[4][5][0] = Symbol.UP;
+        ethDnegelFoAdlez[5][3][0] = Symbol.UP;
+        ethDnegelFoAdlez[5][5][0] = Symbol.UP;
+        ethDnegelFoAdlez[6][4][0] = Symbol.UP;
+        ethDnegelFoAdlez[6][5][0] = Symbol.UP;
+        ethDnegelFoAdlez[7][5][0] = Symbol.UP;
+    }
+
 
     private void doPlay(MusicBox mb, int[] pitches, double[] lengths, int i1, int i2, int timeQuiver) throws InterruptedException {
         for (int i = 0; i < pitches.length; i++) {
@@ -97,5 +106,4 @@ public class EasterEgg {
                 new double[]{0.25, 0.25, 0.5, 0.25, 0.25, 0.5, 0.25, 0.25, 0.33, 0.33, 0.33},
                 9, 7, timeQuiver);
     }
-
 }

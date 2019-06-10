@@ -12,7 +12,6 @@ import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.Random;
 
@@ -179,7 +178,6 @@ public class GameUI {
                 JList list = (JList) e.getSource();
                 int index = list.locationToIndex(e.getPoint());
                 ListItem item = (ListItem) list.getModel().getElementAt(index);
-                System.out.println(item);
                 item.setSelected(!item.isSelected());
                 list.repaint(list.getCellBounds(index, index));
                 if (selectedInstrument != -1) {
@@ -216,8 +214,6 @@ public class GameUI {
             }
         });
         SAVEbutton.addActionListener(actionEvent -> {
-
-            System.out.println(Arrays.deepToString(symbolGrid));
             new SaveScreenUI().main3(symbolGrid);
         });
     }
@@ -291,7 +287,6 @@ public class GameUI {
         for (var scale : Scale.values()) {
             ScaleList.addItem(scale.getDisplayName());
         }
-        System.out.println(Scale.MAJOR.getDisplayName());
         ScaleList.setSelectedItem(Scale.MAJOR.getDisplayName());
 
         // reverb slider custom create

@@ -12,11 +12,6 @@ public class TextFieldLimit extends PlainDocument {
         this.limit = limit;
     }
 
-    TextFieldLimit(int limit, boolean upper) {
-        super();
-        this.limit = limit;
-    }
-
     public void insertString(int offset, String str, AttributeSet attr) throws BadLocationException {
         if (str == null)
             return;

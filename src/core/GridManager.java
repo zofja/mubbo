@@ -55,10 +55,6 @@ public class GridManager {
      */
     private static Symbol[][][] theUltimateMusicalGrid;
 
-    /**
-     * Used for remembering initial preset.
-     */
-    private static Symbol[][][] preset;
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////
     //                                          CONSTRUCTORS
@@ -83,7 +79,6 @@ public class GridManager {
 
         this.currentGrid = initParticleArray();
         this.nextGrid = initParticleArray();
-
         theUltimateMusicalGrid = new Symbol[gridSize][gridSize][instrumentsNumber];
     }
 
@@ -105,6 +100,7 @@ public class GridManager {
      * @param initGrid {@code Symbol} setup of particles on grid from GUI.
      */
     public void init(Symbol[][][] initGrid) {
+        new EasterEgg(gridSize, initGrid);
         for (int y = 1; y < gridSize - 1; y++) {
             for (int x = 1; x < gridSize - 1; x++) {
                 for (int i = 0; i < instrumentsNumber; i++) {
@@ -120,17 +116,6 @@ public class GridManager {
         printGrid();
     }
 
-    /**
-     * Initializes {@code currentGrid} with setup from JSON file.
-     *
-     * @param path {@code Symbol} path to JSON file representing setup of particles on grid.
-     */
-    public void init(String path) {
-        Symbol[][][] initGrid = Presetter.importPreset(path);
-        preset = initGrid;
-//        exportPreset(path);
-        init(initGrid);
-    }
 
     /**
      * Exports {@code preset} (initial setup) to JSON file.
@@ -292,7 +277,6 @@ public class GridManager {
         List<Particle>[][][] t = currentGrid;
         currentGrid = nextGrid;
         nextGrid = t;
-
         muBbo.tick();
     }
 

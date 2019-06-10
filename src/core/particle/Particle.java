@@ -38,7 +38,6 @@ public class Particle {
      * Collision results in 90 degrees clockwise turn of {@code Particle}.
      */
     public void collide() {
-        int i = direction.getIndex();
         direction = Direction.values()[(direction.getIndex() + 1) % Direction.getNumberOfDirections()];
     }
 

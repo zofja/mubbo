@@ -17,6 +17,7 @@ public class SaveScreenUI {
     private JPanel buttonPanel;
     private JPanel descriptionPanel;
     private JLabel descriptionLabel;
+    private static JFrame frame;
 
     private static Symbol[][][] preset;
 
@@ -24,15 +25,14 @@ public class SaveScreenUI {
         $$$setupUI$$$();
         SAVEbutton.addActionListener(actionEvent -> {
             String filename = userInput.getText();
-            System.out.println(filename);
-            System.out.println(Arrays.deepToString(preset));
             GridManager.exportPreset(preset, filename);
+            frame.dispose();
         });
     }
 
     void main3(Symbol[][][] preset) {
         SaveScreenUI.preset = preset;
-        JFrame frame = new JFrame("SaveScreenUI");
+        frame = new JFrame("SaveScreenUI");
         frame.setContentPane(new SaveScreenUI().rootPanel);
         frame.pack();
         frame.setLocationRelativeTo(null);

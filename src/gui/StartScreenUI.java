@@ -40,7 +40,6 @@ public class StartScreenUI {
     public StartScreenUI() {
         $$$setupUI$$$();
         StartButton.addActionListener(actionEvent -> {
-            System.out.println("start button");
             frame.dispose();
             new GameUI().main2(presetToMuBbo, scaleToMuBbo, reverbToMuBbo);
         });
@@ -48,20 +47,17 @@ public class StartScreenUI {
             JSlider source = (JSlider) changeEvent.getSource();
             int x = source.getValue();
             reverbToMuBbo = source.getValue();
-            System.out.println("slider change: " + x);
         });
         ScaleList.addItemListener(itemEvent -> {
             if (itemEvent.getStateChange() == ItemEvent.SELECTED) {
                 ItemSelectable is = itemEvent.getItemSelectable();
                 scaleToMuBbo = selectedString(is);
-                System.out.println(scaleToMuBbo);
             }
         });
         presetsList.addItemListener(itemEvent -> {
             if (itemEvent.getStateChange() == ItemEvent.SELECTED) {
                 ItemSelectable is = itemEvent.getItemSelectable();
                 presetToMuBbo = selectedString(is);
-                System.out.println(presetToMuBbo);
             }
         });
     }
@@ -86,7 +82,6 @@ public class StartScreenUI {
         for (var scale : Scale.values()) {
             ScaleList.addItem(scale.getDisplayName());
         }
-        System.out.println(Scale.MAJOR.getDisplayName());
         ScaleList.setSelectedItem(Scale.MAJOR.getDisplayName());
 
         // reverb slider custom create
@@ -98,10 +93,8 @@ public class StartScreenUI {
 
         for (File file : Objects.requireNonNull(folder.listFiles())) {
             if (file.isFile()) {
-                System.out.println("File " + file.getName());
                 presetsList.addItem(file.getName());
             } else if (file.isDirectory()) {
-                System.out.println("Directory " + file.getName());
             }
         }
         presetsList.setSelectedItem("preset");

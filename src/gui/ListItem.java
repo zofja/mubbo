@@ -44,6 +44,7 @@ class ListItem {
 
     /**
      * Changes {@code isSelected} attribute.
+     *
      * @param isSelected new state of selection.
      */
     void setSelected(boolean isSelected) {
