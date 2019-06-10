@@ -44,6 +44,12 @@ public class JavaxSynthesizerWrapper implements SynthesizerWrapper {
     );
 
     /**
+     * Map of available instruments: preset name -> List names of instruments.
+     */
+    public static final List<String> INSTRUMENTS_NAMES =
+            List.of("Piano", "Strings", "E-piano", "Voice", "Harpsichord", "Trombone", "Vibraphone", "Trumpet");
+
+    /**
      * Preset for percussion sounds: list of all distinct sounding MIDI pitches on 10'th channel.
      */
     private static final List<Integer> PERCUSSION_PRESET = List.of(35, 37, 38, 41, 42, 46, 49);
