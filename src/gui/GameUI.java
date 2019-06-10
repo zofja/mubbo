@@ -5,6 +5,7 @@ import com.intellij.uiDesigner.core.GridLayoutManager;
 import core.GridManager;
 import core.Presetter;
 import core.Symbol;
+import sound.JavaxSynthesizerWrapper;
 import sound.Scale;
 
 import javax.swing.*;
@@ -241,21 +242,19 @@ public class GameUI {
             } else {
                 colorBlindOn = true;
             }
-            instrumentList.updateUI();
-            ListItem[] instruments = new ListItem[]{
-                    new ListItem("Pianinko", InstrumentIcon.getIcon(EMPTY, 0, colorBlindOn)),
-                    new ListItem("Organy", InstrumentIcon.getIcon(EMPTY, 1, colorBlindOn)),
-                    new ListItem("Klawesyn?", InstrumentIcon.getIcon(EMPTY, 2, colorBlindOn)),
-                    new ListItem("Anielskie pienia", InstrumentIcon.getIcon(EMPTY, 3, colorBlindOn)),
-                    new ListItem("Grand piano", InstrumentIcon.getIcon(EMPTY, 4, colorBlindOn)),
-                    new ListItem("Trumpet", InstrumentIcon.getIcon(EMPTY, 5, colorBlindOn)),
-                    new ListItem("Wibrafon", InstrumentIcon.getIcon(EMPTY, 6, colorBlindOn)),
-                    new ListItem("Electric drums", InstrumentIcon.getIcon(EMPTY, 7, colorBlindOn))};
-            instrumentList.setListData(instruments);
-            instrumentList.repaint();
-            display(symbolGrid);
+            setInstrumentList();
             changeButtonGridBorders(true);
+            display(symbolGrid);
         });
+    }
+
+    private void setInstrumentList() {
+        ListItem[] instruments = new ListItem[NUMBER_OF_INSTRUMENTS];
+        for (int i = 0; i < NUMBER_OF_INSTRUMENTS; i++) {
+            instruments[i] = new ListItem(JavaxSynthesizerWrapper.INSTRUMENTS_NAMES.get(i), InstrumentIcon.getIcon(EMPTY, i, colorBlindOn));
+        }
+        instrumentList.setListData(instruments);
+        instrumentList.repaint();
     }
 
 
@@ -342,21 +341,16 @@ public class GameUI {
         arrowList.setListData(list);
         arrowList.setSelectionModel(new SelectionModel(arrowList, 1));
         arrowList.setCellRenderer(new ListRenderer());
+        selectedSymbol = Symbol.LEFT;
+        arrowList.setSelectedIndex(0);
 
         // custom instrumentList
         instrumentList = new JList<ListItem>();
-        ListItem[] instruments = new ListItem[]{
-                new ListItem("Pianinko", InstrumentIcon.getIcon(EMPTY, 0, colorBlindOn)),
-                new ListItem("Organy", InstrumentIcon.getIcon(EMPTY, 1, colorBlindOn)),
-                new ListItem("Klawesyn?", InstrumentIcon.getIcon(EMPTY, 2, colorBlindOn)),
-                new ListItem("Anielskie pienia", InstrumentIcon.getIcon(EMPTY, 3, colorBlindOn)),
-                new ListItem("Grand piano", InstrumentIcon.getIcon(EMPTY, 4, colorBlindOn)),
-                new ListItem("Trumpet", InstrumentIcon.getIcon(EMPTY, 5, colorBlindOn)),
-                new ListItem("Wibrafon", InstrumentIcon.getIcon(EMPTY, 6, colorBlindOn)),
-                new ListItem("Electric drums", InstrumentIcon.getIcon(EMPTY, 7, colorBlindOn))};
-        instrumentList.setListData(instruments);
-        arrowList.setSelectionModel(new SelectionModel(arrowList, 1));
+        setInstrumentList();
+        instrumentList.setSelectionModel(new SelectionModel(instrumentList, 1));
         instrumentList.setCellRenderer(new ListRenderer());
+        selectedInstrument = 0;
+        instrumentList.setSelectedIndex(selectedInstrument);
     }
 
     /**
@@ -371,6 +365,7 @@ public class GameUI {
          * @param y y coordinate of clicked button.
          */
         private void processClick(int x, int y) {
+
             if (!isInBoundaries(new Point(x, y)) || selectedInstrument == -1) {
                 return;
             }
