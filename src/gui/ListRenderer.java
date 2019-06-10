@@ -4,6 +4,10 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
+import static gui.GameUI.BORDER_COLOR;
+import static gui.GameUI.OFF_WHITE;
+
+
 /**
  * Class enabling marking items of checkbox list.
  */
@@ -28,9 +32,9 @@ class ListRenderer extends DefaultListCellRenderer {
         setBorder(new EmptyBorder(2, 2, 2, 0));
 
         if (selected) {
-            setBackground(new Color(0xB8B8B8));
+            setBackground(BORDER_COLOR);
         } else {
-            setBackground(new Color(0xffffff));
+            setBackground(OFF_WHITE);
         }
 
         return this;

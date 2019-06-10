@@ -4,15 +4,13 @@ import sound.MusicBox;
 
 import javax.sound.midi.MidiUnavailableException;
 
-import static sound.MusicBox.NUMBER_OF_INSTRUMENTS;
-
 public class EasterEgg {
 
     private int gridSize;
     private Symbol[][][] ethDnegelFoAdlez = new Symbol[9][9][9];
 
 
-    public EasterEgg(int gridSize, Symbol[][][] initGrid) {
+    EasterEgg(int gridSize, Symbol[][][] initGrid) {
         this.gridSize = gridSize;
         initZeldaGrid();
         if (gridSize != 9) return;
@@ -25,7 +23,7 @@ public class EasterEgg {
         try {
             dnegelFoAdlez();
         } catch (Exception e) {
-
+            System.err.println("Sound module not working");
         }
         System.exit(0);
     }
@@ -63,7 +61,7 @@ public class EasterEgg {
         }
     }
 
-    void dnegelFoAdlez() throws InterruptedException, MidiUnavailableException {
+    private void dnegelFoAdlez() throws InterruptedException, MidiUnavailableException {
         int timeQuiver = 500;
         var mb = new MusicBox(25, 25);
 
