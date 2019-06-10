@@ -25,7 +25,7 @@ public class EasterEgg {
         } catch (Exception e) {
             System.err.println("Sound module not working");
         }
-        System.exit(0);
+//        System.exit(0);
     }
 
     private void initZeldaGrid() {

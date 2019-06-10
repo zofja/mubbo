@@ -251,7 +251,7 @@ public class GameUI {
     private void setInstrumentList() {
         ListItem[] instruments = new ListItem[NUMBER_OF_INSTRUMENTS];
         for (int i = 0; i < NUMBER_OF_INSTRUMENTS; i++) {
-            instruments[i] = new ListItem(JavaxSynthesizerWrapper.INSTRUMENTS_NAMES.get(i), InstrumentIcon.getIcon(EMPTY, i, colorBlindOn));
+            instruments[i] = new ListItem(JavaxSynthesizerWrapper.INSTRUMENTS_NAMES.get(i), InstrumentIcon.getListIcon(EMPTY, i, colorBlindOn));
         }
         instrumentList.setListData(instruments);
         instrumentList.repaint();
