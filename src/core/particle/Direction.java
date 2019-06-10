@@ -3,7 +3,7 @@ package core.particle;
 import core.Symbol;
 
 /**
- * Enumeration representing directions with coordinates.
+ * Enumeration representing symbols with coordinates.
  */
 public enum Direction {
     LEFT(Symbol.LEFT, -1, 0, '<'), UP(Symbol.UP, 0, -1, 'ʌ'),
@@ -30,7 +30,7 @@ public enum Direction {
     private final char character;
 
     /**
-     * Number of directions.
+     * Number of symbols.
      */
     private static final int numberOfDirections = 4;
 
@@ -89,8 +89,8 @@ public enum Direction {
     }
 
     /**
-     * Number of directions.
-     * @return number of directions.
+     * Number of symbols.
+     * @return number of symbols.
      */
     public static int getNumberOfDirections() {
         return numberOfDirections;

@@ -113,7 +113,6 @@ public class GridManager {
                 }
             }
         }
-        printGrid();
     }
 
 
@@ -132,7 +131,6 @@ public class GridManager {
      */
     public void tick() {
         nextGeneration();
-        printGrid();
     }
 
     /**
@@ -219,7 +217,6 @@ public class GridManager {
                     } else {
                         muBbo.addNote(destination.x, destination.y, i);
                     }
-                    printCurrentSound(destination);
                 }
 
                 iterator.remove();
@@ -294,93 +291,5 @@ public class GridManager {
         return !(p.x == 0 || p.x == wall || p.y == 0 || p.y == wall);
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////
-    //                                      TERMINAL OUTPUT
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    /**
-     * Represents border.
-     */
-    private static final char border = '□';
-
-    /**
-     * Represents making a sound.
-     */
-    private static final char glow = '■';
-
-    /**
-     * Represents empty cell.
-     */
-    private static final char empty = '.';
-
-    /**
-     * Represents cell containg more than one {@code Particle}..
-     */
-    private static final char collision = '◯';
-
-    /**
-     * Represents illegal behaviour.
-     */
-    private static final char error = 'X';
-
-    /**
-     * Helper function printing which cell had just made sound.
-     *
-     * @param destination - coordinates
-     */
-    private void printCurrentSound(Point destination) {
-        System.out.println("(x: " + destination.x + ", y: " + destination.y + ") making sound");
-    }
-
-    /**
-     * Prints current grid setting in terminal.
-     */
-    private void printGrid() {
-        System.out.print("  ");
-        for (int x = 0; x < gridSize; x++) {
-            System.out.print(x + " ");
-        }
-        System.out.println();
-
-        for (int i = 0; i < instrumentsNumber; i++) {
-            for (int y = 0; y < gridSize; y++) {
-                System.out.print(y + " ");
-                for (int x = 0; x < gridSize; x++) {
-                    System.out.print(getSymbol(x, y, i) + " ");
-                }
-                System.out.println();
-            }
-            System.out.println();
-        }
-    }
-
-    /**
-     * Translates state of cell to character representation.
-     *
-     * @param x index of column in grid.
-     * @param y index of row in grid.
-     * @return Character representing state of cell.
-     */
-    private char getSymbol(int x, int y, int i) {
-        Point current = new Point(x, y);
-        if (numberOfParticles(x, y, i) == 1) {
-            if (isInBoundaries(current)) {
-                return currentGrid[x][y][i].get(0).getCharacter();
-            } else {
-                return glow;
-            }
-        } else if (numberOfParticles(x, y, i) > 1) {
-            if (isInBoundaries(current)) {
-                return collision;
-            } else {
-                return error;
-            }
-        } else {
-            if (isInBoundaries(current)) {
-                return empty;
-            } else {
-                return border;
-            }
-        }
-    }
 }
