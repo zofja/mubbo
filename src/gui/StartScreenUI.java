@@ -32,7 +32,7 @@ public class StartScreenUI {
 
     private String scaleToMuBbo = Scale.MAJOR.getDisplayName();
     private int reverbToMuBbo = 250;
-    private String presetToMuBbo = "preset";
+    private String presetToMuBbo = null;
 
     private static JFrame frame;
 
@@ -91,13 +91,19 @@ public class StartScreenUI {
         presetsList = new JComboBox();
         File folder = new File("./presets");
 
-        for (File file : Objects.requireNonNull(folder.listFiles())) {
-            if (file.isFile()) {
-                presetsList.addItem(file.getName());
-            } else if (file.isDirectory()) {
+        if (!folder.exists()) {
+            File presetsFolder = new File("./presets");
+            presetsFolder.mkdir();
+        } else {
+            if (folder.listFiles() != null) {
+                for (File file : Objects.requireNonNull(folder.listFiles())) {
+                    if (file.isFile()) {
+                        presetsList.addItem(file.getName());
+                    }
+                }
+                presetsList.setSelectedItem(presetsList.getItemAt(0));
             }
         }
-        presetsList.setSelectedItem("preset");
     }
 
 

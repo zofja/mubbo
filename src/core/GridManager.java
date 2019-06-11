@@ -90,10 +90,6 @@ public class GridManager {
         this.muBbo.setReverb(reverb);
     }
 
-    public MusicBox getMuBbo() {
-        return this.muBbo;
-    }
-
     public void setPresetTouBbo(String preset) {
         this.muBbo.setPreset(preset);
     }

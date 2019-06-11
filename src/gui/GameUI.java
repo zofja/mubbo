@@ -136,16 +136,16 @@ public class GameUI {
     private static boolean electronicMode = false;
 
     private void changeButtonGridBorders(boolean visibility) {
-        for (var row : buttonGrid) {
-            for (var button : row) {
+        for (int y = 0; y < gridSize; y++) {
+            for (int x = 0; x < gridSize; x++) {
                 Border border;
                 if (colorBlindOn) {
                     border = new LineBorder(COLOR_BLIND_EDGE, 2);
                 } else {
                     border = new LineBorder(EDGE_COLOR, 1);
                 }
-                button.setBorder(border);
-                button.setBorderPainted(visibility);
+                buttonGrid[x][y].setBorder(border);
+                buttonGrid[x][y].setBorderPainted(visibility);
             }
         }
     }
@@ -302,7 +302,9 @@ public class GameUI {
                 instruments[x][y] = new Hashtable<>();
             }
         }
-        display(Presetter.importPreset(preset));
+        if (preset != null) {
+            display(Presetter.importPreset(preset));
+        }
     }
 
 
