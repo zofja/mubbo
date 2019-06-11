@@ -2,7 +2,11 @@
 
 ### How to use
 
-Download `app` folder and run `mubbo.jar` from the terminal.
+Download the `app` folder and run from the terminal in `app` folder:
+```
+chmod u+x mubbo.jar
+./mubbo.jar
+```
 
 ### Requirements
 
