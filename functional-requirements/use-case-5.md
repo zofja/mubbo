@@ -1,73 +1,70 @@
-# Export generated melody to file
-
-## Export generated melody to file
+# Eksportowanie wygenerowanej melodii do pliku
 
 <table>
   <thead>
     <tr>
-      <th style="text-align:left">USE CASE 5</th>
-      <th style="text-align:left">Export generated melody to file</th>
+      <th style="text-align:left">USE CASE 4</th>
+      <th style="text-align:left">Ekspoortowanie wygenerowanej melodii do pliku</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td style="text-align:left">Goal in Context</td>
-      <td style="text-align:left">Sound file is exported</td>
+      <td style="text-align:left">Cel</td>
+      <td style="text-align:left">Plik muzyczny jest wyeksportowany</td>
     </tr>
     <tr>
-      <td style="text-align:left">Preconditions</td>
-      <td style="text-align:left">Running <code>MuBbo</code> app</td>
+      <td style="text-align:left">Warunki początkowe</td>
+      <td style="text-align:left">Komputer z systemem operacyjnym Linux, zainstalowana aplikacja <code>MuBbo</code>, wybrana z ekranu startowego skala i pogłos oraz zatwierdzona konfiguracja początkowa planszy</td>
     </tr>
     <tr>
-      <td style="text-align:left">Success End Condition</td>
-      <td style="text-align:left">Sound file is ready to download</td>
+      <td style="text-align:left">Akceptujący warunek końcowy</td>
+      <td style="text-align:left">Plik muzyczny jest gotowy do pobrania</td>
     </tr>
     <tr>
-      <td style="text-align:left">Failed End Condition</td>
-      <td style="text-align:left">File fails to be exported</td>
+      <td style="text-align:left">Nieakceptujący warunek końcowy</td>
+      <td style="text-align:left">Eksport kończy się niepowodzeniem</td>
     </tr>
     <tr>
-      <td style="text-align:left">Primary Actor</td>
-      <td style="text-align:left">User</td>
+      <td style="text-align:left">Aktor główny</td>
+      <td style="text-align:left">Użytkownik</td>
     </tr>
     <tr>
-      <td style="text-align:left">Trigger</td>
-      <td style="text-align:left">User confirms start of the audio recording while configuring the grid,
-        see: USE CASE 1</td>
+      <td style="text-align:left">Wyzwalacz</td>
+      <td style="text-align:left">Użytkownik zatwierdza rozpoczęcie nagrywania melodii podczas konfiguracji planszy</td>
     </tr>
     <tr>
-      <td style="text-align:left">DESCRIPTION</td>
+      <td style="text-align:left">OPIS</td>
       <td style="text-align:left">
         <ol>
-          <li>User selects audio recording</li>
-          <li>User confirms audio recording</li>
-          <li>Audio is being recorded</li>
-          <li>Audio file is exported after terminating simulation</li>
+          <li>Użytkownik wybiera nagrywanie dźwięku</li>
+          <li>Użytkownik zatwierdza nagrywanie dźwięku</li>
+          <li>Melodia jest nagrywana</li>
+          <li>Plik audio jest eksportowany po zakończeniu symulacji</li>
         </ol>
       </td>
     </tr>
     <tr>
-      <td style="text-align:left">EXTENSIONS</td>
+      <td style="text-align:left">ROZSZERZENIA</td>
       <td style="text-align:left"></td>
     </tr>
     <tr>
-      <td style="text-align:left">SUB-VARIATIONS</td>
+      <td style="text-align:left">WARIACJE POBOCZNE</td>
       <td style="text-align:left"></td>
     </tr>
     <tr>
-      <td style="text-align:left">RELATED INFORMATION</td>
+      <td style="text-align:left">POWIĄZANE INFORMACJE</td>
       <td style="text-align:left"></td>
     </tr>
     <tr>
-      <td style="text-align:left">Channel to actors</td>
+      <td style="text-align:left">Priorytet</td>
       <td style="text-align:left"></td>
     </tr>
     <tr>
-      <td style="text-align:left">OPEN ISSUES</td>
+      <td style="text-align:left">OTWARTE PROBLEMY</td>
       <td style="text-align:left"></td>
     </tr>
     <tr>
-      <td style="text-align:left">Due Date</td>
+      <td style="text-align:left">Termin oddania</td>
       <td style="text-align:left"></td>
     </tr>
   </tbody>

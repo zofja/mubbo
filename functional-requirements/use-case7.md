@@ -1,27 +1,28 @@
-# Rozpoczęcie generowania melodii
+# Konfiguracja początkowego stanu aplikacji na ekranie startowym
+
 <table>
   <thead>
     <tr>
-      <th style="text-align:left">USE CASE 2</th>
-      <th style="text-align:left">Rozpoczęcie generowania melodii</th>
+      <th style="text-align:left">USE CASE 6</th>
+      <th style="text-align:left">Konfiguracja początkowego stanu aplikacji na ekranie startowym</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td style="text-align:left">Cel</td>
-      <td style="text-align:left">Po zatwierdzeniu konfiguracji przez użytkownika melodia zaczyna być generowana</td>
+      <td style="text-align:left">Aplikacja zostaje poprawnie skonfigurowana</td>
     </tr>
     <tr>
       <td style="text-align:left">Warunki początkowe</td>
-      <td style="text-align:left">Komputer z systemem operacyjnym Linux, zainstalowana aplikacja <code>MuBbo</code> oraz wybrana z ekranu startowego skala i pogłos</td>
+      <td style="text-align:left">Komputer z systemem operacyjnym Linux, zainstalowana aplikacja <code>MuBbo</code></td>
     </tr>
     <tr>
       <td style="text-align:left">Akceptujący warunek końcowy</td>
-      <td style="text-align:left">Uderzające o ścianę cząsteczki na planszy generują melodię</td>
+      <td style="text-align:left">Aplikacja jest gotowa do ustawienia strzałek na planszy i rozpoczęcia symulacji</td>
     </tr>
     <tr>
       <td style="text-align:left">Nieakceptujący warunek końcowy</td>
-      <td style="text-align:left">Melodia nie jest generowana</td>
+      <td style="text-align:left">Aplikacja nie jest skonfigurowana</td>
     </tr>
     <tr>
       <td style="text-align:left">Aktor główny</td>
@@ -29,14 +30,16 @@
     </tr>
     <tr>
       <td style="text-align:left">Wyzwalacz</td>
-      <td style="text-align:left">Zatwierdzenie konfiguracji</td>
+      <td style="text-align:left">Użytkownik otwiera aplikację</td>
     </tr>
     <tr>
       <td style="text-align:left">OPIS</td>
       <td style="text-align:left">
         <ol>
-          <li>Melodia jest generowana</li>
-          <li>Użytkownik zatrzymuje melodię</li>
+          <li>Użytkownik wybiera z listy rozwijalnej preset</li>
+          <li>Użytkownik wybiera skalę</li>
+          <li>Użytkownik ustala pogłos</li>
+          <li>Użytkownik zatwierdza konfigurację przyciskiem Start</li>
         </ol>
       </td>
     </tr>
@@ -46,27 +49,23 @@
     </tr>
     <tr>
       <td style="text-align:left">WARIACJE POBOCZNE</td>
-      <td style="text-align:left">Melodia może się zatrzymywać samoistnie po określonym czasie</td>
+      <td style="text-align:left"></td>
     </tr>
     <tr>
       <td style="text-align:left">POWIĄZANE INFORMACJE</td>
-      <td style="text-align:left">
-        <ol>
-          <li>Melodia jest generowana</li>
-        </ol>
-      </td>
+      <td style="text-align:left"></td>
     </tr>
     <tr>
       <td style="text-align:left">Priorytet</td>
-      <td style="text-align:left">wysoki</td>
+      <td style="text-align:left"></td>
     </tr>
     <tr>
       <td style="text-align:left">OTWARTE PROBLEMY</td>
-      <td style="text-align:left">Kto terminuje melodię?</td>
+      <td style="text-align:left"></td>
     </tr>
     <tr>
       <td style="text-align:left">Termin oddania</td>
-      <td style="text-align:left">release 1.0</td>
+      <td style="text-align:left"></td>
     </tr>
   </tbody>
 </table>

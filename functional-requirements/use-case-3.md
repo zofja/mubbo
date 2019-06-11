@@ -1,70 +1,68 @@
-# Turn on color-blind mode
-
-### Turn on color-blind mode
+# Włączenie trybu dla daltonistów
 
 <table>
   <thead>
     <tr>
-      <th style="text-align:left">USE CASE 4</th>
-      <th style="text-align:left">Turn on color-blind mode</th>
+      <th style="text-align:left">USE CASE 3</th>
+      <th style="text-align:left">Włączenie trybu dla daltonistów</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td style="text-align:left">Goal in Context</td>
-      <td style="text-align:left">User selects color-blind mode</td>
+      <td style="text-align:left">Cel</td>
+      <td style="text-align:left">Użytkownik uruchamia tryb dla daltonistów</td>
     </tr>
     <tr>
-      <td style="text-align:left">Preconditions</td>
-      <td style="text-align:left">Running <code>MuBbo</code> app</td>
+      <td style="text-align:left">Warunki początkowe</td>
+      <td style="text-align:left">Komputer z systemem operacyjnym Linux, zainstalowana aplikacja <code>MuBbo</code></td>
     </tr>
     <tr>
-      <td style="text-align:left">Success End Condition</td>
-      <td style="text-align:left">Colors are calibrated and become easily distinguishable</td>
+      <td style="text-align:left">Akceptujący warunek końcowy</td>
+      <td style="text-align:left">Kolory są skalibrowane i stają się łatwe do rozpoznania</td>
     </tr>
     <tr>
-      <td style="text-align:left">Failed End Condition</td>
-      <td style="text-align:left">No change in appearance</td>
+      <td style="text-align:left">Nieakceptujący warunek końcowy</td>
+      <td style="text-align:left">Brak zmian w wyglądzie aplikacji</td>
     </tr>
     <tr>
-      <td style="text-align:left">Primary Actor</td>
-      <td style="text-align:left">User</td>
+      <td style="text-align:left">Aktor główny</td>
+      <td style="text-align:left">Użytkownik</td>
     </tr>
     <tr>
-      <td style="text-align:left">Trigger</td>
-      <td style="text-align:left">User selects color-blind mode</td>
+      <td style="text-align:left">Wyzwalacz</td>
+      <td style="text-align:left">Użytkownik wybiera tryb dla daltonistów</td>
     </tr>
     <tr>
-      <td style="text-align:left">DESCRIPTION</td>
+      <td style="text-align:left">OPIS</td>
       <td style="text-align:left">
         <ol>
-          <li>User turns on color-blind mode</li>
-          <li>Color-blind mode is turned on</li>
+          <li>Użytkownik wybiera tryb dla daltonistów</li>
+          <li>Użytkownik wyłącza tryb dla daltonistów</li>
         </ol>
       </td>
     </tr>
     <tr>
-      <td style="text-align:left">EXTENSIONS</td>
+      <td style="text-align:left">ROZSZERZENIA</td>
       <td style="text-align:left"></td>
     </tr>
     <tr>
-      <td style="text-align:left">SUB-VARIATIONS</td>
+      <td style="text-align:left">WARIACJE POBOCZNE</td>
       <td style="text-align:left"></td>
     </tr>
     <tr>
-      <td style="text-align:left">RELATED INFORMATION</td>
+      <td style="text-align:left">POWIĄZANE INFORMACJE</td>
       <td style="text-align:left"></td>
     </tr>
     <tr>
-      <td style="text-align:left">Channel to actors</td>
+      <td style="text-align:left">Priorytet</td>
       <td style="text-align:left"></td>
     </tr>
     <tr>
-      <td style="text-align:left">OPEN ISSUES</td>
+      <td style="text-align:left">OTWARTE PROBLEMY</td>
       <td style="text-align:left"></td>
     </tr>
     <tr>
-      <td style="text-align:left">Due Date</td>
+      <td style="text-align:left">Termin oddania</td>
       <td style="text-align:left"></td>
     </tr>
   </tbody>

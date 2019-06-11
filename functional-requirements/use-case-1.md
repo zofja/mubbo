@@ -1,75 +1,71 @@
-# Configure cellular automaton
-
-### Configure cellular automaton
+# Konfiguracja automatu komórkowego
 
 <table>
   <thead>
     <tr>
       <th style="text-align:left">USE CASE 1</th>
-      <th style="text-align:left">Configure cellular automaton</th>
+      <th style="text-align:left">Konfiguracja automatu komórkowego</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td style="text-align:left">Goal in Context</td>
-      <td style="text-align:left">User selects the cells to be used as the initial particle coordinates,
-        type, direction, speed of the particle and scale</td>
+      <td style="text-align:left">Cel</td>
+      <td style="text-align:left">Użytkownik wybiera komórki, które zostaną użyte jako początkowe współrzędne cząsteczek oraz typ i kierunek cząsteczek</td>
     </tr>
     <tr>
-      <td style="text-align:left">Preconditions</td>
-      <td style="text-align:left">Computer with any OS and <code>MuBbo</code> app installed</td>
+      <td style="text-align:left">Warunki początkowe</td>
+      <td style="text-align:left">Komputer z systemem operacyjnym Linux, zainstalowana aplikacja <code>MuBbo</code> oraz wybrana z ekranu startowego skala i pogłos</td>
     </tr>
     <tr>
-      <td style="text-align:left">Success End Condition</td>
-      <td style="text-align:left">Grid is ready to start generating melody</td>
+      <td style="text-align:left">Akceptujący warunek końcowy</td>
+      <td style="text-align:left">Plansza jest gotowa do generowania melodii</td>
     </tr>
     <tr>
-      <td style="text-align:left">Failed End Condition</td>
-      <td style="text-align:left">Grid is not configured</td>
+      <td style="text-align:left">Nieakceptujący warunek końcowy</td>
+      <td style="text-align:left">Plansza nie jest skonfigurowana</td>
     </tr>
     <tr>
-      <td style="text-align:left">Primary Actor</td>
-      <td style="text-align:left">User</td>
+      <td style="text-align:left">Aktor główny</td>
+      <td style="text-align:left">Użytkownik</td>
     </tr>
     <tr>
-      <td style="text-align:left">Trigger</td>
-      <td style="text-align:left">Configurations submission</td>
+      <td style="text-align:left">Wyzwalacz</td>
+      <td style="text-align:left">Zatwierdzenie konfiguracji</td>
     </tr>
     <tr>
-      <td style="text-align:left">DESCRIPTION</td>
+      <td style="text-align:left">OPIS</td>
       <td style="text-align:left">
         <ol>
-          <li>User selects direction of the particle</li>
-          <li>User selects cells on the grid and particles are inserted</li>
-          <li>User selects the speed</li>
-          <li>User may repeat steps 1-3</li>
-          <li>User selects the scale</li>
-          <li>User confirms the specs</li>
+          <li>Użytkownik wybiera kierunek cząsteczki</li>
+          <li>Użytkownik wybiera instrument</li>
+          <li>Użytkownik wybiera komórkę na planszy i wstawia tam cząteczkę</li>
+          <li>Użytkownik może powtórzyć kroki 1-3</li>
+          <li>Użytkownik zatwierdza konfigurację rozpoczynając symulację</li>
         </ol>
       </td>
     </tr>
     <tr>
-      <td style="text-align:left">EXTENSIONS</td>
+      <td style="text-align:left">ROZSZERZENIA</td>
       <td style="text-align:left"></td>
     </tr>
     <tr>
-      <td style="text-align:left">SUB-VARIATIONS</td>
+      <td style="text-align:left">WARIACJE POBOCZNE</td>
       <td style="text-align:left"></td>
     </tr>
     <tr>
-      <td style="text-align:left">RELATED INFORMATION</td>
+      <td style="text-align:left">POWIĄZANE INFORMACJE</td>
       <td style="text-align:left"></td>
     </tr>
     <tr>
-      <td style="text-align:left">Priority</td>
+      <td style="text-align:left">Priorytet</td>
       <td style="text-align:left"></td>
     </tr>
     <tr>
-      <td style="text-align:left">OPEN ISSUES</td>
+      <td style="text-align:left">OTWARTE PROBLEMY</td>
       <td style="text-align:left"></td>
     </tr>
     <tr>
-      <td style="text-align:left">Due Date</td>
+      <td style="text-align:left">Termin oddania</td>
       <td style="text-align:left"></td>
     </tr>
   </tbody>
