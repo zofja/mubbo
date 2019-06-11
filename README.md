@@ -1,11 +1,9 @@
-# Initial page
+# MuBbo
 
-* [Table of contents](SUMMARY.md)
+### How to use
 
-Simulation
+Download `app` folder and run `mubbo.jar` from the terminal.
 
-![](mubbo.gif)
+### Requirements
 
-Start screen
-
-![](.gitbook/assets/screenshot-from-2019-03-18-22-31-57.png)
+Java 11

@@ -7,3 +7,6 @@
 # IntelliJ Idea files
 .idea/*
 *.iml
+presets
+build
+logs
