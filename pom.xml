@@ -23,8 +23,19 @@
                 <configuration>
                     <excludes>
                         <exclude>**/sound/**</exclude>
-                        <exclude>**/sound/**</exclude>
                     </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.2</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>com.github.mubbo.gui.StartScreenUI</mainClass>
+                        </manifest>
+                    </archive>
                 </configuration>
             </plugin>
         </plugins>

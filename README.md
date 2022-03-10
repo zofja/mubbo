@@ -1,12 +1,8 @@
 # MuBbo
 
-### How to use
+### About
 
-Download the `mubbo.zip` folder and run from the terminal in the unpacked folder:
-```
-chmod u+x mubbo.jar
-./mubbo.jar
-```
+Simple cellular automaton that plays music.
 
 ### Requirements
 
@@ -14,5 +10,8 @@ chmod u+x mubbo.jar
 - Maven
 
 ### Installation
+
+- `mvn package`
+- `java -jar target/mubbo-<VERSION>.jar`
 
 
