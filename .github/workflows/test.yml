@@ -1,6 +1,6 @@
 name: Test
 
-on: [push]
+on: [ push ]
 
 jobs:
   build:
@@ -14,4 +14,4 @@ jobs:
           java-version: '16'
           distribution: 'adopt'
       - name: Test with Maven
-        run: mvn package -Dtest='!MusicBoxTest'
+        run: mvn package -Dtest='!MusicBoxTest,!JavaxSynthesizerWrapperTest'
