@@ -1,7 +1,7 @@
 package com.github.mubbo.sound;
 
-import org.junit.Ignore;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import javax.sound.midi.MidiUnavailableException;
@@ -199,7 +199,7 @@ class MusicBoxTest {
     }
 
     @Test
-    @Ignore // index 9 out of bound for
+    @Disabled // index 9 out of bound for
     void percussion() throws InterruptedException {
         for (int j = 0; j < 3; j++) {
             for (int i = 1; i < 10; i++) {
