@@ -10,4 +10,9 @@ chmod u+x mubbo.jar
 
 ### Requirements
 
-Java 11
+- Java 11
+- Maven
+
+### Installation
+
+

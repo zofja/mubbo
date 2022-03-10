@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.github.mubbo.gui.StartScreenUI">
+  <grid id="27dc6" binding="rootPanel" layout-manager="GridLayoutManager" row-count="6" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="0" left="0" bottom="0" right="0"/>
+    <constraints>
+      <xy x="20" y="20" width="700" height="700"/>
+    </constraints>
+    <properties>
+      <autoscrolls value="false"/>
+      <background color="-14869219"/>
+      <enabled value="true"/>
+      <focusCycleRoot value="false"/>
+      <focusTraversalPolicyProvider value="true"/>
+      <focusable value="false"/>
+      <font/>
+      <foreground color="-5789785"/>
+      <minimumSize width="700" height="700"/>
+      <opaque value="true"/>
+      <preferredSize width="700" height="700"/>
+    </properties>
+    <border type="none"/>
+    <children>
+      <grid id="639cf" binding="NamePanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <background color="-13882324"/>
+          <opaque value="false"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="2e677" class="javax.swing.JLabel" binding="MuBbo">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-13882324"/>
+              <font name="Noto Sans Mono CJK KR Bold" size="72" style="0"/>
+              <foreground color="-5789785"/>
+              <horizontalAlignment value="0"/>
+              <horizontalTextPosition value="0"/>
+              <text value="MuBbo"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <grid id="bffa0" binding="ReverbPanel" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font name="Noto Sans Mono CJK JP Regular" size="16"/>
+          <opaque value="false"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="733d9" class="javax.swing.JLabel" binding="ReverbSliderName">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-5789785"/>
+              <focusable value="false"/>
+              <font name="Noto Sans Mono CJK KR Regular" size="24"/>
+              <foreground color="-5789785"/>
+              <opaque value="false"/>
+              <text value="Set reverb:"/>
+            </properties>
+          </component>
+          <component id="90055" class="javax.swing.JSlider" binding="ReverbSlider" custom-create="true">
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="7" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-5789785"/>
+              <font name="Noto Sans Mono CJK KR Regular" size="20"/>
+              <foreground color="-5789785"/>
+              <majorTickSpacing value="1975"/>
+              <maximum value="2000"/>
+              <minimum value="25"/>
+              <opaque value="false"/>
+              <paintLabels value="true"/>
+              <paintTrack value="true"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <grid id="66510" binding="StartPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <opaque value="false"/>
+          <visible value="true"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="a425e" class="javax.swing.JButton" binding="StartButton">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-5789785"/>
+              <focusPainted value="true"/>
+              <font name="Noto Sans Mono CJK KR Regular" size="36" style="1"/>
+              <foreground color="-14869219"/>
+              <opaque value="true"/>
+              <text value="Start"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <grid id="29f5a" binding="ScalePanel" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <opaque value="false"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="ba7a7" class="javax.swing.JLabel" binding="ScaleListName">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-14869219"/>
+              <font name="Noto Sans Mono CJK KR Regular" size="24"/>
+              <foreground color="-5789785"/>
+              <text value="Choose scale"/>
+            </properties>
+          </component>
+          <component id="1ce18" class="javax.swing.JComboBox" binding="ScaleList" custom-create="true">
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-14869219"/>
+              <font name="Noto Sans Mono CJK KR Regular" size="18"/>
+              <foreground color="-5789785"/>
+              <name value=""/>
+              <opaque value="false"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <grid id="1c3cb" binding="presetsPanel" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <opaque value="false"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="76648" class="javax.swing.JLabel" binding="presetPanelDescription">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-14869219"/>
+              <font name="Noto Sans Mono CJK KR Regular" size="24"/>
+              <foreground color="-5789785"/>
+              <text value="Choose preset:"/>
+            </properties>
+          </component>
+          <component id="5a1a9" class="javax.swing.JComboBox" binding="presetsList" custom-create="true">
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-14869219"/>
+              <font name="Noto Sans Mono CJK KR Regular" size="16"/>
+              <foreground color="-5789785"/>
+              <opaque value="false"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+    </children>
+  </grid>
+</form>
