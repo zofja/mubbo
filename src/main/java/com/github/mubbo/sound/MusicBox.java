@@ -52,7 +52,7 @@ public class MusicBox {
     /**
      * Number of available instruments excluding percussion.
      */
-    public static final int NUMBER_OF_INSTRUMENTS = 9; // wywalony obój
+    public static final int NUMBER_OF_INSTRUMENTS = 8; // wywalony obój
 
     /**
      * Sound producing module.

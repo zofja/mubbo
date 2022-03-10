@@ -71,9 +71,9 @@ class InstrumentIcon extends ImageIcon {
 
         for (int i = 0; i < instrumentsNumber; i++) {
             try {
-                BufferedImage instrument = ImageIO.read(InstrumentIcon.class.getResource("assets/instruments/" + i + ".png"));
-                BufferedImage listInstrument = ImageIO.read(InstrumentIcon.class.getResource("assets/listinstruments/" + i + ".png"));
-                BufferedImage colour = ImageIO.read(InstrumentIcon.class.getResource("assets/colours/" + i + ".png"));
+                BufferedImage instrument = ImageIO.read(InstrumentIcon.class.getResource("/assets/instruments/" + i + ".png"));
+                BufferedImage listInstrument = ImageIO.read(InstrumentIcon.class.getResource("/assets/listinstruments/" + i + ".png"));
+                BufferedImage colour = ImageIO.read(InstrumentIcon.class.getResource("/assets/colours/" + i + ".png"));
                 instrumentImages.put(i, instrument);
                 instrumentListImages.put(i, listInstrument);
                 colourImages.put(i, colour);
@@ -84,11 +84,11 @@ class InstrumentIcon extends ImageIcon {
         }
 
         try {
-            BufferedImage left = ImageIO.read(InstrumentIcon.class.getResource("assets/symbols/left.png"));
-            BufferedImage up = ImageIO.read(InstrumentIcon.class.getResource("assets/symbols/up.png"));
-            BufferedImage right = ImageIO.read(InstrumentIcon.class.getResource("assets/symbols/right.png"));
-            BufferedImage down = ImageIO.read(InstrumentIcon.class.getResource("assets/symbols/down.png"));
-            BufferedImage collision = ImageIO.read(InstrumentIcon.class.getResource("assets/symbols/collision.png"));
+            BufferedImage left = ImageIO.read(InstrumentIcon.class.getResource("/assets/symbols/left.png"));
+            BufferedImage up = ImageIO.read(InstrumentIcon.class.getResource("/assets/symbols/up.png"));
+            BufferedImage right = ImageIO.read(InstrumentIcon.class.getResource("/assets/symbols/right.png"));
+            BufferedImage down = ImageIO.read(InstrumentIcon.class.getResource("/assets/symbols/down.png"));
+            BufferedImage collision = ImageIO.read(InstrumentIcon.class.getResource("/assets/symbols/collision.png"));
             symbolImages.put(Symbol.LEFT, left);
             symbolImages.put(Symbol.UP, up);
             symbolImages.put(Symbol.RIGHT, right);

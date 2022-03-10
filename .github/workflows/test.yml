@@ -14,4 +14,4 @@ jobs:
           java-version: '16'
           distribution: 'adopt'
       - name: Test with Maven
-        run: mvn package
+        run: mvn package -Dtest='!MusicBoxTest'
